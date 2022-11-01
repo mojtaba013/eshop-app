@@ -12,7 +12,7 @@ export const products = [
     price: 120,
     offPrice: 120,
     discount: 0,
-    image: "https://s6.uupload.ir/files/daniel-storek-jm-qked1gmi-unsplash_ja2.jpg",
+    image: "a1.png",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ export const products = [
     price: 110,
     offPrice: 100,
     discount: 8,
-    image: "https://s6.uupload.ir/files/andres-jasso-pqbl_mxmaue-unsplash_gkir.jpg",
+    image: "a2.png",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ export const products = [
     price: 99,
     offPrice: 89,
     discount: 10,
-    image: "https://s6.uupload.ir/files/maksim-larin-nopsc3nwtzy-unsplash_i0j6.jpg",
+    image: "a3.png",
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ export const products = [
     price: 260,
     offPrice: 220,
     discount: 15,
-    image: "https://s6.uupload.ir/files/revolt-164_6wvehfi-unsplash_xaog.jpg",
+    image: "a4.png",
   },
   {
     id: 5,
@@ -60,7 +60,7 @@ export const products = [
     price: 150,
     offPrice: 150,
     discount: 0,
-    image: "https://s6.uupload.ir/files/maksim-larin-ezdrvza1hzw-unsplash_nm8f.jpg",
+    image: "a5.png",
   },
   {
     id: 6,
@@ -73,23 +73,6 @@ export const products = [
     price: 220,
     offPrice: 200,
     discount: 13,
-    image: "https://s6.uupload.ir/files/luis-felipe-lins-j2-waqdckus-unsplash_ku8a.jpg",
+    image: "a6.png",
   },
 ];
-
-// export const users = [
-//   {
-//     name: "Saheb mohamadi",
-//     email: "saheb.example@gmail.com",
-//     password: bcrypt.hashSync("12345", 8),
-//     phoneNumber: "09180000001",
-//     isAdmin: true,
-//   },
-//   {
-//     name: "John",
-//     email: "user2@example.com",
-//     password: bcrypt.hashSync("1234", 8),
-//     isAdmin: false,
-//     phoneNumber: "09181230002",
-//   },
-// ];
