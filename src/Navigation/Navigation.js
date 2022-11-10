@@ -7,15 +7,14 @@ const Navigation = () => {
         <p className="font-medium cursor-pointer">فروشگاه</p>
       </div>
       <div className="flex gap-5">
-        <div className="relative flex items-center ">
-          <span className="absolute flex justify-center items-center text-white rounded-full w-5 h-5 bg-red-400 -top-1.5 -right-2">
+        <div className="relative flex justify-center items-center ">
+          <span className="absolute flex justify-center items-center text-white pt-[3px] rounded-full w-5 h-5 bg-red-500 -top-1.5 -right-2">
             0
           </span>
-          <img src={require('../assets/icons/icons8-shopping-cart-32.png')} alt=""/>
-          {/* <FontAwesomeIcon
-            icon={faShoppingCart}
-            className="text-slate-700 w-6 h-6"
-          ></FontAwesomeIcon> */}
+          <img
+            src={require("../assets/icons/icons8-shopping-cart-32.png")}
+            alt=""
+          />
         </div>
         <div className="flex justify-between  text-sm items-center border-2 rounded-md py-1 px-2 font-medium text-slate-700">
           <svg
