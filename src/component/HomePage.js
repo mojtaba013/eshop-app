@@ -1,8 +1,12 @@
-import * as data from "../data";
+import { useContext } from "react";
+
 import Filter from "./Filter";
 import NavBar from "./Navbar";
+import { useProducts } from "./Providers/ProductProvider";
 
 const HomePage = () => {
+  const _Products = useProducts();
+
   return (
     <div className=" w-full flex flex-row justify-center items-start px-4 gap-4">
       <section className="bg-red-200  min-h-screen hidden lg:block lg:w-1/4">
@@ -16,13 +20,13 @@ const HomePage = () => {
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              className="w-6 h-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
               />
             </svg>
@@ -45,7 +49,7 @@ const HomePage = () => {
         {<NavBar />}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
-          {data.products.map((product) => {
+          {_Products.map((product) => {
             //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
             return (
               <div
@@ -66,6 +70,7 @@ const HomePage = () => {
                   <div className="flex justify-between items-center px-1 ">
                     <div className="flex flex-col ">
                       <span>قیمت به تومان</span>
+                      <span>سایز{product.size}</span>
                       <span> {product.price}</span>
                     </div>
 
