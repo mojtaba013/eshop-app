@@ -1,4 +1,6 @@
 import { useContext, useEffect, useState } from "react";
+import CheckBox from "./CheckBox";
+import Chevron from "./Chevron";
 
 import { useProducts, useProductsActions } from "./Providers/ProductProvider";
 
@@ -13,8 +15,6 @@ const Filter = () => {
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
-
-  // const [filteredProducts,setFilterProducts]=useState("");
 
   const changeHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -37,6 +37,7 @@ const Filter = () => {
   };
 
   const submitHandler = (e) => {
+    
     const _id = e.currentTarget.value;
     if (filterItems.some((d) => d.item === _id)) {
       const updateState = [...filterItems];
@@ -48,15 +49,30 @@ const Filter = () => {
     } else setFilterItems([...filterItems, { item: _id, isChecked: true }]);
   };
 
-  // useEffect(() => {
-  //   setFilterItems(filterItems);
-  // }, [isShow]);
+  const checkHandler = (e) => {
+    console.log(e.currentTarget.value);
+    return filterItems.find((i) => i.item === "38").isChecked;
+  };
+
+  const _onchange=(e)=>{
+   return(e.currentTarget.checked);
+  }
+
+
 
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
     setIsShow(false);
   };
 
+  // useEffect(() => {
+   
+  //  filterItems.map(i=>{
+
+  //  })
+  // }, []);
+
+  
   return (
     <>
       <div onClick={openFilterPageHandler} className="flex mb-4">
@@ -88,6 +104,7 @@ const Filter = () => {
             {/* <p className="text-blue-500" onClick={openFilterPageHandler}>بازگشت</p> */}
           </div>
           {/* Size Menu */}
+
           <div
             className={`flex flex-col  ${
               filterState.find((i) => i.id === "size").isopen
@@ -101,85 +118,16 @@ const Filter = () => {
               className="flex justify-between items-center mb-4"
             >
               <p>سایز</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className={`w-6 h-6 ${
-                  filterState.find((i) => i.id === "size").isopen
-                    ? "rotate-180"
-                    : "rotate-0"
-                }  transition-all duration-500 `}
-              >
-                at
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              <Chevron filterState={filterState} Section={"size"}/>             
             </div>
             <div>
               {filterState.find((i) => i.id === "size").isopen && (
                 <div className="flex flex-col duration-300 text-sm">
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      onChange={submitHandler}
-                      type="checkbox"
-                      name="chk"
-                      value="38"
-                     
-                      
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    سایز 38
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      onChange={submitHandler}
-                      type="checkbox"
-                      name="chk"
-                      value="39"
-                      checked={filterItems.isChecked}
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    سایز 39
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      onChange={submitHandler}
-                      type="checkbox"
-                      name="chk"
-                      value="40"
-                      checked={filterItems.isChecked}
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    سایز 40
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      onChange={submitHandler}
-                      type="checkbox"
-                      name="chk"
-                      value="41"
-                      checked={filterItems.isChecked}
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    سایز 41
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      onChange={submitHandler}
-                      type="checkbox"
-                      name="chk"
-                      value="42"
-                      checked={filterItems.isChecked}
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    سایز 42
-                  </div>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"38"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"39"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"40"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"41"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"42"}/>                 
                 </div>
               )}
             </div>
@@ -198,55 +146,14 @@ const Filter = () => {
               className="flex justify-between items-center mb-4"
             >
               <p>برند</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className={`w-6 h-6 ${
-                  filterState.find((i) => i.id === "brand").isopen
-                    ? "rotate-180"
-                    : "rotate-0"
-                }  transition-all duration-500 `}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              <Chevron filterState={filterState} Section={"brand"}/> 
             </div>
             <div>
               {filterState.find((i) => i.id === "brand").isopen && (
                 <div className="flex flex-col duration-300 text-sm">
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      type="checkbox"
-                      name="chk"
-                      value="38"
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    نایک
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      type="checkbox"
-                      name="chk"
-                      value="39"
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    آدیداس
-                  </div>
-                  <div className="border-b mb-5 pb-1">
-                    <input
-                      type="checkbox"
-                      name="chk"
-                      value="40"
-                      className="rounded border-gray-300 focus:ring-blue-500"
-                    />{" "}
-                    کفش ملی!
-                  </div>
+                 <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"نایک"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"آدیداس"}/>
+                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"کفش ملی"}/>
                 </div>
               )}
             </div>
@@ -263,24 +170,7 @@ const Filter = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <p>محدوده قیمت</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className={`w-6 h-6 ${
-                  filterState.find((i) => i.id === "price").isopen
-                    ? "rotate-180"
-                    : "rotate-0"
-                }  transition-all duration-500 `}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+              <Chevron filterState={filterState} Section={"price"}/> 
             </div>
             <div>
               {filterState.find((i) => i.id === "price").isopen && (
