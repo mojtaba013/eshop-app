@@ -48,7 +48,7 @@ const Filter = () => {
 
     const _value = e.currentTarget.value;
     const _section = e.target.parentElement.parentElement.id;
-    console.log(_section);
+    //console.log(_section);
     let _filteredItems = [];
 
     if (filterItems.some((obj) => obj.brand === _value)) {

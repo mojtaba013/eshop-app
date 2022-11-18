@@ -39,14 +39,26 @@ const reducer = (state, action) => {
       if (filterArr === "") {
         return productsData;
       } else {
-        const newProduct = productsData.filter((i) =>
-        
-          filterArr.some((m) => m.item === i.brand) &&
-          filterArr.some((m) => m.item === i.size)
-        );
-
-      
-        console.log("newProduct", newProduct);
+        let checkExistKey = (key) =>
+          filterArr.some((i) => Object.keys(i).includes(key));
+        const newProduct = productsData.filter((obj) => {
+          let keep = true;
+          if (checkExistKey("brand") && checkExistKey("size")) {
+            console.log("inja 1");
+            keep =
+              filterArr.some((item) => item.brand === obj.brand) &&
+              filterArr.some((item) => item.size === obj.size);
+          } else if (checkExistKey("brand") || checkExistKey("size")) {
+            if (checkExistKey("size")) {
+              console.log("inja 2");
+              keep = filterArr.some((item) => item.size === obj.size);
+            } else {
+              console.log("inja 3");
+              keep = filterArr.some((item) => item.brand === obj.brand);
+            }
+          }
+          return keep;
+        });
         return newProduct;
       }
 
