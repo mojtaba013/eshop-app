@@ -1,15 +1,14 @@
-const CheckBox = ({submitHandler,_onchange,filterItems,_value}) => {
+const CheckBox = ({_onclick,filterItems,_value}) => {
   return (
     <div className="border-b mb-5 pb-1">
       <input
-        onClick={submitHandler}
-        onChange={_onchange}
+        onClick={_onclick}       
         type="checkbox"
         name="chk"
         value={_value}
-        checked={
-          filterItems.find((i) => i.item === _value)
-            ? filterItems.find((i) => i.item === _value).isChecked
+        defaultChecked={
+          filterItems.find((i) => i.brand === _value||i.size===_value)
+            ? filterItems.find((i) => i.brand === _value ||i.size===_value).isChecked
             : false
         }
         className="rounded checked border-gray-300 focus:ring-blue-500"

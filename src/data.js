@@ -13,7 +13,8 @@ export const productsData = [
     offPrice: 120,
     discount: 0,
     image: "a1.png",
-    size:"38"
+    size:"38",
+    brand:"Nike"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ export const productsData = [
     offPrice: 100,
     discount: 8,
     image: "a2.png",
-    size:"39"
+    size:"39",
+    brand:"Nike"
   },
   {
     id: 3,
@@ -37,7 +39,8 @@ export const productsData = [
     offPrice: 89,
     discount: 10,
     image: "a3.png",
-    size:"40"
+    size:"40",
+    brand:"Nike"
   },
   {
     id: 4,
@@ -51,7 +54,8 @@ export const productsData = [
     offPrice: 220,
     discount: 15,
     image: "a4.png",
-    size:"40"
+    size:"40",
+    brand:"Adidas"
   },
   {
     id: 5,
@@ -65,7 +69,8 @@ export const productsData = [
     offPrice: 150,
     discount: 0,
     image: "a5.png",
-    size:"40"
+    size:"40",
+    brand:"Adidas"
   },
   {
     id: 6,
@@ -79,7 +84,8 @@ export const productsData = [
     offPrice: 200,
     discount: 13,
     image: "a6.png",
-    size:"41"
+    size:"41",
+    brand:"Adidas"
   },
   {
     id: 7,
@@ -93,7 +99,8 @@ export const productsData = [
     offPrice: 200,
     discount: 13,
     image: "a7.png",
-    size:"41"
+    size:"41",
+    brand:"Adidas"
   },
   {
     id: 8,
@@ -107,7 +114,8 @@ export const productsData = [
     offPrice: 200,
     discount: 13,
     image: "a8.png",
-    size:"41"
+    size:"41",
+    brand:"Puma"
   },
   {
     id: 9,
@@ -121,7 +129,8 @@ export const productsData = [
     offPrice: 200,
     discount: 13,
     image: "a9.png",
-    size:"41"
+    size:"41",
+    brand:"Puma"
   },
   {
     id: 10,
@@ -135,6 +144,7 @@ export const productsData = [
     offPrice: 200,
     discount: 13,
     image: "a10.png",
-    size:"42"
+    size:"42",
+    brand:"Fila"
   },
 ];

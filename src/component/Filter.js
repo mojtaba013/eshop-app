@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 
-import { useProducts, useProductsActions } from "./Providers/ProductProvider";
+import { useProductsActions } from "./Providers/ProductProvider";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -16,7 +16,7 @@ const Filter = () => {
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
 
-  const changeHandler = (e) => {
+  const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
     const updateState = [...filterState];
     const index = filterState.findIndex((item) => item.id === _id);
@@ -36,43 +36,39 @@ const Filter = () => {
     setFilterItems([]);
   };
 
-  const submitHandler = (e) => {
-    
-    const _id = e.currentTarget.value;
-    if (filterItems.some((d) => d.item === _id)) {
-      const updateState = [...filterItems];
-      const index = filterItems.findIndex((i) => i.item === _id);
-      const selectedItem = { ...filterItems[index] };
-      selectedItem.isChecked = !selectedItem.isChecked;
-      updateState[index] = selectedItem;
-      setFilterItems(updateState);
-    } else setFilterItems([...filterItems, { item: _id, isChecked: true }]);
+  const inputChangeHandler = (e) => {
+    // console.log( sizeRef.current.id);
+    // console.log(brandRef.current.id);
+
+    // const _value = e.currentTarget.value;
+    // if (filterItems.some((x) => x.item === _value)) {
+    //   const _filteredItems = filterItems.filter((i) => i.item !== _value);
+    //   setFilterItems(_filteredItems);
+    // } else setFilterItems([...filterItems, { item: _value, isChecked: true }]);
+
+    const _value = e.currentTarget.value;
+    const _section = e.target.parentElement.parentElement.id;
+    console.log(_section);
+    let _filteredItems = [];
+
+    if (filterItems.some((obj) => obj.brand === _value)) {
+      _filteredItems = filterItems.filter((i) => i.brand !== _value);
+      setFilterItems(_filteredItems);
+    } else if (filterItems.some((obj) => obj.size === _value)) {
+      _filteredItems = filterItems.filter((i) => i.size !== _value);
+      setFilterItems(_filteredItems);
+    }
+
+    else
+
+      setFilterItems([...filterItems, { [_section]: _value, isChecked: true }]);
   };
-
-  const checkHandler = (e) => {
-    console.log(e.currentTarget.value);
-    return filterItems.find((i) => i.item === "38").isChecked;
-  };
-
-  const _onchange=(e)=>{
-   return(e.currentTarget.checked);
-  }
-
-
 
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
     setIsShow(false);
   };
 
-  // useEffect(() => {
-   
-  //  filterItems.map(i=>{
-
-  //  })
-  // }, []);
-
-  
   return (
     <>
       <div onClick={openFilterPageHandler} className="flex mb-4">
@@ -114,20 +110,40 @@ const Filter = () => {
           >
             <div
               id="size"
-              onClick={changeHandler}
+              onClick={chevronHandler}
               className="flex justify-between items-center mb-4"
             >
               <p>سایز</p>
-              <Chevron filterState={filterState} Section={"size"}/>             
+              <Chevron filterState={filterState} Section={"size"} />
             </div>
             <div>
               {filterState.find((i) => i.id === "size").isopen && (
-                <div className="flex flex-col duration-300 text-sm">
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"38"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"39"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"40"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"41"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"42"}/>                 
+                <div id="size" className="flex flex-col duration-300 text-sm">
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"38"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"39"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"40"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"41"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"42"}
+                  />
                 </div>
               )}
             </div>
@@ -141,19 +157,36 @@ const Filter = () => {
             }   mb-4`}
           >
             <div
-              onClick={changeHandler}
               id="brand"
+              onClick={chevronHandler}
               className="flex justify-between items-center mb-4"
             >
               <p>برند</p>
-              <Chevron filterState={filterState} Section={"brand"}/> 
+              <Chevron filterState={filterState} Section={"brand"} />
             </div>
             <div>
               {filterState.find((i) => i.id === "brand").isopen && (
-                <div className="flex flex-col duration-300 text-sm">
-                 <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"نایک"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"آدیداس"}/>
-                  <CheckBox submitHandler={submitHandler} _onchange={changeHandler } filterItems={filterItems} _value={"کفش ملی"}/>
+                <div id="brand" className="flex flex-col duration-300 text-sm">
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"Nike"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"Adidas"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"Puma"}
+                  />
+                  <CheckBox
+                    _onclick={inputChangeHandler}
+                    filterItems={filterItems}
+                    _value={"Fila"}
+                  />
                 </div>
               )}
             </div>
@@ -161,7 +194,7 @@ const Filter = () => {
           {/* Price menu */}
           <div
             id="price"
-            onClick={changeHandler}
+            onClick={chevronHandler}
             className={`flex flex-col ${
               filterState.find((i) => i.id === "price").isopen
                 ? "border-0"
@@ -170,7 +203,7 @@ const Filter = () => {
           >
             <div className="flex justify-between items-center mb-4">
               <p>محدوده قیمت</p>
-              <Chevron filterState={filterState} Section={"price"}/> 
+              <Chevron filterState={filterState} Section={"price"} />
             </div>
             <div>
               {filterState.find((i) => i.id === "price").isopen && (

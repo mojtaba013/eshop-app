@@ -71,6 +71,7 @@ const HomePage = () => {
                     <div className="flex flex-col ">
                       <span>قیمت به تومان</span>
                       <span>سایز{product.size}</span>
+                      <span>برند{product.brand}</span>
                       <span> {product.price}</span>
                     </div>
 

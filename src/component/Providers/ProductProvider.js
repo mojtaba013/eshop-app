@@ -15,6 +15,7 @@ const reducer = (state, action) => {
 
       return UpdatesProducts;
     }
+
     case "decrement":
       const index = state.findIndex((item) => item.id === action.id);
       const _product = { ...state[index] };
@@ -27,17 +28,25 @@ const reducer = (state, action) => {
         UpdatesProducts[index] = _product;
         return UpdatesProducts;
       }
+
     case "remove":
       const filterdProducts = state.filter((p) => p.id !== action.id);
       return filterdProducts;
+
     case "filter":
       const filterArr = action.event;
-      console.log(filterArr);
+      console.log("filterarr=", filterArr);
       if (filterArr === "") {
         return productsData;
-      } else {     
-        const newProduct = productsData.filter(i => filterArr.some(m=>m.item===i.size));   
-        console.log("newproduct", newProduct);
+      } else {
+        const newProduct = productsData.filter((i) =>
+        
+          filterArr.some((m) => m.item === i.brand) &&
+          filterArr.some((m) => m.item === i.size)
+        );
+
+      
+        console.log("newProduct", newProduct);
         return newProduct;
       }
 
