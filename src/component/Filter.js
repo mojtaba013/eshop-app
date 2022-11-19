@@ -211,14 +211,14 @@ const Filter = () => {
                     <input className="w-full mt-6"
                       type="range"
                       min="0"
-                      max="1000000"
-                      step="100000"
+                      max="10000000"
+                      step="1000000"
                       value={priceValue}
                       onChange={priceHandler}
                     />
                     <div className="flex justify-between items-center">
                       <p>از 0</p>
-                      <p>تا {priceValue} تومان</p>
+                      <p>تا {priceValue} ریال</p>
                     </div>
                   </div>
                 </div>

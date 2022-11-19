@@ -1,16 +1,19 @@
 import { useState } from "react";
+import { useProductsActions } from "./Providers/ProductProvider";
 
 const Sort = () => {
   const [state, setState] = useState({ selectedItem: null, isChecked: false });
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useProductsActions();
 
   const sortBoxHandler = () => {
     setIsOpen((current) => !current);
   };
 
   const sortHandler = (e) => {
-    setState({ selectedItem: e.target.id, isChecked: true });    
+    setState({ selectedItem: e.target.id, isChecked: true });
     setIsOpen(false);
+    dispatch({ type: "sort", event: e });
   };
 
   return (
@@ -60,7 +63,7 @@ const Sort = () => {
               name="sort"
               value="cheap"
               id="ارزانترین"
-              checked={state.selectedItem==="ارزانترین"}
+              defaultChecked={state.selectedItem === "ارزانترین"}
             />
             <label> ارزانترین</label>
           </div>
@@ -70,7 +73,7 @@ const Sort = () => {
               name="sort"
               value="expensive"
               id="گرانترین"
-              checked={state.selectedItem==="گرانترین"}
+              defaultChecked={state.selectedItem === "گرانترین"}
             />
             <label> گرانترین</label>
           </div>
@@ -80,7 +83,7 @@ const Sort = () => {
               name="sort"
               value="Bestselling"
               id="پرفروشترین"
-              checked={state.selectedItem==="پرفروشترین"}
+              defaultChecked={state.selectedItem === "پرفروشترین"}
             />
             <label>پرفروشترین</label>
           </div>

@@ -5,6 +5,8 @@ import NavBar from "./Navbar";
 import { useProducts } from "./Providers/ProductProvider";
 
 const HomePage = () => {
+  let nf = new Intl.NumberFormat();
+
   const _Products = useProducts();
 
   return (
@@ -72,7 +74,7 @@ const HomePage = () => {
                       <span>قیمت به تومان</span>
                       <span>سایز{product.size}</span>
                       <span>برند{product.brand}</span>
-                      <span> {product.price}</span>
+                      <span> {nf.format(product.price)}</span>
                     </div>
 
                     <button className="bg-blue-100 py-1 px-2">

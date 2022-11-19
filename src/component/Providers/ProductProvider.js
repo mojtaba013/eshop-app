@@ -35,7 +35,6 @@ const reducer = (state, action) => {
 
     case "filter":
       const filterArr = action.event;
-      console.log("filterarr=", filterArr);
       if (filterArr === "") {
         return productsData;
       } else {
@@ -46,17 +45,11 @@ const reducer = (state, action) => {
           if (checkExistKey("brand") && checkExistKey("size"))
             keep =
               filterArr.some((item) => item.brand === obj.brand) &&
-              filterArr.some((item) => item.size === obj.size) &&
-              filterArr.some((item) => item.price <= obj.size);
+              filterArr.some((item) => item.size === obj.size);
           else if (checkExistKey("brand") || checkExistKey("size")) {
             if (checkExistKey("size"))
-              keep =
-                filterArr.some((item) => item.size === obj.size) &&
-                filterArr.some((item) => item.price <= obj.size);
-            else
-              keep =
-                filterArr.some((item) => item.brand === obj.brand) &&
-                filterArr.some((item) => item.price <= obj.size);
+              keep = filterArr.some((item) => item.size === obj.size);
+            else keep = filterArr.some((item) => item.brand === obj.brand);
           }
           return keep;
         });
@@ -65,20 +58,18 @@ const reducer = (state, action) => {
 
     case "sort":
       {
-        const sortBy = action.event.value;
-        console.log(sortBy);
+        const sortBy = action.event.target.value;
         const allProducts = [...state];
-        if (sortBy === "A") {
+        if (sortBy === "cheap") {
           const sortedProducts = allProducts.sort(
             (a, b) => parseFloat(a.price) - parseFloat(b.price)
           );
           console.log("A", sortedProducts);
           return sortedProducts;
-        } else if (sortBy === "D") {
+        } else if (sortBy === "expensive") {
           const sortedProducts = allProducts.sort(
             (a, b) => parseFloat(b.price) - parseFloat(a.price)
           );
-          //console.log("D", sortedProducts);
           return sortedProducts;
         }
       }
