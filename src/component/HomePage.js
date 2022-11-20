@@ -4,6 +4,7 @@ import Filter from "./Filter";
 import NavBar from "./Navbar";
 import { useProducts } from "./Providers/ProductProvider";
 
+
 const HomePage = () => {
   let nf = new Intl.NumberFormat();
 
@@ -11,8 +12,8 @@ const HomePage = () => {
 
   return (
     <div className=" w-full flex flex-row justify-center items-start px-4 gap-4">
-      <section className="bg-red-200  min-h-screen hidden lg:block lg:w-1/4">
-        sidebar
+      <section className=" border-solid border-2 rounded-sm min-h-screen hidden lg:block lg:w-1/4">
+       <Filter/>
       </section>
       <div className="flex w-full flex-col lg:w-3/4 ">
         {/* Navbar */}
