@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
@@ -11,26 +11,13 @@ const initialState = [
 ];
 const Filter = () => {
   const dispatch = useProductsActions();
-
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
-  const [priceValue, setPriceValue] = useState(0);
-  const [screenSize, setScreenSize] = useState(window.innerWidth);
+  const [priceValue, setPriceValue] = useState(0); 
 
-  useEffect(() => {
-    const handleResizeWindow = () => setScreenSize(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
-    window.addEventListener("resize", handleResizeWindow);
-    return () => {
-      // unsubscribe "onComponentDestroy"
-      window.removeEventListener("resize", handleResizeWindow);
-      if (screenSize >= 1024) setIsShow(true);
-    };
-  }, []);
 
   const priceHandler = (e) => {
-    console.log(e.target.value);
     setPriceValue(e.target.value);
     setFilterItems((current) =>
       current.map((obj) => {
@@ -56,9 +43,8 @@ const Filter = () => {
   const cancelFilter = () => {
     setFilterItems([]);
     dispatch({ type: "filter", event: "" });
-
-    if (screenSize >= 1024) setIsShow(true);
-    else setIsShow((current) => !current);
+    dispatch({ type: "sort", event: "cheap" });
+    setIsShow(current=>!current);
   };
 
   const inputChangeHandler = (e) => {
@@ -80,13 +66,14 @@ const Filter = () => {
 
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
-    if (screenSize >= 1024) setIsShow(true);
-    else setIsShow(false);
+    dispatch({ type: "sort", event: "cheap" });
+    setIsShow(current=>!current);
   };
 
   return (
     <>
-      <div className="flex mb-4 relative">
+    {/* mobile plan */}
+      <div className="flex mb-4 lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -104,13 +91,15 @@ const Filter = () => {
 
         <span onClick={openFilterPageHandler}>فیلترها</span>
         {isShow && (
-          <div className=" p-4  bg-white  fixed overflow-scroll inset-0 lg:inset-auto lg:absolute w-full lg:overflow-auto  ">
+          <div className=" p-4  bg-white  fixed overflow-scroll inset-0   w-full  ">
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-               {filterItems.length>0 &&( <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                  {filterItems.length}
-                </span>)}
+                {filterItems.length > 0 && (
+                  <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
+                    {filterItems.length}
+                  </span>
+                )}
               </div>
               <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
                 لغو فیلتر
@@ -259,6 +248,162 @@ const Filter = () => {
           </div>
         )}
       </div>
+      {/* Desktop plan */}      
+          <div className="  hidden lg:flex lg:flex-col mb-4  p-2  ">
+            <div className="flex justify-between items-start mb-6 font-medium ">
+              <div className="flex items-center gap-x-1">
+                <p className="">فیلترها</p>
+                {filterItems.length > 0 && (
+                  <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
+                    {filterItems.length}
+                  </span>
+                )}
+              </div>
+              <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
+                لغو فیلتر
+              </p>
+            </div>
+            {/* Size Menu */}
+            <div
+              className={`flex flex-col  ${
+                filterState.find((i) => i.id === "size").isopen
+                  ? "border-0"
+                  : "border-b-2"
+              }  mb-4`}
+            >
+              <div
+                id="size"
+                onClick={chevronHandler}
+                className="flex justify-between items-center mb-4 cursor-pointer"
+              >
+                <p>سایز</p>
+                <Chevron filterState={filterState} Section={"size"} />
+              </div>
+              <div>
+                {filterState.find((i) => i.id === "size").isopen && (
+                  <div id="size" className="flex flex-col duration-300 text-sm">
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"38"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"39"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"40"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"41"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"42"}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Brand menu */}
+            <div
+              className={`flex flex-col ${
+                filterState.find((i) => i.id === "brand").isopen
+                  ? "border-0"
+                  : "border-b-2"
+              }   mb-4`}
+            >
+              <div
+                id="brand"
+                onClick={chevronHandler}
+                className="flex justify-between items-center mb-4 cursor-pointer"
+              >
+                <p>برند</p>
+                <Chevron filterState={filterState} Section={"brand"} />
+              </div>
+              <div>
+                {filterState.find((i) => i.id === "brand").isopen && (
+                  <div
+                    id="brand"
+                    className="flex flex-col duration-300 text-sm"
+                  >
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"Nike"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"Adidas"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"Puma"}
+                    />
+                    <CheckBox
+                      _onclick={inputChangeHandler}
+                      filterItems={filterItems}
+                      _value={"Fila"}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Price menu */}
+            <div
+              className={`flex flex-col ${
+                filterState.find((i) => i.id === "price").isopen
+                  ? "border-0"
+                  : "border-b-2"
+              }   mb-6`}
+            >
+              <div
+                id="price"
+                onClick={chevronHandler}
+                className="flex justify-between items-center mb-4 cursor-pointer"
+              >
+                <p>محدوده قیمت</p>
+                <Chevron filterState={filterState} Section={"price"} />
+              </div>
+              <div>
+                {filterState.find((i) => i.id === "price").isopen && (
+                  <div className="flex flex-col duration-300 text-sm ">
+                    <div className="flex flex-col">
+                      <input
+                        className="w-full mt-6"
+                        type="range"
+                        min="0"
+                        max="10000000"
+                        step="1000000"
+                        value={priceValue}
+                        onChange={priceHandler}
+                      />
+                      <div className="flex justify-between items-center">
+                        <p>از 0</p>
+                        <p>تا {priceValue} ریال</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div>
+              <button
+                onClick={filterHandler}
+                className="bg-blue-400 rounded-sm py-1 px-2"
+              >
+                جستجو
+              </button>
+            </div>
+          </div>
     </>
   );
 };

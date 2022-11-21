@@ -58,13 +58,13 @@ const reducer = (state, action) => {
 
     case "sort":
       {
-        const sortBy = action.event.target.value;
+        const sortBy =
+          action.event === "cheap" ? "cheap" : action.event.target.value;
         const allProducts = [...state];
         if (sortBy === "cheap") {
           const sortedProducts = allProducts.sort(
             (a, b) => parseFloat(a.price) - parseFloat(b.price)
           );
-          console.log("A", sortedProducts);
           return sortedProducts;
         } else if (sortBy === "expensive") {
           const sortedProducts = allProducts.sort(
@@ -72,8 +72,9 @@ const reducer = (state, action) => {
           );
           return sortedProducts;
         }
+        return allProducts;
       }
-      break;
+     
     case "search":
       const keyWord = action.event.target.value;
       console.log(keyWord);

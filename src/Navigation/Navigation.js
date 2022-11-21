@@ -1,10 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+
 const Navigation = () => {
   return (
-    <div className=" flex flex-row py-4 px-4 justify-between items-center border border-b-2 mb-7">
+    <div className=" flex flex-row py-2 px-4 justify-between items-center border border-b-2 mb-7">
       <div>
-        <p className="font-medium cursor-pointer">فروشگاه</p>
+        <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
       </div>
       <div className="flex gap-5">
         <div className="relative flex justify-center items-center ">
