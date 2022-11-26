@@ -1,23 +1,23 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import Cart from "../component/Cart";
 import { useCart } from "../component/Providers/CartProvider";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { cart } = useCart();
-  const cartPageHandler = () => {
+  const showCartModal = () => {
     setIsOpen((c) => !c);
   };
-
   return (
     <>
       <div className=" flex flex-row py-2 px-4 justify-between items-center border border-b-2 mb-7">
         <div>
           <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
         </div>
-        <div className="flex gap-5">
+        <div className="flex  gap-x-2">
           <div
-            onClick={cartPageHandler}
+            onClick={showCartModal}
             className="relative flex justify-center items-center cursor-pointer "
           >
             <span className="absolute flex justify-center items-center text-white pt-[3px] rounded-full w-5 h-5 bg-red-500 -top-1.5 -right-2">
@@ -28,7 +28,50 @@ const Navigation = () => {
               alt=""
             />
           </div>
-
+          {
+            <>
+              {" "}
+              <div
+                onClick={showCartModal}
+                className={`${
+                  isOpen
+                    ? "fixed inset-0 z-[999] opacity-80 lg:bg-slate-800"
+                    : ""
+                }`}
+              ></div>
+              <div
+                className={` ${
+                  isOpen
+                    ? "fixed top-0 right-0 h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-white"
+                    : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 ease-in-out"
+                }   `}
+              >
+                <div
+                  className="flex justify-between pt-4 px-4 pb-2 cursor-pointer border-solid border"
+                  onClick={showCartModal}
+                >
+                  <span className="text-slate-800 font-medium">سبد خرید</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 text-red-600"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <Cart />
+                </div>
+              </div>
+            </>
+          }
           <div className="flex justify-between  text-sm items-center border-2 rounded-md py-1 px-2 font-medium text-slate-700">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,41 +95,6 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-
-      {
-        <div
-          onClick={cartPageHandler}
-          className={`${
-            isOpen ? "fixed inset-0 z-[999] opacity-80 lg:bg-slate-800" : ""
-          }`}
-        ></div>
-      }
-      {
-        <div
-          className={` ${
-            isOpen
-              ? "fixed top-0 right-0 h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-red-50"
-              : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 ease-in-out"
-          }   `}
-        >
-          <div onClick={cartPageHandler}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </div>
-        </div>
-      }
     </>
   );
 };

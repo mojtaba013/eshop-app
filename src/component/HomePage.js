@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import Cart from "./Cart";
 
 import Filter from "./Filter";
 import NavBar from "./Navbar";
@@ -39,14 +40,14 @@ const HomePage = () => {
                 className="flex w-full sm:flex-col   md:p-4 border-solid border lg:hover:shadow-[0_2px_8px_0_rgba(0,0,0,0.2)] cursor-pointer"
                 key={product.id}
               >
-                <div className="w-40 h-16  sm:w-full sm:h-auto md:aspect-w-3 md:aspect-h-2">
+                <div className="flex justify-center items-center w-36  xs:w-48 sm:w-full ">
                   <img
-                    className="w-full object-cover "
+                    className="w-full h-auto object-cover "
                     src={require(`../assets/images/${product.image}`)}
                     alt=""
                   />
                 </div>
-                <div className="flex flex-1 p-1 lg:p-0 flex-col  ">
+                <div className="flex flex-1 p-2 lg:p-0 flex-col  ">
                   <div className="font-medium text-right pt-2 mb-5">
                     <span className="font-bold text-slate-800 text-sm  md:text-base">
                       {product.name}
@@ -106,6 +107,7 @@ const HomePage = () => {
           })}
         </div>
       </div>
+     
     </div>
   );
 };
