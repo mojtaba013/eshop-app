@@ -6,13 +6,12 @@ const ProductsContextDispatcher = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "increment": {
+    case "increment": {      
       const UpdatesProducts = [...state];
       const index = state.findIndex((item) => item.id === action.id);
       const _product = { ...state[index] };
       _product.quantity++;
       UpdatesProducts[index] = _product;
-
       return UpdatesProducts;
     }
 
@@ -87,9 +86,6 @@ const reducer = (state, action) => {
         );
         return result;
       }
-
-    //const newarr=productsData.sort((a,b)=>a.price-b.price);
-
     default:
       return productsData;
   }

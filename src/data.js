@@ -3,7 +3,7 @@
 export const productsData = [
   {
     id: 1,
-    name: "Winter body",
+    name: "کفش اسپرت مدل 2012",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "ارسال رایگان" },
@@ -14,22 +14,24 @@ export const productsData = [
     discount: 0,
     image: "a1.png",
     size:"38",
-    brand:"Nike"
+    brand:"Nike",
+    score:"4.7"
   },
   {
     id: 2,
-    name: "Adidas",
+    name: "کفش اسپرت مدل 2013",
     description: [{ support: "گارانتی مادام العمر" }, { support: "اورجینال" }],
     price: 1100000,
     offPrice: 100,
     discount: 8,
     image: "a2.png",
     size:"39",
-    brand:"Nike"
+    brand:"Nike",
+    score:"4.5"
   },
   {
     id: 3,
-    name: "Vans",
+    name: "کفش اسپرت مدل 2014",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -40,11 +42,12 @@ export const productsData = [
     discount: 10,
     image: "a3.png",
     size:"40",
-    brand:"Nike"
+    brand:"Nike",
+    score:"4.2"
   },
   {
     id: 4,
-    name: "White",
+    name: "کفش اسپرت مدل 2015",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -55,11 +58,12 @@ export const productsData = [
     discount: 15,
     image: "a4.png",
     size:"40",
-    brand:"Adidas"
+    brand:"Adidas",
+    score:"3.9"
   },
   {
     id: 5,
-    name: "Croopped-shoe",
+    name: "کفش اسپرت مدل 2016",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -70,11 +74,12 @@ export const productsData = [
     discount: 0,
     image: "a5.png",
     size:"40",
-    brand:"Adidas"
+    brand:"Adidas",
+    score:"3.8"
   },
   {
     id: 6,
-    name: "Blues",
+    name: "کفش اسپرت مدل 2017",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -85,11 +90,12 @@ export const productsData = [
     discount: 13,
     image: "a6.png",
     size:"41",
-    brand:"Adidas"
+    brand:"Adidas",
+    score:"4.3"
   },
   {
     id: 7,
-    name: "Blues",
+    name: "کفش اسپرت مدل 2018",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -100,11 +106,12 @@ export const productsData = [
     discount: 13,
     image: "a7.png",
     size:"41",
-    brand:"Adidas"
+    brand:"Adidas",
+    score:"5.2"
   },
   {
     id: 8,
-    name: "Blues",
+    name: "کفش اسپرت مدل 2019",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -115,11 +122,12 @@ export const productsData = [
     discount: 13,
     image: "a8.png",
     size:"41",
-    brand:"Puma"
+    brand:"Puma",
+    score:"4.6"
   },
   {
     id: 9,
-    name: "Blues",
+    name: "کفش اسپرت مدل 2020",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -130,11 +138,12 @@ export const productsData = [
     discount: 13,
     image: "a9.png",
     size:"41",
-    brand:"Puma"
+    brand:"Puma",
+    score:"3.5"
   },
   {
     id: 10,
-    name: "Blues",
+    name: "کفش اسپرت مدل 2021",
     description: [
       { support: "گارانتی مادام العمر" },
       { support: "اورجینال" },
@@ -145,6 +154,7 @@ export const productsData = [
     discount: 13,
     image: "a10.png",
     size:"42",
-    brand:"Fila"
+    brand:"Fila",
+    score:"4.4"
   },
 ];
