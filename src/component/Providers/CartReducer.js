@@ -1,15 +1,15 @@
 
 const addProductToCart=(state,payload)=>{
   const updatedCart = [...state.cart];
-
+console.log(payload);
   const index = updatedCart.findIndex(
     (item) => item.id === payload.id
   );
 
   if (index < 0) {
     // updatedCart.push({ ...payload, quantity: 1 });
-    console.log("porn",{...state,cart:[...state.cart,{...payload,quantity:1}]});
-    return {...state,cart:[...state.cart,{...payload,quantity:1}]}
+    //console.log("porn",{...state,cart:[...state.cart,{...payload,quantity:1}]});
+    return {...state,cart:[...state.cart,{...payload,quantity:1}],total:payload.price+state.total}
   } else {
     const updatedItem = { ...updatedCart[index] };
     updatedItem.quantity++;
@@ -19,7 +19,7 @@ const addProductToCart=(state,payload)=>{
   return {
     ...state,
     cart: updatedCart,
-    total: state.total + payload.offPrice,
+    total: state.total + payload.price,
   };
 }
 
@@ -37,7 +37,7 @@ const removeProductFromCart=(state,payload)=>{
     return {
       ...state,
       cart: filteredCart,
-      total: state.total - payload.offPrice,
+      total: state.total - payload.price,
     };
   } else {
     updatedItem.quantity--;
@@ -45,7 +45,7 @@ const removeProductFromCart=(state,payload)=>{
     return {
       ...state,
       cart: updatedCart,
-      total: state.total - payload.offPrice,
+      total: state.total - payload.price,
     };
   }
 }

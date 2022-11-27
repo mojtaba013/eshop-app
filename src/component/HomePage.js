@@ -3,7 +3,7 @@ import Cart from "./Cart";
 
 import Filter from "./Filter";
 import NavBar from "./Navbar";
-import { useCartAction } from "./Providers/CartProvider";
+import { useCart, useCartAction } from "./Providers/CartProvider";
 import { useProducts, useProductsActions } from "./Providers/ProductProvider";
 import Sort from "./Sort";
 // import { ToastContainer, toast } from "react-toastify";
@@ -13,11 +13,15 @@ const HomePage = () => {
   let nf = new Intl.NumberFormat();
   const _Products = useProducts();
   const dispatch = useCartAction();
+  const { cart } = useCart();
 
   const addProducttHandler = (_product) => {
     // toast.success(`${_product.name} به سبد خرید شما اضافه شد`);
-
     dispatch({ type: "ADD_TO_CART", payload: _product });
+  };
+
+  const checkInCart = (cart, product) => {
+    return cart.find((item) => item.id === product.id);
   };
 
   return (
@@ -40,7 +44,7 @@ const HomePage = () => {
                 className="flex w-full sm:flex-col   md:p-4 border-solid border lg:hover:shadow-[0_2px_8px_0_rgba(0,0,0,0.2)] cursor-pointer"
                 key={product.id}
               >
-                <div className="flex justify-center items-center w-36  xs:w-48 sm:w-full ">
+                <div className="flex justify-center items-center w-36  xs:w-48 sm:w-full md:aspect-w-3 md:aspect-h-2">
                   <img
                     className="w-full h-auto object-cover "
                     src={require(`../assets/images/${product.image}`)}
@@ -80,26 +84,45 @@ const HomePage = () => {
                       <span>ریال</span>
                     </div>
 
-                    <span
+                    <button
                       id={product.id}
                       onClick={() => addProducttHandler(product)}
-                      className="rounded-full w-6 h-6 flex items-center justify-center bg-red-500 text-white  "
+                      className="rounded-full w-6 h-6 flex items-center justify-center  bg-red-500 text-white"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6  hover:rotate-180 transition-all duration-400"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 6v12m6-6H6"
-                        />
-                      </svg>
-                    </span>
+                      {checkInCart(cart, product) ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6  hover:rotate-180 transition-all duration-500"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 6v12m6-6H6"
+                          />
+                        </svg>
+                      )}
+
+                      {/* {checkInCart(cart,product)?"incart":"add"} */}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -107,7 +130,6 @@ const HomePage = () => {
           })}
         </div>
       </div>
-     
     </div>
   );
 };

@@ -2,13 +2,23 @@ import { useState } from "react";
 import { useCart, useCartAction } from "./Providers/CartProvider";
 
 const Cart = () => {
-  const { cart } = useCart();
+  const { cart,total } = useCart();
+  const dispatch = useCartAction();
+  let nf = new Intl.NumberFormat();
+  // if(cart.length===0)return <p>سبد خرید شما خالی است</p>
+  const incrementHandler = (_product) => {
+    dispatch({ type: "ADD_TO_CART", payload: _product });
+  };
+
+  const deleteHandler = (_product) => {
+    dispatch({ type: "REMOVE", payload: _product });
+  };
   return (
     <>
       {cart.map((product) => {
         return (
-          <div className=" px-4 ">
-            <div className="flex items-center justify-between border-solid border-b w-full pb-4">
+          <div className=" px-4  " key={product.id}>
+            <div className="flex items-center justify-between overflow-y-auto border-solid border-b w-full pb-4">
               <div className="flex jc items-center w-24 h-20">
                 <img
                   className="w-full object-cover "
@@ -17,17 +27,17 @@ const Cart = () => {
                 />
               </div>
               <div className="flex flex-1  flex-col text-sm md:text-base ">
-                <p className="pt-6 pb-4">{product.name}</p>
+                <p className="pt-6 pb-4 font-medium text-sm">{product.name}</p>
                 <div className="flex items-center justify-between">
-                  <p>{product.price} ریال</p>
+                  <p className="font-medium">{nf.format(product.price)} ریال</p>
                   <div className="flex p-2 gap-x-8 justify-between  items-center border-solid border  rounded-sm">
-                    <span>
+                    <span onClick={() => incrementHandler(product)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
-                        stroke="currentColor"
+                        stroke="rgb(239 68 68)"
                         className="w-6 h-6"
                       >
                         <path
@@ -37,14 +47,14 @@ const Cart = () => {
                         />
                       </svg>
                     </span>
-                    <span>{product.quantity}</span>
-                    <span>
+                    <span className="text-red-500">{product.quantity}</span>
+                    <span onClick={() => deleteHandler(product)}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
-                        stroke="currentColor"
+                        stroke="rgb(239 68 68)"
                         className="w-5 h-5"
                       >
                         <path
@@ -61,6 +71,16 @@ const Cart = () => {
           </div>
         );
       })}
+      <div className="bg-white flex flex-col gap-y-4 pt-6 w-full fixed px-4  bottom-0 border-t border-solid">
+        <div className="flex justify-between items-center">
+          <span>جمع کل خرید</span>
+          <span>{nf.format(total)} ریال</span>
+          </div>
+        
+        <button className="bg-red-500 w-full py-2 rounded-lg text-white">
+          ادامه خرید
+        </button>
+      </div>
     </>
   );
 };

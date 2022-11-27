@@ -13,14 +13,16 @@ const Navigation = () => {
     <>
       <div className=" flex flex-row py-2 px-4 justify-between items-center border border-b-2 mb-7">
         <div>
-          <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
+          <NavLink to="/">
+            <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
+          </NavLink>
         </div>
         <div className="flex  gap-x-2">
           <div
             onClick={showCartModal}
             className="relative flex justify-center items-center cursor-pointer "
           >
-            <span className="absolute flex justify-center items-center text-white pt-[3px] rounded-full w-5 h-5 bg-red-500 -top-1.5 -right-2">
+            <span className="absolute text-sm flex justify-center items-center text-white pt-[3px] rounded-full w-5 h-5 bg-red-500 -top-1.5 -right-2">
               {cart.length}
             </span>
             <img
@@ -42,12 +44,12 @@ const Navigation = () => {
               <div
                 className={` ${
                   isOpen
-                    ? "fixed top-0 right-0 h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-white"
+                    ? "fixed overflow-scroll top-0 right-0   h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-white"
                     : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 ease-in-out"
                 }   `}
               >
                 <div
-                  className="flex justify-between pt-4 px-4 pb-2 cursor-pointer border-solid border"
+                  className="flex  justify-between pt-4 px-4 pb-2 cursor-pointer border-solid border"
                   onClick={showCartModal}
                 >
                   <span className="text-slate-800 font-medium">سبد خرید</span>
@@ -66,10 +68,12 @@ const Navigation = () => {
                     />
                   </svg>
                 </div>
-                <div>
+               
                   <Cart />
-                </div>
-              </div>
+                  
+                
+               
+              </div> 
             </>
           }
           <div className="flex justify-between  text-sm items-center border-2 rounded-md py-1 px-2 font-medium text-slate-700">
