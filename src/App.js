@@ -5,8 +5,11 @@ import HomePage from "./component/HomePage";
 import ProductsProvider from "./component/Providers/ProductProvider";
 import CartProvider from "./component/Providers/CartProvider";
 import Cart from "./component/Cart";
+import { useEffect } from "react";
 
 function App() {
+
+ 
   return (
     <div className="">
       <BrowserRouter>

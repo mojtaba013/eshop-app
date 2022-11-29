@@ -37,22 +37,22 @@ const Navigation = () => {
                 onClick={showCartModal}
                 className={`${
                   isOpen
-                    ? "fixed inset-0 z-[999] opacity-80 lg:bg-slate-800"
+                    ? "fixed inset-0 z-[999] opacity-80 sm:bg-slate-800"
                     : ""
                 }`}
               ></div>
               <div
                 className={` ${
                   isOpen
-                    ? "fixed overflow-scroll top-0 right-0   h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-white"
-                    : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 ease-in-out"
+                    ? "fixed overflow-y-auto overflow-x-hidden top-0 right-0   h-full w-full sm:w-[360px] md:w-[400px] lg:w-[500px] z-[9999] transition-all duration-300 ease-in-out  bg-white"
+                    : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 "
                 }   `}
               >
                 <div
-                  className="flex  justify-between pt-4 px-4 pb-2 cursor-pointer border-solid border"
+                  className="flex sticky top-0 bg-white justify-between pt-4 px-4 pb-4 cursor-pointer border-solid border-b-2"
                   onClick={showCartModal}
                 >
-                  <span className="text-slate-800 font-medium">سبد خرید</span>
+                  <span className="text-slate-800 font-bold">سبد خرید</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

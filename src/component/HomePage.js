@@ -18,6 +18,7 @@ const HomePage = () => {
   const addProducttHandler = (_product) => {
     // toast.success(`${_product.name} به سبد خرید شما اضافه شد`);
     dispatch({ type: "ADD_TO_CART", payload: _product });
+    localStorage.setItem("cart",JSON.stringify(_product));
   };
 
   const checkInCart = (cart, product) => {
@@ -87,7 +88,7 @@ const HomePage = () => {
                     <button
                       id={product.id}
                       onClick={() => addProducttHandler(product)}
-                      className="rounded-full w-6 h-6 flex items-center justify-center  bg-red-500 text-white"
+                      className="rounded-full w-6 h-6 flex items-center justify-center bg-red-500  text-white"
                     >
                       {checkInCart(cart, product) ? (
                         <svg
