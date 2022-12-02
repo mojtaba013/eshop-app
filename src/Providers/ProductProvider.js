@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useReducer, useState } from "react";
-import { productsData } from "../../data";
+import { productsData } from "../data";
 
 const ProductsContext = createContext();
 const ProductsContextDispatcher = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "increment": {      
+    case "increment": {
       const UpdatesProducts = [...state];
       const index = state.findIndex((item) => item.id === action.id);
       const _product = { ...state[index] };
@@ -55,25 +55,24 @@ const reducer = (state, action) => {
         return newProduct;
       }
 
-    case "sort":
-      {
-        const sortBy =
-          action.event === "cheap" ? "cheap" : action.event.target.value;
-        const allProducts = [...state];
-        if (sortBy === "cheap") {
-          const sortedProducts = allProducts.sort(
-            (a, b) => parseFloat(a.price) - parseFloat(b.price)
-          );
-          return sortedProducts;
-        } else if (sortBy === "expensive") {
-          const sortedProducts = allProducts.sort(
-            (a, b) => parseFloat(b.price) - parseFloat(a.price)
-          );
-          return sortedProducts;
-        }
-        return allProducts;
+    case "sort": {
+      const sortBy =
+        action.event === "cheap" ? "cheap" : action.event.target.value;
+      const allProducts = [...state];
+      if (sortBy === "cheap") {
+        const sortedProducts = allProducts.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+        return sortedProducts;
+      } else if (sortBy === "expensive") {
+        const sortedProducts = allProducts.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+        return sortedProducts;
       }
-     
+      return allProducts;
+    }
+
     case "search":
       const keyWord = action.event.target.value;
       console.log(keyWord);

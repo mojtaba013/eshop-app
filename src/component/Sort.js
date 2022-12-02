@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useProductsActions } from "./Providers/ProductProvider";
+import { useProductsActions } from "../Providers/ProductProvider";
 
 const Sort = () => {
   const [state, setState] = useState({ selectedItem: null, isChecked: false });

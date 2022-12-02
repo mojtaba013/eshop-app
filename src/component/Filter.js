@@ -2,7 +2,8 @@ import { useState } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
-import { useProductsActions } from "./Providers/ProductProvider";
+import { useProductsActions } from "../Providers/ProductProvider";
+
 
 const initialState = [
   { id: "size", isopen: false },

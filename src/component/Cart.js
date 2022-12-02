@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useCart, useCartAction } from "./Providers/CartProvider";
+import { NavLink } from "react-router-dom";
+import { useCart, useCartAction } from "../Providers/CartProvider";
 
-const Cart = () => {
+const Cart = ({onCloseCartModal}) => {
+  
   const { cart, total } = useCart();
   const dispatch = useCartAction();
   let nf = new Intl.NumberFormat();
@@ -95,18 +97,19 @@ const Cart = () => {
               </div>
             </div>
           );
-        })} 
+        })}
       </div>
-     {/* cart footer */}
+      {/* cart footer */}
       <div className=" fixed  bottom-0 pb-2 flex flex-col px-4  bg-white     w-full  border-solid sm:w-[360px] md:w-[400px] lg:w-[500px]">
         <div className="flex justify-between items-center border-t-2 pb-4 pt-4">
           <span>جمع کل خرید</span>
           <span>{nf.format(total)} ریال</span>
         </div>
-
-        <button className="bg-red-500 w-full py-2 rounded-lg text-white ">
-          ادامه خرید
-        </button>
+        <NavLink to="/login">
+          <button onClick={onCloseCartModal} className="bg-red-500 w-full py-2 rounded-lg text-white ">
+            ادامه خرید
+          </button>
+        </NavLink>
       </div>
     </div>
   );

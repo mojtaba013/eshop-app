@@ -3,8 +3,8 @@ import Cart from "./Cart";
 
 import Filter from "./Filter";
 import NavBar from "./Navbar";
-import { useCart, useCartAction } from "./Providers/CartProvider";
-import { useProducts, useProductsActions } from "./Providers/ProductProvider";
+import { useCart, useCartAction } from "../Providers/CartProvider";
+import { useProducts, useProductsActions } from "../Providers/ProductProvider";
 import Sort from "./Sort";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";

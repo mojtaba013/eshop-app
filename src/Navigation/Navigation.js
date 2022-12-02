@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Cart from "../component/Cart";
-import { useCart } from "../component/Providers/CartProvider";
+import { useCart } from "../Providers/CartProvider";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +9,7 @@ const Navigation = () => {
   const showCartModal = () => {
     setIsOpen((c) => !c);
   };
+
   return (
     <>
       <div className=" flex flex-row py-2 px-4 justify-between items-center border border-b-2 mb-7">
@@ -68,12 +69,9 @@ const Navigation = () => {
                     />
                   </svg>
                 </div>
-               
-                  <Cart />
-                  
-                
-               
-              </div> 
+
+                <Cart onCloseCartModal={()=>setIsOpen(c=>!c)}/>
+              </div>
             </>
           }
           <div className="flex justify-between  text-sm items-center border-2 rounded-md py-1 px-2 font-medium text-slate-700">
