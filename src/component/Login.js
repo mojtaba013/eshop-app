@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-//import { useAuth, useAuthAction } from "../../Providers/AuthProvider";
+import { useAuth, useAuthAction } from "../Providers/AuthProvider";
 
 const initialValues = {
   email: "",
@@ -18,25 +18,28 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const [error, setError] = useState("");
-  //const setAuth=useAuthAction();
+  const setAuth=useAuthAction();
   let navigate = useNavigate();
   const [searchParam] = useSearchParams();
-  const redirect = searchParam.get("redirect") || "/";
-  //const auth=useAuth();
+  //const redirect = searchParam.get("redirect") || "/";
+  const auth=useAuth();
 
-  //   useEffect(()=>{
-  //     if(auth) navigate(`${redirect}`);
-  //   },[redirect,auth]);
+    // useEffect(()=>{
+    //   if(auth) navigate(`${redirect}`);
+    // },[redirect,auth]);
 
-  const onSubmit = async (values) => {
+  const onSubmit =  (values) => {
     try {
-      const { data } = values;
+     
       //setAuth(data);
       // localStorage.setItem('authState',JSON.stringify(data));
       setError(null);
-      navigate(`/${redirect}`);
+      console.log(values.email,auth.email);
+      if(values.email===auth.email && values.password===auth.password)
+      navigate("/checkout");
+      else setError("نام کاربری یا رمز عبور اشتباه است.");
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error);
     }
   };
 
@@ -61,36 +64,25 @@ const Login = () => {
           <label className="text-slate-800 text-sm mb-1">
             آدرس ایمیل(نام کاربری)
           </label>
-          <Input
-            name="email"
-            type="text"
-            
-            formik={formik}            
-          />
+          <Input name="email" type="text" formik={formik} />
         </div>
         <div className=" flex flex-col mb-10">
           <label className="text-slate-800 text-sm mb-1">کلمه عبور</label>
-          <Input
-            name="password"
-            type="text"
-            
-            formik={formik}            
-          />
+          <Input name="password" type="text" formik={formik} />
         </div>
-<div className="flex flex-col sm:flex-row items-center justify-between">
-  <button
-          type="submit"
-          disabled={!formik.isValid}
-          className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
-        >
-          ورود
-        </button>
-        <p style={{ color: "red" }}>{error}</p>
-        <NavLink to={`/signup?redirect=${redirect}`}>
-          <p>حساب کاربری ندارید؟ ثبت نام</p>
-        </NavLink>
-</div>
-        
+        <div className="flex flex-col sm:flex-row items-center justify-between">
+          <button
+            type="submit"
+            disabled={!formik.isValid}
+            className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
+          >
+            ورود
+          </button>
+          <p style={{ color: "red" }}>{error}</p>
+          <NavLink to={`/signup`}>
+            <p>حساب کاربری ندارید؟ ثبت نام</p>
+          </NavLink>
+        </div>
       </form>
     </section>
   );
