@@ -95,7 +95,7 @@ const Signup = () => {
           </label>
           <Input name="email" type="text" formik={formik} />
         </div>
-        <div className=" flex flex-col mb-10">
+        <div className="mb-4 flex flex-col">
           <label className="text-slate-800 text-sm mb-1">کلمه عبور</label>
           <Input name="password" type="password" formik={formik} />
         </div>
@@ -114,7 +114,7 @@ const Signup = () => {
             ثبت نام{" "}
           </button>
 
-          <NavLink to="">
+          <NavLink to="/login">
             <p>حساب کاربری دارید؟ ورود</p>
           </NavLink>
         </div>
