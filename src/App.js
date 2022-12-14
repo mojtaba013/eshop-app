@@ -8,6 +8,7 @@ import Login from "./component/Login";
 import Signup from "./component/Signup";
 import AuthProvider from "./Providers/AuthProvider";
 import Checkout from "./component/Checkout";
+import Test from "./component/Test";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Layout>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  {/* <Route path="/test" element={<Test/>}/> */}
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/checkout" element={<Checkout />} />

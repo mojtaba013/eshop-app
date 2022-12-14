@@ -34,26 +34,47 @@ const reducer = (state, action) => {
 
     case "filter":
       const filterArr = action.event;
+      console.log(filterArr);
       if (filterArr === "") {
         return productsData;
       } else {
         let checkExistKey = (key) =>
           filterArr.some((i) => Object.keys(i).includes(key));
-        const newProduct = productsData.filter((obj) => {
+        const newProduct = productsData.filter((product) => {
           let keep = true;
           if (checkExistKey("brand") && checkExistKey("size"))
             keep =
-              filterArr.some((item) => item.brand === obj.brand) &&
-              filterArr.some((item) => item.size === obj.size);
+              filterArr.some((item) => item.brand === product.brand) &&
+              filterArr.some((item) => item.size === product.size) &&
+              filterArr.some((item) => item.price >= parseInt(product.price));
           else if (checkExistKey("brand") || checkExistKey("size")) {
             if (checkExistKey("size"))
-              keep = filterArr.some((item) => item.size === obj.size);
-            else keep = filterArr.some((item) => item.brand === obj.brand);
+              keep =
+                filterArr.some((item) => item.size === product.size) &&
+                filterArr.some((item) => item.price >= parseInt(product.price));
+            else
+              keep =
+                filterArr.some((item) => item.brand === product.brand) &&
+                filterArr.some((item) => item.price >= parseInt(product.price));
+          } else if (!checkExistKey("brand") && !checkExistKey("size")) {
+            keep = filterArr.some(
+              (item) => item.price >= parseInt(product.price)
+            );
           }
+
           return keep;
         });
         return newProduct;
       }
+    case "filterOnPrice":
+      const allProducts = [...state];
+
+      console.log(allProducts, action.event);
+      const filteredProduct = productsData.filter(
+        (i) => i.price <= parseInt(action.event)
+      );
+      console.log(filteredProduct);
+      return filteredProduct;
 
     case "sort": {
       const sortBy =

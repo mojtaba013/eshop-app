@@ -9,19 +9,19 @@ const Navigation = () => {
   const setAuth=useAuthAction();
   const _navigate=useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [exitModal, setExitModal] = useState(false);
+  const [exitModal, setExitmodal] = useState(false);
   const { cart } = useCart();
-  const showCartModal = () => {
+  const showCartmodal = () => {
     setIsOpen((c) => !c);
   };
 
-  const exitModalHandler = () => {
-    setExitModal((c) => !c);
+  const exitmodalHandler = () => {
+    setExitmodal((c) => !c);
   }
 
   const exitAccountHandler=()=>{
     setAuth(false);
-    setExitModal((c) => !c);
+    setExitmodal((c) => !c);
     _navigate("/signup");
   }
 
@@ -35,7 +35,7 @@ const Navigation = () => {
         </div>
         <div className="flex  gap-x-2">
           <div
-            onClick={showCartModal}
+            onClick={showCartmodal}
             className="relative flex justify-center items-center cursor-pointer "
           >
             <span className="absolute text-sm flex justify-center items-center text-white pt-[3px] rounded-full w-5 h-5 bg-red-500 -top-1.5 -right-2">
@@ -50,7 +50,7 @@ const Navigation = () => {
             <>
               {" "}
               <div
-                onClick={showCartModal}
+                onClick={showCartmodal}
                 className={`${
                   isOpen
                     ? "fixed inset-0 z-[999] opacity-80 sm:bg-slate-800"
@@ -66,13 +66,13 @@ const Navigation = () => {
               >
                 <div
                   className="flex sticky top-0 bg-white justify-between pt-4 px-4 pb-4 cursor-pointer border-solid border-b-2"
-                  onClick={showCartModal}
+                  onClick={showCartmodal}
                 >
                   <span className="text-slate-800 font-bold">سبد خرید</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewModal="0 0 24 24"
+                    view="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6 text-red-600"
@@ -85,16 +85,16 @@ const Navigation = () => {
                   </svg>
                 </div>
 
-                <Cart onCloseCartModal={() => setIsOpen((c) => !c)} />
+                <Cart onCloseCartModalBox={() => setIsOpen((c) => !c)} />
               </div>
             </>
           }
           {auth ? (
-            <div onClick={exitModalHandler} className="cursor-pointer">
+            <div onClick={exitmodalHandler} className="cursor-pointer">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewModal="0 0 24 24"
+                view="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
@@ -111,7 +111,7 @@ const Navigation = () => {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewModal="0 0 24 24"
+                view="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
@@ -136,7 +136,7 @@ const Navigation = () => {
           {
             <>
               <div
-                onClick={exitModalHandler}
+                onClick={exitmodalHandler}
                 className={
                   exitModal
                     ? "absolute inset-0 opacity-50 z-10  bg-gray-600"
@@ -166,7 +166,7 @@ const Navigation = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
-                      viewModal="0 0 24 24"
+                      view="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
                       className="w-5 h-5"

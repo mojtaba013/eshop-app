@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
 import { useProductsActions } from "../Providers/ProductProvider";
-
 
 const initialState = [
   { id: "size", isopen: false },
@@ -15,8 +14,7 @@ const Filter = () => {
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
-  const [priceValue, setPriceValue] = useState(0); 
-
+  const [priceValue, setPriceValue] = useState(0);
 
   const priceHandler = (e) => {
     setPriceValue(e.target.value);
@@ -25,6 +23,8 @@ const Filter = () => {
         return { ...obj, price: e.target.value };
       })
     );
+
+    //dispatch({ type: "filterOnPrice", event: e.target.value });
   };
 
   const chevronHandler = (e) => {
@@ -45,12 +45,12 @@ const Filter = () => {
     setFilterItems([]);
     dispatch({ type: "filter", event: "" });
     dispatch({ type: "sort", event: "cheap" });
-    setIsShow(current=>!current);
+    setIsShow((current) => !current);
   };
 
-  const inputChangeHandler = (e) => {
+  const filterStateHandler = (e) => {
     const _value = e.currentTarget.value;
-    const _section = e.target.parentElement.parentElement.id;
+    const _section = e.target.id;
     let _filteredItems = [];
     if (filterItems.some((obj) => obj.brand === _value)) {
       _filteredItems = filterItems.filter((i) => i.brand !== _value);
@@ -68,12 +68,12 @@ const Filter = () => {
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
     dispatch({ type: "sort", event: "cheap" });
-    setIsShow(current=>!current);
+    setIsShow((current) => !current);
   };
 
   return (
     <>
-    {/* mobile plan */}
+      {/* mobile plan */}
       <div className="flex mb-4 lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -124,31 +124,36 @@ const Filter = () => {
               </div>
               <div>
                 {filterState.find((i) => i.id === "size").isopen && (
-                  <div id="size" className="flex flex-col duration-300 text-sm">
+                  <div className="flex flex-col duration-300 text-sm">
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"38"}
+                      id="size"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"39"}
+                      id="size"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"40"}
+                      id="size"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"41"}
+                      id="size"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"42"}
+                      id="size"
                     />
                   </div>
                 )}
@@ -172,29 +177,30 @@ const Filter = () => {
               </div>
               <div>
                 {filterState.find((i) => i.id === "brand").isopen && (
-                  <div
-                    id="brand"
-                    className="flex flex-col duration-300 text-sm"
-                  >
+                  <div className="flex flex-col duration-300 text-sm">
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"Nike"}
+                      id="brand"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"Adidas"}
+                      id="brand"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"Puma"}
+                      id="brand"
                     />
                     <CheckBox
-                      _onclick={inputChangeHandler}
+                      _onclick={filterStateHandler}
                       filterItems={filterItems}
                       _value={"Fila"}
+                      id="brand"
                     />
                   </div>
                 )}
@@ -249,162 +255,167 @@ const Filter = () => {
           </div>
         )}
       </div>
-      {/* Desktop plan */}      
-          <div className="  hidden lg:flex lg:flex-col mb-4  p-2  ">
-            <div className="flex justify-between items-start mb-6 font-medium ">
-              <div className="flex items-center gap-x-1">
-                <p className="">فیلترها</p>
-                {filterItems.length > 0 && (
-                  <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                    {filterItems.length}
-                  </span>
-                )}
-              </div>
-              <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
-                لغو فیلتر
-              </p>
-            </div>
-            {/* Size Menu */}
-            <div
-              className={`flex flex-col  ${
-                filterState.find((i) => i.id === "size").isopen
-                  ? "border-0"
-                  : "border-b-2"
-              }  mb-4`}
-            >
-              <div
-                id="size"
-                onClick={chevronHandler}
-                className="flex justify-between items-center mb-4 cursor-pointer"
-              >
-                <p>سایز</p>
-                <Chevron filterState={filterState} Section={"size"} />
-              </div>
-              <div>
-                {filterState.find((i) => i.id === "size").isopen && (
-                  <div id="size" className="flex flex-col duration-300 text-sm">
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"38"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"39"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"40"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"41"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"42"}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-            {/* Brand menu */}
-            <div
-              className={`flex flex-col ${
-                filterState.find((i) => i.id === "brand").isopen
-                  ? "border-0"
-                  : "border-b-2"
-              }   mb-4`}
-            >
-              <div
-                id="brand"
-                onClick={chevronHandler}
-                className="flex justify-between items-center mb-4 cursor-pointer"
-              >
-                <p>برند</p>
-                <Chevron filterState={filterState} Section={"brand"} />
-              </div>
-              <div>
-                {filterState.find((i) => i.id === "brand").isopen && (
-                  <div
-                    id="brand"
-                    className="flex flex-col duration-300 text-sm"
-                  >
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"Nike"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"Adidas"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"Puma"}
-                    />
-                    <CheckBox
-                      _onclick={inputChangeHandler}
-                      filterItems={filterItems}
-                      _value={"Fila"}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-            {/* Price menu */}
-            <div
-              className={`flex flex-col ${
-                filterState.find((i) => i.id === "price").isopen
-                  ? "border-0"
-                  : "border-b-2"
-              }   mb-6`}
-            >
-              <div
-                id="price"
-                onClick={chevronHandler}
-                className="flex justify-between items-center mb-4 cursor-pointer"
-              >
-                <p>محدوده قیمت</p>
-                <Chevron filterState={filterState} Section={"price"} />
-              </div>
-              <div>
-                {filterState.find((i) => i.id === "price").isopen && (
-                  <div className="flex flex-col duration-300 text-sm ">
-                    <div className="flex flex-col">
-                      <input
-                        className="w-full mt-6"
-                        type="range"
-                        min="0"
-                        max="10000000"
-                        step="1000000"
-                        value={priceValue}
-                        onChange={priceHandler}
-                      />
-                      <div className="flex justify-between items-center">
-                        <p>از 0</p>
-                        <p>تا {priceValue} ریال</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div>
-              <button
-                onClick={filterHandler}
-                className="bg-blue-400 rounded-sm py-1 px-2"
-              >
-                جستجو
-              </button>
-            </div>
+      {/* Desktop plan */}
+      <div className="  hidden lg:flex lg:flex-col mb-4  p-2  ">
+        <div className="flex justify-between items-start mb-6 font-medium ">
+          <div className="flex items-center gap-x-1">
+            <p className="">فیلترها</p>
+            {filterItems.length > 0 && (
+              <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
+                {filterItems.length}
+              </span>
+            )}
           </div>
+          <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
+            لغو فیلتر
+          </p>
+        </div>
+        {/* Size Menu */}
+        <div
+          className={`flex flex-col  ${
+            filterState.find((i) => i.id === "size").isopen
+              ? "border-0"
+              : "border-b-2"
+          }  mb-4`}
+        >
+          <div
+            id="size"
+            onClick={chevronHandler}
+            className="flex justify-between items-center mb-4 cursor-pointer"
+          >
+            <p>سایز</p>
+            <Chevron filterState={filterState} Section={"size"} />
+          </div>
+          <div>
+            {filterState.find((i) => i.id === "size").isopen && (
+              <div className="flex flex-col duration-300 text-sm">
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"38"}
+                  id="size"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"39"}
+                  id="size"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"40"}
+                  id="size"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"41"}
+                  id="size"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"42"}
+                  id="size"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Brand menu */}
+        <div
+          className={`flex flex-col ${
+            filterState.find((i) => i.id === "brand").isopen
+              ? "border-0"
+              : "border-b-2"
+          }   mb-4`}
+        >
+          <div
+            id="brand"
+            onClick={chevronHandler}
+            className="flex justify-between items-center mb-4 cursor-pointer"
+          >
+            <p>برند</p>
+            <Chevron filterState={filterState} Section={"brand"} />
+          </div>
+          <div>
+            {filterState.find((i) => i.id === "brand").isopen && (
+              <div className="flex flex-col duration-300 text-sm">
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"Nike"}
+                  id="brand"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"Adidas"}
+                  id="brand"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"Puma"}
+                  id="brand"
+                />
+                <CheckBox
+                  _onclick={filterStateHandler}
+                  filterItems={filterItems}
+                  _value={"Fila"}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        {/* Price menu */}
+        <div
+          className={`flex flex-col ${
+            filterState.find((i) => i.id === "price").isopen
+              ? "border-0"
+              : "border-b-2"
+          }   mb-6`}
+        >
+          <div
+            id="price"
+            onClick={chevronHandler}
+            className="flex justify-between items-center mb-4 cursor-pointer"
+          >
+            <p>محدوده قیمت</p>
+            <Chevron filterState={filterState} Section={"price"} />
+          </div>
+          <div>
+            {filterState.find((i) => i.id === "price").isopen && (
+              <div className="flex flex-col duration-300 text-sm ">
+                <div className="flex flex-col">
+                  <input
+                    className="w-full mt-6"
+                    type="range"
+                    min="0"
+                    max="10000000"
+                    step="1000000"
+                    value={priceValue}
+                    onChange={priceHandler}
+                  />
+                  <div className="flex justify-between items-center">
+                    <p>از 0</p>
+                    <p>تا {priceValue} ریال</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        <div>
+          <button
+            onClick={filterHandler}
+            className="bg-red-400 rounded-sm py-1 px-2 w-full text-white "
+          >
+            مشاهده کالا
+          </button>
+        </div>
+      </div>
     </>
   );
 };
