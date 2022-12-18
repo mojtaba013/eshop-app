@@ -9,23 +9,14 @@ const initialState = [
   { id: "brand", isopen: false },
   { id: "price", isopen: false },
 ];
+
+const initialFilteritems = [{ price: 0 }];
 const Filter = () => {
   const dispatch = useProductsActions();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
   const [priceValue, setPriceValue] = useState(0);
-
-  const priceHandler = (e) => {
-    setPriceValue(e.target.value);
-    setFilterItems((current) =>
-      current.map((obj) => {
-        return { ...obj, price: e.target.value };
-      })
-    );
-
-    //dispatch({ type: "filterOnPrice", event: e.target.value });
-  };
 
   const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -64,6 +55,22 @@ const Filter = () => {
         { [_section]: _value, isChecked: true, price: priceValue },
       ]);
   };
+
+  const priceHandler = (e) => {
+    setPriceValue(e.target.value)
+  }
+
+  useEffect(() => {
+    setFilterItems([...filterItems, { price: 0 }])
+  }, [])
+
+  useEffect(() => {
+    setFilterItems((current) =>
+      current.map((obj) => {
+        return { ...obj, price: priceValue }
+      })
+    )
+  }, [priceValue])
 
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
@@ -390,6 +397,7 @@ const Filter = () => {
               <div className="flex flex-col duration-300 text-sm ">
                 <div className="flex flex-col">
                   <input
+                    id="price"
                     className="w-full mt-6"
                     type="range"
                     min="0"

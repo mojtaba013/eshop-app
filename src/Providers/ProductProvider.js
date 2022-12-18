@@ -34,7 +34,7 @@ const reducer = (state, action) => {
 
     case "filter":
       const filterArr = action.event;
-      console.log(filterArr);
+      //console.log(filterArr);
       if (filterArr === "") {
         return productsData;
       } else {
@@ -42,12 +42,20 @@ const reducer = (state, action) => {
           filterArr.some((i) => Object.keys(i).includes(key));
         const newProduct = productsData.filter((product) => {
           let keep = true;
-          if (checkExistKey("brand") && checkExistKey("size"))
-            keep =
-              filterArr.some((item) => item.brand === product.brand) &&
-              filterArr.some((item) => item.size === product.size) &&
-              filterArr.some((item) => item.price >= parseInt(product.price));
-          else if (checkExistKey("brand") || checkExistKey("size")) {
+          if (checkExistKey("brand") && checkExistKey("size")) {
+            if (filterArr.some((item) => item.price > 0)) {
+              keep =
+                filterArr.some((item) => item.brand === product.brand) &&
+                filterArr.some((item) => item.size === product.size) &&
+                filterArr.some((item) => item.price >= parseInt(product.price));
+              
+            } else {
+              keep =
+                filterArr.some((item) => item.brand === product.brand) &&
+                filterArr.some((item) => item.size === product.size);
+              
+            }
+          } else if (checkExistKey("brand") || checkExistKey("size")) {
             if (checkExistKey("size"))
               keep =
                 filterArr.some((item) => item.size === product.size) &&
@@ -61,7 +69,7 @@ const reducer = (state, action) => {
               (item) => item.price >= parseInt(product.price)
             );
           }
-
+          
           return keep;
         });
         return newProduct;
