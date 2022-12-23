@@ -34,8 +34,8 @@ const reducer = (state, action) => {
 
     case "filter":
       const filterArr = action.event;
-      //console.log(filterArr);
-      if (filterArr === "") {
+      console.log(filterArr);
+      if (filterArr.length===0) {
         return productsData;
       } else {
         let checkExistKey = (key) =>
@@ -48,28 +48,38 @@ const reducer = (state, action) => {
                 filterArr.some((item) => item.brand === product.brand) &&
                 filterArr.some((item) => item.size === product.size) &&
                 filterArr.some((item) => item.price >= parseInt(product.price));
-              
             } else {
               keep =
                 filterArr.some((item) => item.brand === product.brand) &&
                 filterArr.some((item) => item.size === product.size);
-              
             }
           } else if (checkExistKey("brand") || checkExistKey("size")) {
-            if (checkExistKey("size"))
-              keep =
-                filterArr.some((item) => item.size === product.size) &&
-                filterArr.some((item) => item.price >= parseInt(product.price));
-            else
-              keep =
-                filterArr.some((item) => item.brand === product.brand) &&
-                filterArr.some((item) => item.price >= parseInt(product.price));
+            if (checkExistKey("size")) {
+              if (filterArr.some((item) => item.price > 0))
+                keep =
+                  filterArr.some((item) => item.size === product.size) &&
+                  filterArr.some(
+                    (item) => item.price >= parseInt(product.price)
+                  );
+              else keep = filterArr.some((item) => item.size === product.size);
+            }
+
+            if (checkExistKey("brand")) {
+              if (filterArr.some((item) => item.price > 0))
+                keep =
+                  filterArr.some((item) => item.brand === product.brand) &&
+                  filterArr.some(
+                    (item) => item.price >= parseInt(product.price)
+                  );
+              else
+                keep = filterArr.some((item) => item.brand === product.brand);
+            }
           } else if (!checkExistKey("brand") && !checkExistKey("size")) {
             keep = filterArr.some(
               (item) => item.price >= parseInt(product.price)
             );
           }
-          
+
           return keep;
         });
         return newProduct;

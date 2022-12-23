@@ -3,6 +3,7 @@ import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
 import { useProductsActions } from "../Providers/ProductProvider";
+import { object } from "yup";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -10,7 +11,6 @@ const initialState = [
   { id: "price", isopen: false },
 ];
 
-const initialFilteritems = [{ price: 0 }];
 const Filter = () => {
   const dispatch = useProductsActions();
   const [filterState, setFilterState] = useState(initialState);
@@ -32,8 +32,8 @@ const Filter = () => {
     setIsShow((current) => !current);
   };
 
-  const cancelFilter = () => {
-    setFilterItems([]);
+  const removeFilters = () => {
+    setFilterItems([{ price: 0 }]);
     dispatch({ type: "filter", event: "" });
     dispatch({ type: "sort", event: "cheap" });
     setIsShow((current) => !current);
@@ -57,20 +57,20 @@ const Filter = () => {
   };
 
   const priceHandler = (e) => {
-    setPriceValue(e.target.value)
-  }
+    setPriceValue(e.target.value);
+  };
 
   useEffect(() => {
-    setFilterItems([...filterItems, { price: 0 }])
-  }, [])
+    setFilterItems([...filterItems, { price: 0 }]);
+  }, []);
 
   useEffect(() => {
     setFilterItems((current) =>
       current.map((obj) => {
-        return { ...obj, price: priceValue }
+        return { ...obj, price: priceValue };
       })
-    )
-  }, [priceValue])
+    );
+  }, [priceValue]);
 
   const filterHandler = () => {
     dispatch({ type: "filter", event: filterItems });
@@ -103,13 +103,13 @@ const Filter = () => {
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-                {filterItems.length > 0 && (
+                {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length > 0 && (
                   <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                    {filterItems.length}
+                    {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length}
                   </span>
                 )}
               </div>
-              <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
+              <p className="text-red-500 cursor-pointer" onClick={removeFilters}>
                 لغو فیلتر
               </p>
             </div>
@@ -254,7 +254,7 @@ const Filter = () => {
             <div>
               <button
                 onClick={filterHandler}
-                className="bg-blue-400 rounded-sm py-1 px-2"
+                className="bg-red-400 rounded-sm py-1 px-2 w-full text-white "
               >
                 جستجو
               </button>
@@ -267,13 +267,14 @@ const Filter = () => {
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">
             <p className="">فیلترها</p>
-            {filterItems.length > 0 && (
+            {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length > 0 && (
               <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                {filterItems.length}
+                {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length}
+               
               </span>
             )}
           </div>
-          <p className="text-red-500 cursor-pointer" onClick={cancelFilter}>
+          <p className="text-red-500 cursor-pointer" onClick={removeFilters}>
             لغو فیلتر
           </p>
         </div>

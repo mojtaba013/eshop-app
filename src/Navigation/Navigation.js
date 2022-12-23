@@ -11,7 +11,8 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
   const { cart } = useCart();
-  const showCartmodal = () => {
+
+  const showCartmodal = () => {   
     setIsOpen((c) => !c);
   };
 
@@ -85,7 +86,7 @@ const Navigation = () => {
                   </svg>
                 </div>
 
-                <Cart onCloseCartModalBox={() => setIsOpen((c) => !c)} />
+                <Cart onCloseCartModal={showCartmodal} />
               </div>
             </>
           }
