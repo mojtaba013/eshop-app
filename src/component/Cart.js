@@ -106,7 +106,7 @@ const Cart = ({onCloseCartModal}) => {
           <span>{nf.format(total)} ریال</span>
         </div>
         <NavLink to="/login">
-          <button onClick={onCloseCartModal} className="bg-red-500 w-full py-2 rounded-lg text-white ">
+          <button onClick={onCloseCartModal} className="bg-green-500 w-full py-2 rounded-lg text-white ">
             ادامه خرید
           </button>
         </NavLink>
