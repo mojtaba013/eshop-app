@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useCart, useCartAction } from "../Providers/CartProvider";
 
-const Cart = ({onCloseCartModal}) => {
-  
+const Cart = ({ onCloseCartModal }) => {
   const { cart, total } = useCart();
   const dispatch = useCartAction();
   let nf = new Intl.NumberFormat();
@@ -106,7 +105,10 @@ const Cart = ({onCloseCartModal}) => {
           <span>{nf.format(total)} ریال</span>
         </div>
         <NavLink to="/login">
-          <button onClick={onCloseCartModal} className="bg-green-500 w-full py-2 rounded-lg text-white ">
+          <button
+            onClick={onCloseCartModal}
+            className="bg-red-500 w-full py-2 rounded-lg text-white "
+          >
             ادامه خرید
           </button>
         </NavLink>
