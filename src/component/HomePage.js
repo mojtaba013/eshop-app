@@ -26,7 +26,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className=" w-full flex flex-row justify-center items-start px-4 gap-4">
+    <div className="container   max-w-screen-xl m-auto w-full flex flex-row justify-center items-start px-4 gap-4">
       <section className=" border-solid border-2 rounded-sm min-h-screen hidden lg:block lg:w-1/4">
         <Filter />
       </section>

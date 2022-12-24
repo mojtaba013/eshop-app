@@ -27,8 +27,8 @@ const Navigation = () => {
   }
 
   return (
-    <>
-      <div className=" flex flex-row py-2 px-4 justify-between items-center border border-b-2 mb-7">
+   <div className="border-b-2   mb-7">
+     <div className="container   max-w-screen-xl m-auto flex flex-row py-2 px-4 justify-between items-center ">
         <div>
           <NavLink to="/">
             <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
@@ -187,7 +187,9 @@ const Navigation = () => {
           }
         </div>
       </div>
-    </>
+   </div>
+     
+    
   );
 };
 

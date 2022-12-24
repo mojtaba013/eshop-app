@@ -103,13 +103,20 @@ const Filter = () => {
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-                {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length > 0 && (
+                {filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
+                  .length > 0 && (
                   <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                    {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length}
+                    {
+                      filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
+                        .length
+                    }
                   </span>
                 )}
               </div>
-              <p className="text-red-500 cursor-pointer" onClick={removeFilters}>
+              <p
+                className="text-red-500 cursor-pointer"
+                onClick={removeFilters}
+              >
                 لغو فیلتر
               </p>
             </div>
@@ -267,10 +274,13 @@ const Filter = () => {
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">
             <p className="">فیلترها</p>
-            {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length > 0 && (
+            {filterItems.filter((obj, i) => i !== 0 || obj.price > 0).length >
+              0 && (
               <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                {filterItems.filter((obj,i)=> i!==0 || obj.price>0).length}
-               
+                {
+                  filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
+                    .length
+                }
               </span>
             )}
           </div>

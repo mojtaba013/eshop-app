@@ -35,7 +35,7 @@ const reducer = (state, action) => {
     case "filter":
       const filterArr = action.event;
       console.log(filterArr);
-      if (filterArr.length===0) {
+      if (filterArr.length === 0) {
         return productsData;
       } else {
         let checkExistKey = (key) =>
@@ -75,9 +75,11 @@ const reducer = (state, action) => {
                 keep = filterArr.some((item) => item.brand === product.brand);
             }
           } else if (!checkExistKey("brand") && !checkExistKey("size")) {
-            keep = filterArr.some(
-              (item) => item.price >= parseInt(product.price)
-            );
+            if (filterArr.some((i) => i.price === 0)) return productsData;
+            else
+              keep = filterArr.some(
+                (item) => item.price >= parseInt(product.price)
+              );
           }
 
           return keep;
