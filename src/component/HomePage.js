@@ -18,7 +18,7 @@ const HomePage = () => {
   const addProducttHandler = (_product) => {
     // toast.success(`${_product.name} به سبد خرید شما اضافه شد`);
     dispatch({ type: "ADD_TO_CART", payload: _product });
-    localStorage.setItem("cart",JSON.stringify(_product));
+    localStorage.setItem("cart", JSON.stringify(_product));
   };
 
   const checkInCart = (cart, product) => {
@@ -26,7 +26,8 @@ const HomePage = () => {
   };
 
   return (
-    <div className="container   max-w-screen-xl m-auto w-full flex flex-row justify-center items-start px-4 gap-4">
+   <div className="flex items-center justify-center">
+     <div className="container   max-w-screen-xl m-auto w-full flex  justify-center items-start px-2 xl:px-0 gap-4">
       <section className=" border-solid border-2 rounded-sm min-h-screen hidden lg:block lg:w-1/4">
         <Filter />
       </section>
@@ -132,6 +133,7 @@ const HomePage = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

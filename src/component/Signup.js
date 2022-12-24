@@ -13,13 +13,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuth, useAuthAction } from "../Providers/AuthProvider";
 
-
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const initialValues = {
   name: "",
-  lastName:"",
+  lastName: "",
   email: "",
   password: "",
 
@@ -30,7 +29,7 @@ const validationSchema = Yup.object({
   name: Yup.string().required("لطفا نام را وارد کنید"),
   lastName: Yup.string().required("لطفا نام خانوادگی را وارد کنید"),
   email: Yup.string().email("format invalid").required("ایمیل را وارد کنید"),
-  
+
   password: Yup.string().required("رمز عبور را وارد کنید"),
   passwordConfirm: Yup.string()
     .required("رمز عبور را دباره وارد کنید")
@@ -45,15 +44,12 @@ const Signup = () => {
   const setAuth = useAuthAction();
 
   // useEffect(() => {
-    
+
   //   if (auth) navigate("/");
   // }, [auth]);
 
-  const onSubmit =  (values) => {
-    
-    const { name, email, password,passwordConfirm} = values;  
-
-    try {      
+  const onSubmit = (values) => {
+    try {
       setAuth(values);
       //localStorage.setItem("authState", JSON.stringify(values));
       toast.success("با موفقیت ثبت شد.");
@@ -73,7 +69,7 @@ const Signup = () => {
   });
 
   return (
-    <section className="px-6">
+    <section className="px-6 pb-4">
       <div>
         <p className="font-bold text-xl text-slate-800">عضویت</p>
         <p className="text-slate-800 text-sm mb-8 mt-4">
@@ -81,21 +77,24 @@ const Signup = () => {
         </p>
       </div>
       <form onSubmit={formik.handleSubmit} className="flex flex-col ">
-        <div className="mb-4 flex flex-col">
-          <label className="text-slate-800 text-sm mb-1">نام</label>
-          <Input name="name" type="text" formik={formik} />
+        <div className="flex justify-between items-center gap-x-4 mb-10">
+          <div className=" flex flex-col flex-1">
+            <label className="text-slate-800 text-sm mb-1">نام</label>
+            <Input name="name" type="text" formik={formik} />
+          </div>
+          <div className=" flex flex-col flex-1">
+            <label className="text-slate-800 text-sm mb-1">نام خانوادگی</label>
+            <Input name="lastName" type="text" formik={formik} />
+          </div>
         </div>
-        <div className="mb-4 flex flex-col">
-          <label className="text-slate-800 text-sm mb-1">نام خانوادگی</label>
-          <Input name="lastName" type="text" formik={formik} />
-        </div>
-        <div className="mb-4 flex flex-col">
+
+        <div className=" flex flex-col mb-10">
           <label className="text-slate-800 text-sm mb-1">
             آدرس ایمیل(نام کاربری)
           </label>
-          <Input name="email" type="text" formik={formik} />
+          <Input name="email" type="text" formik={formik} placeholder={"example@gmail.com"} />
         </div>
-        <div className="mb-4 flex flex-col">
+        <div className=" flex flex-col mb-10">
           <label className="text-slate-800 text-sm mb-1">کلمه عبور</label>
           <Input name="password" type="password" formik={formik} />
         </div>
@@ -108,8 +107,10 @@ const Signup = () => {
             type="submit"
             disabled={!formik.isValid}
             // className="bg-red-400  text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
-            
-            className={` ${formik.isValid?"bg-red-400":"bg-slate-400"}  text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5`}
+
+            className={` ${
+              formik.isValid ? "bg-red-400" : "bg-slate-400"
+            }  text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5`}
           >
             ثبت نام{" "}
           </button>

@@ -99,7 +99,7 @@ const Filter = () => {
 
         <span onClick={openFilterPageHandler}>فیلترها</span>
         {isShow && (
-          <div className=" p-4  bg-white  fixed overflow-scroll inset-0   w-full  ">
+          <div className=" p-4  bg-white  fixed overflow-scroll inset-0 z-10  w-full  ">
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>

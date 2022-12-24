@@ -1,11 +1,12 @@
-const Input = ({ name, formik, type = "text" }) => {
+const Input = ({ name, formik, type = "text" ,placeholder}) => {
   return (
     <>
       <input
-        className="outline-none rounded-md  border-solid border-2 border-gray-200"
+        className=" focus:border-red-500 focus:outline-0 hover:transition-all hover:duration-500 rounded-md hover:border-red-500      border-2 border-gray-200"
         id={name}
         type={type}
         name={name}
+        placeholder={placeholder}
         {...formik.getFieldProps(name)}
       />
       {formik.errors[name] && formik.touched[name] && (
