@@ -79,7 +79,7 @@ const Signup = () => {
       </div>
       <form onSubmit={formik.handleSubmit} className="flex flex-col ">
         <div className=" flex flex-col md:flex-row justify-between items-start gap-x-4 mb-10 ">
-          <div className=" flex flex-col w-full md:flex-1">
+          <div className=" flex flex-col w-full md:flex-1 mb-10">
             <label className="text-slate-800 text-sm mb-1">نام</label>
             <Input name="name" type="text" formik={formik} />
           </div>
