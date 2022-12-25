@@ -69,20 +69,21 @@ const Signup = () => {
   });
 
   return (
-    <section className="px-6 pb-4">
+    <div className="flex justify-center items-center">
+      <section className="container max-w-screen-xl px-4 md:px-8 lg:px-28 py-8 ">
       <div>
-        <p className="font-bold text-xl text-slate-800">عضویت</p>
+        <p className="font-bold text-xl lg:text-2xl text-slate-800">عضویت</p>
         <p className="text-slate-800 text-sm mb-8 mt-4">
           لطفا برای عضویت فرم زیر را تکمیل کنید..
         </p>
       </div>
       <form onSubmit={formik.handleSubmit} className="flex flex-col ">
-        <div className="flex justify-between items-center gap-x-4 mb-10">
-          <div className=" flex flex-col flex-1">
+        <div className=" flex flex-col md:flex-row justify-between items-start gap-x-4 mb-10 ">
+          <div className=" flex flex-col w-full md:flex-1">
             <label className="text-slate-800 text-sm mb-1">نام</label>
             <Input name="name" type="text" formik={formik} />
           </div>
-          <div className=" flex flex-col flex-1">
+          <div className=" flex flex-col w-full md:flex-1">
             <label className="text-slate-800 text-sm mb-1">نام خانوادگی</label>
             <Input name="lastName" type="text" formik={formik} />
           </div>
@@ -121,6 +122,7 @@ const Signup = () => {
         </div>
       </form>
     </section>
+    </div>
   );
 };
 

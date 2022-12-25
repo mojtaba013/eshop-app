@@ -2,7 +2,7 @@ const Input = ({ name, formik, type = "text" ,placeholder}) => {
   return (
     <>
       <input
-        className=" focus:border-red-500 focus:outline-0 hover:transition-all hover:duration-500 rounded-md hover:border-red-500      border-2 border-gray-200"
+        className="hover:border-red-500 border-2 outline-none focus:ring-0  focus:border-2 focus:outline-none  border-gray-200  focus:border-red-500  hover:transition-all hover:duration-500 rounded-md "
         id={name}
         type={type}
         name={name}

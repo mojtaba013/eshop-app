@@ -209,13 +209,7 @@ const Filter = () => {
                       filterItems={filterItems}
                       _value={"Puma"}
                       id="brand"
-                    />
-                    <CheckBox
-                      _onclick={filterStateHandler}
-                      filterItems={filterItems}
-                      _value={"Fila"}
-                      id="brand"
-                    />
+                    />                   
                   </div>
                 )}
               </div>
@@ -377,11 +371,6 @@ const Filter = () => {
                   filterItems={filterItems}
                   _value={"Puma"}
                   id="brand"
-                />
-                <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
-                  _value={"Fila"}
                 />
               </div>
             )}
