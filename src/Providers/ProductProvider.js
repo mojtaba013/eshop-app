@@ -88,15 +88,6 @@ const reducer = (state, action) => {
         });
         return newProduct;
       }
-    case "filterOnPrice":
-      const allProducts = [...state];
-
-      console.log(allProducts, action.event);
-      const filteredProduct = productsData.filter(
-        (i) => i.price <= parseInt(action.event)
-      );
-      console.log(filteredProduct);
-      return filteredProduct;
 
     case "sort": {
       const sortBy =

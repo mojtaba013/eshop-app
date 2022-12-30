@@ -4,6 +4,7 @@ import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
 import { useProductsActions } from "../Providers/ProductProvider";
 import { object } from "yup";
+import { useSearchParams } from "react-router-dom";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -16,6 +17,8 @@ const Filter = () => {
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
+  const [size, setSize] = useState([]);
+  const [brand, setBrand] = useState([]);
   const [priceValue, setPriceValue] = useState(0);
 
   const chevronHandler = (e) => {
@@ -46,14 +49,43 @@ const Filter = () => {
     if (filterItems.some((obj) => obj.brand === _value)) {
       _filteredItems = filterItems.filter((i) => i.brand !== _value);
       setFilterItems(_filteredItems);
+      //setSearchParams(_filteredItems);
     } else if (filterItems.some((obj) => obj.size === _value)) {
       _filteredItems = filterItems.filter((i) => i.size !== _value);
       setFilterItems(_filteredItems);
+      //setSearchParams(_filteredItems);
     } else
       setFilterItems([
         ...filterItems,
         { [_section]: _value, isChecked: true, price: priceValue },
       ]);
+    //setSearchParams(..._filteredItems,{ [_section]: _value, isChecked: true, price: priceValue });
+  };
+
+  const sizeHandler = (e) => {
+    const _size = e.currentTarget.value;
+    const item = size.findIndex((i) => i === _size);
+    console.log(item);
+    let newSize = [];
+    if (item === -1) {
+      newSize = [...size, _size];
+    } else {
+      newSize = size.filter((i) => i !== _size);
+    }
+    setSize(newSize);
+  };
+
+  const brandHandler = (e) => {
+    const _brand = e.currentTarget.value;
+    const item = brand.findIndex((i) => i === _brand);
+    console.log(item);
+    let newBrand = [];
+    if (item === -1) {
+      newBrand = [...brand, _brand];
+    } else {
+      newBrand = brand.filter((i) => i !== _brand);
+    }
+    setBrand(newBrand);
   };
 
   const priceHandler = (e) => {
@@ -73,6 +105,7 @@ const Filter = () => {
   }, [priceValue]);
 
   const filterHandler = () => {
+    //console.log("searchParams=", Object.fromEntries([...searchParams]));
     dispatch({ type: "filter", event: filterItems });
     dispatch({ type: "sort", event: "cheap" });
     setIsShow((current) => !current);
@@ -140,25 +173,25 @@ const Filter = () => {
                 {filterState.find((i) => i.id === "size").isopen && (
                   <div className="flex flex-col duration-300 text-sm">
                     <CheckBox
-                      _onclick={filterStateHandler}
+                      _onclick={sizeHandler}
                       filterItems={filterItems}
                       _value={"38"}
                       id="size"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
+                      _onclick={sizeHandler}
                       filterItems={filterItems}
                       _value={"39"}
                       id="size"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
+                      _onclick={sizeHandler}
                       filterItems={filterItems}
                       _value={"40"}
                       id="size"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
+                      _onclick={sizeHandler}
                       filterItems={filterItems}
                       _value={"41"}
                       id="size"
@@ -209,7 +242,7 @@ const Filter = () => {
                       filterItems={filterItems}
                       _value={"Puma"}
                       id="brand"
-                    />                   
+                    />
                   </div>
                 )}
               </div>
@@ -302,32 +335,32 @@ const Filter = () => {
             {filterState.find((i) => i.id === "size").isopen && (
               <div className="flex flex-col duration-300 text-sm">
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={sizeHandler}
+                  filterItems={size}
                   _value={"38"}
                   id="size"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={sizeHandler}
+                  filterItems={size}
                   _value={"39"}
                   id="size"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={sizeHandler}
+                  filterItems={size}
                   _value={"40"}
                   id="size"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={sizeHandler}
+                  filterItems={size}
                   _value={"41"}
                   id="size"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={sizeHandler}
+                  filterItems={size}
                   _value={"42"}
                   id="size"
                 />
@@ -355,20 +388,20 @@ const Filter = () => {
             {filterState.find((i) => i.id === "brand").isopen && (
               <div className="flex flex-col duration-300 text-sm">
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={brandHandler}
+                  filterItems={brand}
                   _value={"Nike"}
                   id="brand"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={brandHandler}
+                  filterItems={brand}
                   _value={"Adidas"}
                   id="brand"
                 />
                 <CheckBox
-                  _onclick={filterStateHandler}
-                  filterItems={filterItems}
+                  _onclick={brandHandler}
+                  filterItems={brand}
                   _value={"Puma"}
                   id="brand"
                 />

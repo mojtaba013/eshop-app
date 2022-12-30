@@ -1,9 +1,12 @@
 const CheckBox = ({ _onclick, filterItems, _value, id }) => {
-  const isChecked = filterItems.find(
-    (i) => i.brand === _value || i.size === _value
-  )
-    ? filterItems.find((i) => i.brand === _value || i.size === _value).isChecked
-    : false;
+  // const isChecked = filterItems.find(
+  //   (i) => i.brand === _value || i.size === _value
+  // )
+  //   ? filterItems.find((i) => i.brand === _value || i.size === _value).isChecked
+  //   : false;
+
+  
+
   return (
     <div className="border-b mb-5 pb-1">
       <input
@@ -12,7 +15,7 @@ const CheckBox = ({ _onclick, filterItems, _value, id }) => {
         type="checkbox"
         name="chk"
         value={_value}
-        checked={isChecked}
+       
         className="rounded checked border-gray-300 focus:ring-blue-500"
       />{" "}
       {_value}
