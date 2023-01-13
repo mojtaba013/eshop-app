@@ -1,34 +1,36 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import { useAuth, useAuthAction } from "../Providers/AuthProvider";
 import { useCart } from "../Providers/CartProvider";
 
 const Navigation = () => {
-  const auth = useAuth();
-  const setAuth=useAuthAction();
-  const _navigate=useNavigate();
+  const auth = localStorage.getItem("authstate") | false;
+  //const setAuth=useAuthAction();
+  const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
-  const { cart } = useCart();
+  const {cart} = useSelector((state) => state.cart);
+  
 
-  const showCartmodal = () => {   
+  const showCartmodal = () => {
     setIsOpen((c) => !c);
   };
 
   const exitmodalHandler = () => {
     setExitmodal((c) => !c);
-  }
+  };
 
-  const exitAccountHandler=()=>{
-    setAuth(false);
+  const exitAccountHandler = () => {
+    //setAuth(false);
     setExitmodal((c) => !c);
     _navigate("/signup");
-  }
+  };
 
   return (
-   <div className="border-b-2   mb-7">
-     <div className="container   max-w-screen-xl m-auto flex flex-row py-2 px-2 xl:px-0 justify-between items-center ">
+    <div className="border-b-2   mb-7">
+      <div className="container   max-w-screen-xl m-auto flex flex-row py-2 px-2 xl:px-0 justify-between items-center ">
         <div>
           <NavLink to="/">
             <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
@@ -163,7 +165,10 @@ const Navigation = () => {
                     </div>
                   </div>
 
-                  <div onClick={exitAccountHandler} className="flex cursor-pointer">
+                  <div
+                    onClick={exitAccountHandler}
+                    className="flex cursor-pointer"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -187,9 +192,7 @@ const Navigation = () => {
           }
         </div>
       </div>
-   </div>
-     
-    
+    </div>
   );
 };
 

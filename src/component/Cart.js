@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { addProductToCart, removeProductFromCart } from "../Features/CartSlice";
 import { useCart, useCartAction } from "../Providers/CartProvider";
 
 const Cart = ({ onCloseCartModal }) => {
-  const { cart, total } = useCart();
-  const dispatch = useCartAction();
+  const { cart, total } = useSelector(state=>state.cart);
+  const dispatch = useDispatch();
   let nf = new Intl.NumberFormat();
   if (cart.length === 0)
     return <p className="text-center mt-4">سبد خرید شما خالی است</p>;
   const incrementHandler = (_product) => {
-    dispatch({ type: "ADD_TO_CART", payload: _product });
+    dispatch(addProductToCart(_product));
   };
 
   const deleteHandler = (_product) => {
-    dispatch({ type: "REMOVE", payload: _product });
+    dispatch(removeProductFromCart(_product));
   };
 
   return (

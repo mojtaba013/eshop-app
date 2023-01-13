@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
 import { useProductsActions } from "../Providers/ProductProvider";
 import { object } from "yup";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { filter, sort } from "../Features/ProductSlice";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -13,13 +15,17 @@ const initialState = [
 ];
 
 const Filter = () => {
-  const dispatch = useProductsActions();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [filterItems, setFilterItems] = useState([]);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
-  const [priceValue, setPriceValue] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const notInitialRenderSize = useRef(false);
+  const notInitialRenderBrand = useRef(false);
+  const filters = Object.fromEntries([...searchParams]);
 
   const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -36,36 +42,17 @@ const Filter = () => {
   };
 
   const removeFilters = () => {
-    setFilterItems([{ price: 0 }]);
-    dispatch({ type: "filter", event: "" });
-    dispatch({ type: "sort", event: "cheap" });
+    setSize([]);
+    setBrand([]);
+    setPrice(0);
+    dispatch(filter(""));
+    dispatch(sort("cheap"));
     setIsShow((current) => !current);
-  };
-
-  const filterStateHandler = (e) => {
-    const _value = e.currentTarget.value;
-    const _section = e.target.id;
-    let _filteredItems = [];
-    if (filterItems.some((obj) => obj.brand === _value)) {
-      _filteredItems = filterItems.filter((i) => i.brand !== _value);
-      setFilterItems(_filteredItems);
-      //setSearchParams(_filteredItems);
-    } else if (filterItems.some((obj) => obj.size === _value)) {
-      _filteredItems = filterItems.filter((i) => i.size !== _value);
-      setFilterItems(_filteredItems);
-      //setSearchParams(_filteredItems);
-    } else
-      setFilterItems([
-        ...filterItems,
-        { [_section]: _value, isChecked: true, price: priceValue },
-      ]);
-    //setSearchParams(..._filteredItems,{ [_section]: _value, isChecked: true, price: priceValue });
-  };
+  }; 
 
   const sizeHandler = (e) => {
     const _size = e.currentTarget.value;
     const item = size.findIndex((i) => i === _size);
-    console.log(item);
     let newSize = [];
     if (item === -1) {
       newSize = [...size, _size];
@@ -78,7 +65,6 @@ const Filter = () => {
   const brandHandler = (e) => {
     const _brand = e.currentTarget.value;
     const item = brand.findIndex((i) => i === _brand);
-    console.log(item);
     let newBrand = [];
     if (item === -1) {
       newBrand = [...brand, _brand];
@@ -89,25 +75,51 @@ const Filter = () => {
   };
 
   const priceHandler = (e) => {
-    setPriceValue(e.target.value);
+    const price = e.target.value;
+    setPrice(price);
   };
 
   useEffect(() => {
-    setFilterItems([...filterItems, { price: 0 }]);
-  }, []);
+    if (notInitialRenderSize.current) {
+      if (size.length === 0) {
+        searchParams.delete("size", size);
+        setSearchParams(searchParams);
+      } else {
+        searchParams.set("size", size);
+        setSearchParams(searchParams);
+      }
+    } else {
+      notInitialRenderSize.current = true;
+    }
+  }, [size]);
 
   useEffect(() => {
-    setFilterItems((current) =>
-      current.map((obj) => {
-        return { ...obj, price: priceValue };
-      })
-    );
-  }, [priceValue]);
+    if (notInitialRenderBrand.current) {
+      if (brand.length === 0) {
+        searchParams.delete("brand", brand);
+        setSearchParams(searchParams);
+      } else {
+        searchParams.set("brand", brand);
+        setSearchParams(searchParams);
+      }
+    } else {
+      notInitialRenderBrand.current = true;
+    }
+  }, [brand]);
+
+  useEffect(() => {
+    if (price > 0) {
+      searchParams.set("price", price);
+      setSearchParams(searchParams);
+    }
+    if (price <= 0) {
+      searchParams.delete("price");
+      setSearchParams(searchParams);
+    }
+  }, [price]);
 
   const filterHandler = () => {
-    //console.log("searchParams=", Object.fromEntries([...searchParams]));
-    dispatch({ type: "filter", event: filterItems });
-    dispatch({ type: "sort", event: "cheap" });
+    dispatch(filter(filters));
     setIsShow((current) => !current);
   };
 
@@ -136,12 +148,10 @@ const Filter = () => {
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-                {filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
-                  .length > 0 && (
+                {size.length + brand.length + (price > 0 ? 1 : 0)>0 && (
                   <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
                     {
-                      filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
-                        .length
+                     size.length + brand.length + (price > 0 ? 1 : 0)
                     }
                   </span>
                 )}
@@ -174,31 +184,31 @@ const Filter = () => {
                   <div className="flex flex-col duration-300 text-sm">
                     <CheckBox
                       _onclick={sizeHandler}
-                      filterItems={filterItems}
+                      filters={filters}
                       _value={"38"}
                       id="size"
                     />
                     <CheckBox
                       _onclick={sizeHandler}
-                      filterItems={filterItems}
+                      filters={filters}
                       _value={"39"}
                       id="size"
                     />
                     <CheckBox
                       _onclick={sizeHandler}
-                      filterItems={filterItems}
+                      filters={filters}
                       _value={"40"}
                       id="size"
                     />
                     <CheckBox
                       _onclick={sizeHandler}
-                      filterItems={filterItems}
+                      filters={filters}
                       _value={"41"}
                       id="size"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
-                      filterItems={filterItems}
+                      _onclick={sizeHandler}
+                      filters={filters}
                       _value={"42"}
                       id="size"
                     />
@@ -226,20 +236,20 @@ const Filter = () => {
                 {filterState.find((i) => i.id === "brand").isopen && (
                   <div className="flex flex-col duration-300 text-sm">
                     <CheckBox
-                      _onclick={filterStateHandler}
-                      filterItems={filterItems}
+                      _onclick={brandHandler}
+                      filters={filters}
                       _value={"Nike"}
                       id="brand"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
-                      filterItems={filterItems}
+                      _onclick={brandHandler}
+                      filters={filters}
                       _value={"Adidas"}
                       id="brand"
                     />
                     <CheckBox
-                      _onclick={filterStateHandler}
-                      filterItems={filterItems}
+                      _onclick={brandHandler}
+                      filters={filters}
                       _value={"Puma"}
                       id="brand"
                     />
@@ -273,12 +283,12 @@ const Filter = () => {
                         min="0"
                         max="10000000"
                         step="1000000"
-                        value={priceValue}
+                        value={price}
                         onChange={priceHandler}
                       />
                       <div className="flex justify-between items-center">
                         <p>از 0</p>
-                        <p>تا {priceValue} ریال</p>
+                        <p>تا {price} ریال</p>
                       </div>
                     </div>
                   </div>
@@ -301,13 +311,9 @@ const Filter = () => {
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">
             <p className="">فیلترها</p>
-            {filterItems.filter((obj, i) => i !== 0 || obj.price > 0).length >
-              0 && (
+            {size.length + brand.length + (price > 0 ? 1 : 0) > 0 && (
               <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                {
-                  filterItems.filter((obj, i) => i !== 0 || obj.price > 0)
-                    .length
-                }
+                {size.length + brand.length + (price > 0 ? 1 : 0)}
               </span>
             )}
           </div>
@@ -336,31 +342,31 @@ const Filter = () => {
               <div className="flex flex-col duration-300 text-sm">
                 <CheckBox
                   _onclick={sizeHandler}
-                  filterItems={size}
+                  filters={filters}
                   _value={"38"}
                   id="size"
                 />
                 <CheckBox
                   _onclick={sizeHandler}
-                  filterItems={size}
+                  filters={filters}
                   _value={"39"}
                   id="size"
                 />
                 <CheckBox
                   _onclick={sizeHandler}
-                  filterItems={size}
+                  filters={filters}
                   _value={"40"}
                   id="size"
                 />
                 <CheckBox
                   _onclick={sizeHandler}
-                  filterItems={size}
+                  filters={filters}
                   _value={"41"}
                   id="size"
                 />
                 <CheckBox
                   _onclick={sizeHandler}
-                  filterItems={size}
+                  filters={filters}
                   _value={"42"}
                   id="size"
                 />
@@ -389,19 +395,19 @@ const Filter = () => {
               <div className="flex flex-col duration-300 text-sm">
                 <CheckBox
                   _onclick={brandHandler}
-                  filterItems={brand}
+                  filters={filters}
                   _value={"Nike"}
                   id="brand"
                 />
                 <CheckBox
                   _onclick={brandHandler}
-                  filterItems={brand}
+                  filters={filters}
                   _value={"Adidas"}
                   id="brand"
                 />
                 <CheckBox
                   _onclick={brandHandler}
-                  filterItems={brand}
+                  filters={filters}
                   _value={"Puma"}
                   id="brand"
                 />
@@ -436,12 +442,12 @@ const Filter = () => {
                     min="0"
                     max="10000000"
                     step="1000000"
-                    value={priceValue}
+                    value={price}
                     onChange={priceHandler}
                   />
                   <div className="flex justify-between items-center">
                     <p>از 0</p>
-                    <p>تا {priceValue} ریال</p>
+                    <p>تا {price} ریال</p>
                   </div>
                 </div>
               </div>

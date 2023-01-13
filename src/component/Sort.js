@@ -1,35 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { sort } from "../Features/ProductSlice";
+
 import { useProductsActions } from "../Providers/ProductProvider";
 
 const Sort = () => {
-  const [state, setState] = useState({ selectedItem: null, isChecked: false });
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("cheap");
-  const dispatch = useProductsActions();
+  const [selectedItem, setSelectedItem] = useState("ارزانترین");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const sortItem = Object.fromEntries([...searchParams]);
+  const notInitialRender = useRef(false);
 
   const sortBoxHandler = () => {
     setIsOpen((current) => !current);
   };
 
   const sortHandler = (e) => {
-    setState({ selectedItem: e.target.id, isChecked: true });
-    dispatch({ type: "sort", event: e });
-    setIsOpen(c=>!c);
-  };
-
-  const changeHandler = (e) => {
-    const value = e.target.value;
-    setSelectedItem(value);
-    dispatch({ type: "sort", event: e });
+    setSelectedItem(e.target.id);
+    // searchParams.set("sort",selectedItem)
+    //   setSearchParams(searchParams)
+    //dispatch(sort(sortItem))
+    setIsOpen((c) => !c);
   };
 
   useEffect(() => {
-    dispatch({ type: "sort", event: selectedItem });
-  },[]);
+    dispatch(sort(sortItem));
+  }, []);
+
+  useEffect(() => {
+    // if (notInitialRender.current) {
+    //   searchParams.set("sort", selectedItem);
+    //   setSearchParams(searchParams);
+    //   dispatch(sort(sortItem));
+    // } else {
+    //   notInitialRender.current = true;
+    // }
+
+    searchParams.set("sort", selectedItem);
+      setSearchParams(searchParams);
+      dispatch(sort(sortItem));
+  }, [selectedItem]);
 
   return (
     <>
-      {/* mobile plan */}
+      {/* mobile mode */}
       <div className="flex mr-6 lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -45,10 +61,7 @@ const Sort = () => {
             d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
           />
         </svg>
-        <span onClick={sortBoxHandler}>
-          {" "}
-          {state.isChecked ? state.selectedItem : "ارزانترین"}
-        </span>
+        <span onClick={sortBoxHandler}>{selectedItem}</span>
         {isOpen && (
           <div className="flex flex-col lg:flex-row  z-10 inset-0 fixed bg-white p-4">
             <div className="flex justify-between items-center mb-8  ">
@@ -76,7 +89,7 @@ const Sort = () => {
                 name="sort"
                 value="cheap"
                 id="ارزانترین"
-                defaultChecked={state.selectedItem === "ارزانترین"}
+                defaultChecked={selectedItem === "ارزانترین"}
               />
               <label> ارزانترین</label>
             </div>
@@ -86,7 +99,7 @@ const Sort = () => {
                 name="sort"
                 value="expensive"
                 id="گرانترین"
-                defaultChecked={state.selectedItem === "گرانترین"}
+                defaultChecked={selectedItem === "گرانترین"}
               />
               <label> گرانترین</label>
             </div>
@@ -96,14 +109,14 @@ const Sort = () => {
                 name="sort"
                 value="Bestselling"
                 id="پرفروشترین"
-                defaultChecked={state.selectedItem === "پرفروشترین"}
+                defaultChecked={selectedItem === "پرفروشترین"}
               />
               <label>پرفروشترین</label>
             </div>
           </div>
         )}
       </div>
-      {/* desktop plan */}
+      {/* desktop mode */}
       <div className="lg:flex items-center justify-start">
         <nav className="hidden  lg:flex justify-center gap-x-3  mb-4  ">
           <div className=" flex justify-center items-center">
@@ -133,10 +146,12 @@ const Sort = () => {
                 name="sort"
                 value="cheap"
                 id="ارزانترین"
-                onClick={changeHandler}
+                onClick={sortHandler}
               />
               <label
-                className={` ${selectedItem === "cheap" ? "text-red-500" : ""}`}
+                className={` ${
+                  selectedItem === "ارزانترین" ? "text-red-500" : ""
+                }`}
               >
                 {" "}
                 ارزانترین
@@ -149,11 +164,11 @@ const Sort = () => {
                 name="sort"
                 value="expensive"
                 id="گرانترین"
-                onClick={changeHandler}
+                onClick={sortHandler}
               />
               <label
                 className={` ${
-                  selectedItem === "expensive" ? "text-red-500" : ""
+                  selectedItem === "گرانترین" ? "text-red-500" : ""
                 }`}
               >
                 {" "}
@@ -167,7 +182,7 @@ const Sort = () => {
                 name="sort"
                 value="Bestselling"
                 id="پرفروشترین"
-                onClick={changeHandler}
+                onClick={sortBoxHandler}
               />
               <label
                 className={` ${

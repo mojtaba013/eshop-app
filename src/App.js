@@ -9,26 +9,24 @@ import Signup from "./component/Signup";
 import AuthProvider from "./Providers/AuthProvider";
 import Checkout from "./component/Checkout";
 import Test from "./component/Test";
+import { Provider } from "react-redux";
+import { store } from "./Features/store";
 
 function App() {
+ 
   return (
     <div className="">
       <BrowserRouter>
-        <AuthProvider>
-          <ProductsProvider>
-            <CartProvider>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  {/* <Route path="/test" element={<Test/>}/> */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                </Routes>
-              </Layout>
-            </CartProvider>
-          </ProductsProvider>
-        </AuthProvider>
+        <Provider store={store}>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Routes>
+          </Layout>
+        </Provider>
       </BrowserRouter>
     </div>
   );
