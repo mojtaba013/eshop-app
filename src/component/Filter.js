@@ -17,7 +17,6 @@ const initialState = [
 const Filter = () => {
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
-  const [filterItems, setFilterItems] = useState([]);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
   const [price, setPrice] = useState(0);
@@ -25,7 +24,6 @@ const Filter = () => {
   const dispatch = useDispatch();
   const notInitialRenderSize = useRef(false);
   const notInitialRenderBrand = useRef(false);
-  const filters = Object.fromEntries([...searchParams]);
 
   const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -41,14 +39,16 @@ const Filter = () => {
     setIsShow((current) => !current);
   };
 
-  const removeFilters = () => {
+  const removeFilters = () => {    
     setSize([]);
     setBrand([]);
     setPrice(0);
     dispatch(filter(""));
-    dispatch(sort("cheap"));
+    searchParams.delete("sort");
+    setSearchParams(searchParams);
+    //dispatch(sort({ sort: "ارزانترین" }));
     setIsShow((current) => !current);
-  }; 
+  };
 
   const sizeHandler = (e) => {
     const _size = e.currentTarget.value;
@@ -118,8 +118,13 @@ const Filter = () => {
     }
   }, [price]);
 
+  const filters = Object.fromEntries([...searchParams]);
+
   const filterHandler = () => {
+    const sortBy = searchParams.get("sort") || "ارزانترین";
+    console.log(sortBy);
     dispatch(filter(filters));
+    dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
   };
 
@@ -148,11 +153,9 @@ const Filter = () => {
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-                {size.length + brand.length + (price > 0 ? 1 : 0)>0 && (
+                {size.length + brand.length + (price > 0 ? 1 : 0) > 0 && (
                   <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                    {
-                     size.length + brand.length + (price > 0 ? 1 : 0)
-                    }
+                    {size.length + brand.length + (price > 0 ? 1 : 0)}
                   </span>
                 )}
               </div>
@@ -160,7 +163,7 @@ const Filter = () => {
                 className="text-red-500 cursor-pointer"
                 onClick={removeFilters}
               >
-                لغو فیلتر
+               حذف فیلترها
               </p>
             </div>
             {/* Size Menu */}

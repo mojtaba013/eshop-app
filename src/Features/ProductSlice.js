@@ -2,8 +2,6 @@ import { addListener, createSlice } from "@reduxjs/toolkit";
 import { object } from "yup";
 import { productsData } from "../data";
 
-
-
 export const productSlice = createSlice({
   name: "product",
   initialState: productsData,
@@ -35,7 +33,6 @@ export const productSlice = createSlice({
     },
     filter: (state, action) => {
       const filterItems = [action.payload];
-      console.log(filterItems);
       if (filterItems === "") return productsData;
       const filteredProducts = productsData.filter((product) => {
         return filterItems.some((item) => {
@@ -50,9 +47,7 @@ export const productSlice = createSlice({
       return filteredProducts;
     },
     sort: (state, action) => {
-      console.log(action.payload);
-      const sortBy = action.payload.sort ;
-
+      const sortBy = action.payload.sort;
       const allProducts = [...state];
       if (sortBy === "ارزانترین") {
         const sortedProducts = allProducts.sort(

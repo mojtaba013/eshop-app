@@ -7,41 +7,36 @@ import { useProductsActions } from "../Providers/ProductProvider";
 
 const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("ارزانترین");
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-  const sortItem = Object.fromEntries([...searchParams]);
-  const notInitialRender = useRef(false);
-
-  const sortBoxHandler = () => {
-    setIsOpen((current) => !current);
-  };
+ 
 
   const sortHandler = (e) => {
-    setSelectedItem(e.target.id);
-    // searchParams.set("sort",selectedItem)
-    //   setSearchParams(searchParams)
-    //dispatch(sort(sortItem))
+    searchParams.set("sort", e.target.id);
+    setSearchParams(searchParams);
+    dispatch(sort(Object.fromEntries([...searchParams])));
     setIsOpen((c) => !c);
   };
 
-  useEffect(() => {
-    dispatch(sort(sortItem));
-  }, []);
+  const selectedItem =
+  Object.fromEntries([...searchParams]).sort || "ارزانترین";
 
-  useEffect(() => {
-    // if (notInitialRender.current) {
-    //   searchParams.set("sort", selectedItem);
-    //   setSearchParams(searchParams);
-    //   dispatch(sort(sortItem));
-    // } else {
-    //   notInitialRender.current = true;
-    // }
+  const sortModalHandler = () => {
+    setIsOpen((current) => !current);
+  };
 
-    searchParams.set("sort", selectedItem);
-      setSearchParams(searchParams);
-      dispatch(sort(sortItem));
-  }, [selectedItem]);
+  // useEffect(() => {
+  //   if (notInitialRender.current) {
+  //     //const _sortItem = searchParams.get("sort");
+  //     // console.log("_sortItem=", _sortItem, "selectedItem=", selectedItem);
+
+  //     searchParams.set("sort", selectedItem);
+  //     setSearchParams(searchParams);
+  //     dispatch(sort(Object.fromEntries([...searchParams])));
+  //   } else {
+  //     notInitialRender.current = true;
+  //   }
+  // }, [selectedItem]);
 
   return (
     <>
@@ -61,7 +56,7 @@ const Sort = () => {
             d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
           />
         </svg>
-        <span onClick={sortBoxHandler}>{selectedItem}</span>
+        <span onClick={sortModalHandler}>{selectedItem}</span>
         {isOpen && (
           <div className="flex flex-col lg:flex-row  z-10 inset-0 fixed bg-white p-4">
             <div className="flex justify-between items-center mb-8  ">
@@ -73,7 +68,7 @@ const Sort = () => {
                 strokeWidth="1.5"
                 stroke="currentColor"
                 className="w-6 h-6"
-                onClick={sortBoxHandler}
+                onClick={sortModalHandler}
               >
                 <path
                   strokeLinecap="round"
@@ -182,7 +177,7 @@ const Sort = () => {
                 name="sort"
                 value="Bestselling"
                 id="پرفروشترین"
-                onClick={sortBoxHandler}
+                onClick={sortModalHandler}
               />
               <label
                 className={` ${
