@@ -3,11 +3,10 @@ import Cart from "./Cart";
 
 import Filter from "./Filter";
 import NavBar from "./Navbar";
-import { useCart, useCartAction } from "../Providers/CartProvider";
-import { useProducts, useProductsActions } from "../Providers/ProductProvider";
+
 import { useSelector, useDispatch } from "react-redux";
 import Sort from "./Sort";
-import { addProductToCart } from "../Features/CartSlice";
+import { addProductToCart, saveToLocalStorage } from "../Features/CartSlice";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -18,18 +17,26 @@ const HomePage = () => {
   const _products = useSelector((state) => state.product);
   const dispatch = useDispatch();
   //const { cart } = useCart();
-  const {cart}  = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
 
-  const addProducttHandler = (_product) => {
+  const addProducttHandler = (prd) => {
     // toast.success(`${_product.name} به سبد خرید شما اضافه شد`);
     //dispatch({ type: "ADD_TO_CART", payload: _product });
-    dispatch(addProductToCart(_product))
-    localStorage.setItem("cart", JSON.stringify(_product));
+    dispatch(addProductToCart(prd));
+    //dispatch(saveToLocalStorage(cart))
+    //localStorage.setItem("cart", JSON.stringify(cart));
   };
+
+  useEffect(()=>{
+  if(cart.length>0)
+    //localStorage.setItem("cart", JSON.stringify(cart));
+    dispatch(saveToLocalStorage(cart))
+  },[cart])
 
   const checkInCart = (cart, product) => {
     return cart.find((item) => item.id === product.id);
   };
+
 
   return (
     <div className="flex items-center justify-center">

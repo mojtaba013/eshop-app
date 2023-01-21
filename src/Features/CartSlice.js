@@ -1,16 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { useEffect } from "react";
+import { json } from "react-router-dom";
 import { productsData } from "../data";
+
 const initialState = {
-    cart: [],
-    total: 0,
+  cart: JSON.parse(localStorage.getItem("cart")) || [],
+  total: 0,
 };
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addProductToCart: (state, action) => {
-      const updatedCart = [...state.cart]
-      const index = updatedCart.findIndex((item) => item.id === action.payload.id);
+      const updatedCart = [...state.cart];
+      const index = updatedCart.findIndex(
+        (item) => item.id === action.payload.id
+      );
 
       if (index < 0) {
         // updatedCart.push({ ...payload, quantity: 1 });
@@ -52,6 +58,7 @@ export const cartSlice = createSlice({
       } else {
         updatedItem.quantity--;
         updatedCart[index] = updatedItem;
+
         return {
           ...state,
           cart: updatedCart,
@@ -59,9 +66,18 @@ export const cartSlice = createSlice({
         };
       }
     },
+
+    saveToLocalStorage: (state, action) => {
+      localStorage.setItem("cart", JSON.stringify(action.payload));
+    },
   },
 });
 
-export const { addProductToCart, removeProductFromCart } = cartSlice.actions
+export const {
+  addProductToCart,
+  removeProductFromCart,
+  saveToLocalStorage,
+  getFromLocastorage,
+} = cartSlice.actions;
 
-export default cartSlice.reducer
+export default cartSlice.reducer;

@@ -22,8 +22,9 @@ const Filter = () => {
   const [price, setPrice] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
-  const notInitialRenderSize = useRef(false);
-  const notInitialRenderBrand = useRef(false);
+  const renderSize = useRef(false);
+  const renderBrand = useRef(false);
+  const renderPrice = useRef(false);
 
   const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -39,14 +40,17 @@ const Filter = () => {
     setIsShow((current) => !current);
   };
 
-  const removeFilters = () => {    
+  const removeFilters = () => {
     setSize([]);
     setBrand([]);
-    setPrice(0);
+    if (price === 0) {
+      searchParams.delete("price");
+    } else {
+      setPrice(0);
+    }
     dispatch(filter(""));
     searchParams.delete("sort");
     setSearchParams(searchParams);
-    //dispatch(sort({ sort: "ارزانترین" }));
     setIsShow((current) => !current);
   };
 
@@ -80,7 +84,7 @@ const Filter = () => {
   };
 
   useEffect(() => {
-    if (notInitialRenderSize.current) {
+    if (renderSize.current) {
       if (size.length === 0) {
         searchParams.delete("size", size);
         setSearchParams(searchParams);
@@ -89,12 +93,12 @@ const Filter = () => {
         setSearchParams(searchParams);
       }
     } else {
-      notInitialRenderSize.current = true;
+      renderSize.current = true;
     }
   }, [size]);
 
   useEffect(() => {
-    if (notInitialRenderBrand.current) {
+    if (renderBrand.current) {
       if (brand.length === 0) {
         searchParams.delete("brand", brand);
         setSearchParams(searchParams);
@@ -103,26 +107,32 @@ const Filter = () => {
         setSearchParams(searchParams);
       }
     } else {
-      notInitialRenderBrand.current = true;
+      renderBrand.current = true;
     }
   }, [brand]);
 
   useEffect(() => {
-    if (price > 0) {
-      searchParams.set("price", price);
-      setSearchParams(searchParams);
-    }
-    if (price <= 0) {
-      searchParams.delete("price");
-      setSearchParams(searchParams);
+    if (renderPrice.current) {
+      if (price > 0) {
+        searchParams.set("price", price);
+        setSearchParams(searchParams);
+      } else if (price <= 0) {
+        searchParams.delete("price");
+        setSearchParams(searchParams);
+      }
+    } else {
+      renderPrice.current = true;
     }
   }, [price]);
+
+  useEffect(() => {
+    dispatch(filter(filters));
+  }, []);
 
   const filters = Object.fromEntries([...searchParams]);
 
   const filterHandler = () => {
     const sortBy = searchParams.get("sort") || "ارزانترین";
-    console.log(sortBy);
     dispatch(filter(filters));
     dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
@@ -163,7 +173,7 @@ const Filter = () => {
                 className="text-red-500 cursor-pointer"
                 onClick={removeFilters}
               >
-               حذف فیلترها
+                حذف فیلترها
               </p>
             </div>
             {/* Size Menu */}

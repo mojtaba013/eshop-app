@@ -11,8 +11,7 @@ const LOCAL_STORAGE_AUTH_KEY = "authState";
 export const cartSlice = createSlice({
   name: "cart",
   initialState:false,
-  reducers: { 
-  
+  reducers: {   
   },
 
   

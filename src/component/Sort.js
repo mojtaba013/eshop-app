@@ -25,6 +25,10 @@ const Sort = () => {
     setIsOpen((current) => !current);
   };
 
+  useEffect(()=>{
+    dispatch(sort(Object.fromEntries([...searchParams])));
+  },[])
+
   // useEffect(() => {
   //   if (notInitialRender.current) {
   //     //const _sortItem = searchParams.get("sort");

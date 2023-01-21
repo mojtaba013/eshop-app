@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import { useAuth, useAuthAction } from "../Providers/AuthProvider";
 import { useCart } from "../Providers/CartProvider";
+import { getCartItems, getFromLocastorage } from "../Features/CartSlice";
 
 const Navigation = () => {
   const auth = localStorage.getItem("authstate") | false;
@@ -11,8 +12,11 @@ const Navigation = () => {
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
-  const {cart} = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
+  //const reference = useRef(0);
   
+  //const _cart = JSON.parse(localStorage.getItem("cart")).length;
+  const dispatch = useDispatch();
 
   const showCartmodal = () => {
     setIsOpen((c) => !c);

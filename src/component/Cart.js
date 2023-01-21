@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { addProductToCart, removeProductFromCart } from "../Features/CartSlice";
+import {
+  addProductToCart,
+  removeProductFromCart,
+  saveToLocalStorage,
+} from "../Features/CartSlice";
 import { useCart, useCartAction } from "../Providers/CartProvider";
 
 const Cart = ({ onCloseCartModal }) => {
-  const { cart, total } = useSelector(state=>state.cart);
+  const { cart, total } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   let nf = new Intl.NumberFormat();
+
+  useEffect(() => {
+    dispatch(saveToLocalStorage(cart));
+  }, [cart]);
+
   if (cart.length === 0)
     return <p className="text-center mt-4">سبد خرید شما خالی است</p>;
+
   const incrementHandler = (_product) => {
     dispatch(addProductToCart(_product));
   };

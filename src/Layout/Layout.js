@@ -1,6 +1,8 @@
 import Navigation from "../Navigation/Navigation";
 
 const Layout = ({ children }) => {
+
+  
   return (
     <div className=" ">
       <Navigation />
