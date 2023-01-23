@@ -6,12 +6,11 @@ import {
   removeProductFromCart,
   saveToLocalStorage,
 } from "../Features/CartSlice";
-import { useCart, useCartAction } from "../Providers/CartProvider";
 
 const Cart = ({ onCloseCartModal }) => {
   const { cart, total } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  let nf = new Intl.NumberFormat();
+  let priceFormat = new Intl.NumberFormat();
 
   useEffect(() => {
     dispatch(saveToLocalStorage(cart));
@@ -49,7 +48,7 @@ const Cart = ({ onCloseCartModal }) => {
                   </p>
                   <div className="flex items-center justify-between">
                     <p className="font-medium">
-                      {nf.format(product.price)} ریال
+                      {priceFormat.format(product.price)} ریال
                     </p>
                     <div className="flex p-2 gap-x-8 justify-between  items-center border-solid border  rounded-sm">
                       <span onClick={() => incrementHandler(product)}>
@@ -77,7 +76,7 @@ const Cart = ({ onCloseCartModal }) => {
                             viewBox="0 0 24 24"
                             strokeWidth="1.5"
                             stroke="rgb(239 68 68)"
-                            className="w-6 h-6"
+                            className="w-6 h-6 cursor-pointer"
                           >
                             <path
                               strokeLinecap="round"
@@ -114,7 +113,7 @@ const Cart = ({ onCloseCartModal }) => {
       <div className=" fixed  bottom-0 pb-2 flex flex-col px-4  bg-white     w-full  border-solid sm:w-[360px] md:w-[400px] lg:w-[500px]">
         <div className="flex justify-between items-center border-t-2 pb-4 pt-4">
           <span>جمع کل خرید</span>
-          <span>{nf.format(total)} ریال</span>
+          <span>{priceFormat.format(total)} ریال</span>
         </div>
         <NavLink to="/login">
           <button

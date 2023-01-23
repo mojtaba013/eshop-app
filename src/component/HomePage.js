@@ -13,7 +13,7 @@ import {
 } from "../Features/CartSlice";
 
 const HomePage = () => {
-  let nf = new Intl.NumberFormat();
+  let priceFormat = new Intl.NumberFormat();
   const _products = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
@@ -24,9 +24,27 @@ const HomePage = () => {
 
   const addProducttHandler = (prd) => {
     if (checkInCart(cart, prd)) {
-      console.log(prd.id);
       setProductCounter({ id: prd.id, display: true });
-    } else dispatch(addProductToCart(prd));
+     
+    }else dispatch(addProductToCart(prd));
+    
+  };
+
+  const displayProductCount = (prd) => {
+    if (checkInCart(cart, prd)) {
+      setProductCounter({ id: prd.id, display: true });
+      setTimeout(() => {
+        setProductCounter({ id: "", display: false });
+      }, 5000);
+    }
+  };
+
+  const deleteFromCart = (prd) => {
+    const _product = cart.find((f) => f.id === prd.id) || "";
+    if (_product !== "") {
+      if (_product.quantity === 1) reset();
+      dispatch(removeProductFromCart(_product));
+    }
   };
 
   const reset = () => {
@@ -36,10 +54,6 @@ const HomePage = () => {
   useEffect(() => {
     if (cart.length > 0) dispatch(saveToLocalStorage(cart));
   }, [cart]);
-
-  // useEffect(()=>{
-  //   setProductCounter({ id: "", display: false });
-  // },[productCouter])
 
   const checkInCart = (cart, product) => {
     return cart.find((item) => item.id === product.id);
@@ -102,7 +116,7 @@ const HomePage = () => {
                     </div>
                     <div className="relative flex justify-between items-center  text-sm   font-medium text-slate-800">
                       <div className="">
-                        <span> {nf.format(product.price)}</span>
+                        <span> {priceFormat.format(product.price)}</span>
                         <span>ریال</span>
                       </div>
 
@@ -131,14 +145,11 @@ const HomePage = () => {
                               </svg>
                             </span>
                             <span className="text-red-500">
-                              {product.quantity}
+                              {cart.find((c) => c.id === product.id).quantity}
                             </span>
-                            <span
-                              onClick={() =>
-                                dispatch(removeProductFromCart(product))
-                              }
-                            >
-                              {product.quantity > 1 ? (
+                            <span onClick={() => deleteFromCart(product)}>
+                              {cart.find((c) => c.id === product.id).quantity >
+                              1 ? (
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -182,6 +193,7 @@ const HomePage = () => {
                       <button
                         id={product.id}
                         onClick={() => addProducttHandler(product)}
+                        onMouseOver={() => displayProductCount(product)}
                         className=" rounded-full w-6 h-6 flex items-center justify-center bg-red-500  text-white z-[1000]"
                       >
                         {checkInCart(cart, product) ? (
@@ -217,8 +229,6 @@ const HomePage = () => {
                             />
                           </svg>
                         )}
-
-                        {/* {checkInCart(cart,product)?"incart":"add"} */}
                       </button>
                     </div>
                   </div>

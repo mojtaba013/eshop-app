@@ -41,11 +41,11 @@ export const cartSlice = createSlice({
 
     removeProductFromCart: (state, action) => {
       const updatedCart = [...state.cart];
-
       const index = updatedCart.findIndex(
         (item) => item.id === action.payload.id
       );
       const updatedItem = { ...updatedCart[index] };
+      console.log(updatedItem);
       if (updatedItem.quantity === 1) {
         const filteredCart = updatedCart.filter(
           (item) => item.id !== action.payload.id
@@ -58,7 +58,6 @@ export const cartSlice = createSlice({
       } else {
         updatedItem.quantity--;
         updatedCart[index] = updatedItem;
-
         return {
           ...state,
           cart: updatedCart,

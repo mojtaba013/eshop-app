@@ -8,15 +8,11 @@ import { getCartItems, getFromLocastorage } from "../Features/CartSlice";
 
 const Navigation = () => {
   const auth = localStorage.getItem("authstate") | false;
-  //const setAuth=useAuthAction();
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
   const { cart } = useSelector((state) => state.cart);
-  //const reference = useRef(0);
-  
-  //const _cart = JSON.parse(localStorage.getItem("cart")).length;
-  const dispatch = useDispatch();
+ 
 
   const showCartmodal = () => {
     setIsOpen((c) => !c);
@@ -60,7 +56,7 @@ const Navigation = () => {
                 onClick={showCartmodal}
                 className={`${
                   isOpen
-                    ? "fixed inset-0 z-[999] opacity-80 sm:bg-slate-800"
+                    ? "fixed inset-0 z-[1001] opacity-80 sm:bg-slate-800"
                     : ""
                 }`}
               ></div>

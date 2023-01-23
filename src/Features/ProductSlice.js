@@ -6,31 +6,6 @@ export const productSlice = createSlice({
   name: "product",
   initialState: productsData,
   reducers: {
-    increment: (state, action) => {
-      const UpdatesProducts = [...state];
-      const index = state.findIndex((item) => item.id === action.id);
-      const _product = { ...state[index] };
-      _product.quantity++;
-      UpdatesProducts[index] = _product;
-      return UpdatesProducts;
-    },
-    decrement: (state, action) => {
-      const index = state.findIndex((item) => item.id === action.id);
-      const _product = { ...state[index] };
-      if (_product.quantity === 1) {
-        const filterdProducts = state.filter((p) => p.id !== action.id);
-        return filterdProducts;
-      } else {
-        _product.quantity--;
-        const UpdatesProducts = [...state];
-        UpdatesProducts[index] = _product;
-        return UpdatesProducts;
-      }
-    },
-    remove: (state, action) => {
-      const filterdProducts = state.filter((p) => p.id !== action.id);
-      return filterdProducts;
-    },
     filter: (state, action) => {
       const filterItems = [action.payload];
       if (filterItems === "") return productsData;
