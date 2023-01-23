@@ -25,17 +25,12 @@ const HomePage = () => {
   const addProducttHandler = (prd) => {
     if (checkInCart(cart, prd)) {
       setProductCounter({ id: prd.id, display: true });
-     
-    }else dispatch(addProductToCart(prd));
-    
+    } else dispatch(addProductToCart(prd));
   };
 
   const displayProductCount = (prd) => {
     if (checkInCart(cart, prd)) {
       setProductCounter({ id: prd.id, display: true });
-      setTimeout(() => {
-        setProductCounter({ id: "", display: false });
-      }, 5000);
     }
   };
 
@@ -123,7 +118,14 @@ const HomePage = () => {
                       {productCouter.id === product.id &&
                       productCouter.display ? (
                         <>
-                          <div className="flex absolute left-0 -top-1 w-24 h-8 bg-white justify-between  items-center border-solid border  rounded-sm z-[1001]">
+                          <div
+                            onMouseLeave={() =>
+                              setTimeout(() => {
+                                reset();
+                              }, 50)
+                            }
+                            className="flex absolute left-0 -top-1 w-24 h-8 bg-white justify-between  items-center border-solid border  rounded-sm z-[1001]"
+                          >
                             <span
                               onClick={() =>
                                 dispatch(addProductToCart(product))
@@ -184,7 +186,7 @@ const HomePage = () => {
                           </div>
                           <div
                             onClick={reset}
-                            className="fixed inset-0 z-[999]"
+                            className="fixed inset-0 z-[0]"
                           ></div>
                         </>
                       ) : (

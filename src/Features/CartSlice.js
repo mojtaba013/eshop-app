@@ -45,7 +45,6 @@ export const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       const updatedItem = { ...updatedCart[index] };
-      console.log(updatedItem);
       if (updatedItem.quantity === 1) {
         const filteredCart = updatedCart.filter(
           (item) => item.id !== action.payload.id
