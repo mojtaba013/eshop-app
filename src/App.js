@@ -11,23 +11,27 @@ import Checkout from "./component/Checkout";
 import Test from "./component/Test";
 import { Provider } from "react-redux";
 import { store } from "./Features/store";
+import Favorites from "./component/Favorites";
+import { Counter } from "./component/Counter";
 
 function App() {
  
   return (
-    <div className="">
+    <div className=""> 
       <BrowserRouter>
-        <Provider store={store}>
+       
           <Layout>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/counter" element={<Counter />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/favorites" element={<Favorites />} />
               <Route path="/test" element={<Test />} />
             </Routes>
           </Layout>
-        </Provider>
+        
       </BrowserRouter>
     </div>
   );

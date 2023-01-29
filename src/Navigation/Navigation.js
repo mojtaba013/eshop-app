@@ -56,7 +56,7 @@ const Navigation = () => {
                 onClick={showCartmodal}
                 className={`${
                   isOpen
-                    ? "fixed inset-0 z-[1001] opacity-80 sm:bg-slate-800"
+                    ? "fixed inset-0 z-[1001] cursor-pointer opacity-80 sm:bg-slate-800"
                     : ""
                 }`}
               ></div>

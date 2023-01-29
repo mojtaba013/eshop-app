@@ -1,15 +1,20 @@
-import { addListener, createSlice } from "@reduxjs/toolkit";
-import { object } from "yup";
+import { createSlice } from "@reduxjs/toolkit";
+
 import { productsData } from "../data";
+
+const initialState = {
+  x: productsData,
+  myfavorite: JSON.parse(localStorage.getItem("favorites")),
+ 
+};
 
 export const productSlice = createSlice({
   name: "product",
-  initialState: productsData,
+  initialState,
   reducers: {
-    filter: (state, action) => {
+    filterProducts: (state, action) => {
       const filterItems = [action.payload];
-      if (filterItems === "") return productsData;
-      const filteredProducts = productsData.filter((product) => {
+      const filteredProducts = state.x.filter((product) => {
         return filterItems.some((item) => {
           return !Object.keys(item).some((key) => {
             if (key === "size" || key === "brand")
@@ -19,29 +24,26 @@ export const productSlice = createSlice({
           });
         });
       });
-      return filteredProducts;
+      state.x = filteredProducts;
+    },
+
+    displayAllProducts: (state) => {
+      state.x = initialState.x;
     },
     sort: (state, action) => {
       const sortBy = action.payload.sort;
-      const allProducts = [...state];
+      const allProducts = state.x;
       if (sortBy === "ارزانترین") {
-        const sortedProducts = allProducts.sort(
-          (a, b) => parseFloat(a.price) - parseFloat(b.price)
-        );
-        return sortedProducts;
+        allProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
       } else if (sortBy === "گرانترین") {
-        const sortedProducts = allProducts.sort(
-          (a, b) => parseFloat(b.price) - parseFloat(a.price)
-        );
-        return sortedProducts;
+        allProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
       }
-      return allProducts;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, remove, filter, sort } =
+export const { filterProducts, sort, displayAllProducts } =
   productSlice.actions;
 
 export default productSlice.reducer;

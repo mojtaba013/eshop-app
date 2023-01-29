@@ -6,7 +6,7 @@ import { useProductsActions } from "../Providers/ProductProvider";
 import { object } from "yup";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { filter, sort } from "../Features/ProductSlice";
+import { displayAllProducts, filterProducts, sort } from "../Features/ProductSlice";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -48,7 +48,8 @@ const Filter = () => {
     } else {
       setPrice(0);
     }
-    dispatch(filter(""));
+    //dispatch(filterProducts(""));
+    dispatch(displayAllProducts());
     searchParams.delete("sort");
     setSearchParams(searchParams);
     setIsShow((current) => !current);
@@ -125,15 +126,16 @@ const Filter = () => {
     }
   }, [price]);
 
-  useEffect(() => {
-    dispatch(filter(filters));
+  useEffect(() => {   
+    if(Object.keys(filters).length !== 0)
+    dispatch(filterProducts(filters));
   }, []);
 
   const filters = Object.fromEntries([...searchParams]);
 
   const filterHandler = () => {
     const sortBy = searchParams.get("sort") || "ارزانترین";
-    dispatch(filter(filters));
+    dispatch(filterProducts(filters));
     dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
   };

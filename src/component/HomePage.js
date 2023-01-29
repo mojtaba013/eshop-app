@@ -1,9 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import Cart from "./Cart";
-
+import { useEffect, useState } from "react";
 import Filter from "./Filter";
-import NavBar from "./Navbar";
-
 import { useSelector, useDispatch } from "react-redux";
 import Sort from "./Sort";
 import {
@@ -12,10 +8,16 @@ import {
   saveToLocalStorage,
 } from "../Features/CartSlice";
 
-const HomePage = () => {
+
+const HomePage = () => {  
   let priceFormat = new Intl.NumberFormat();
-  const _products = useSelector((state) => state.product);
+  const allProducts = useSelector((state) => state.product.x);
+  
+  console.log("allProducts",allProducts);
+  
+  //const db = useSelector((state) => state.product);
   const dispatch = useDispatch();
+  const [favorite, setFavorite] = useState([]);
   const { cart } = useSelector((state) => state.cart);
   const [productCouter, setProductCounter] = useState({
     id: "",
@@ -46,9 +48,30 @@ const HomePage = () => {
     setProductCounter({ id: "", display: false });
   };
 
+  const favoriteHandler = (product) => {
+    // let _favorite = [];
+    // if (checkInFavorites(product)) {
+    //   _favorite = JSON.parse(localStorage.getItem("favorites")).filter(
+    //     (f) => f.id !== product.id
+    //   );
+    //   setFavorite(_favorite);
+    // } else setFavorite((prev) => [...prev, product]);
+    console.log("db");
+  };
+
+  const checkInFavorites = (product) => {
+    const favorites = JSON.parse(localStorage.getItem("favorites"));
+    return favorites.find((item) => item.id === product.id);
+  };
+
   useEffect(() => {
     if (cart.length > 0) dispatch(saveToLocalStorage(cart));
   }, [cart]);
+
+  useEffect(() => {
+    if (favorite.length > 0)
+      localStorage.setItem("favorites", JSON.stringify(favorite));
+  }, [favorite]);
 
   const checkInCart = (cart, product) => {
     return cart.find((item) => item.id === product.id);
@@ -68,13 +91,31 @@ const HomePage = () => {
             <Sort />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 ">
-            {_products.map((product) => {
+            {allProducts.map((product) => {
               //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
               return (
                 <div
                   className="flex w-full sm:flex-col   md:p-4 border-solid border lg:hover:shadow-[0_2px_8px_0_rgba(0,0,0,0.2)] cursor-pointer"
                   key={product.id}
                 >
+                  <div onClick={() => favoriteHandler(product)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill={`${checkInFavorites(product) ? "red" : "white"}`}
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke={`${
+                        checkInFavorites(product) ? "" : "rgb(107 114 128 / 1)"
+                      }`}
+                      className="w-6 h-6 "
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      />
+                    </svg>
+                  </div>
                   <div className="flex justify-center items-center w-36  xs:w-48 sm:w-full md:aspect-w-3 md:aspect-h-2">
                     <img
                       className="w-full h-auto object-cover "
