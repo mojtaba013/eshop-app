@@ -7,15 +7,12 @@ import {
   removeProductFromCart,
   saveToLocalStorage,
 } from "../Features/CartSlice";
+import { createSearchParams, Navigate, useNavigate } from "react-router-dom";
 
-
-const HomePage = () => {  
+const HomePage = () => {
   let priceFormat = new Intl.NumberFormat();
   const allProducts = useSelector((state) => state.product.x);
-  
-  console.log("allProducts",allProducts);
-  
-  //const db = useSelector((state) => state.product);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [favorite, setFavorite] = useState([]);
   const { cart } = useSelector((state) => state.cart);
@@ -25,6 +22,7 @@ const HomePage = () => {
   });
 
   const addProducttHandler = (prd) => {
+    //stopParentClick();
     if (checkInCart(cart, prd)) {
       setProductCounter({ id: prd.id, display: true });
     } else dispatch(addProductToCart(prd));
@@ -36,7 +34,8 @@ const HomePage = () => {
     }
   };
 
-  const deleteFromCart = (prd) => {
+  const deleteFromCart = (e, prd) => {
+    e.stopPropagation();
     const _product = cart.find((f) => f.id === prd.id) || "";
     if (_product !== "") {
       if (_product.quantity === 1) reset();
@@ -77,6 +76,20 @@ const HomePage = () => {
     return cart.find((item) => item.id === product.id);
   };
 
+  const goToProductDetail = (product) => {
+    navigate(
+      {
+        pathname: "/productdetail",
+        search: createSearchParams({ name: product.name }).toString(),
+      },
+      { state: product }
+    );
+  };
+
+  const stopParentClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="container   max-w-screen-xl m-auto w-full flex  justify-center items-start px-2 xl:px-0 gap-4">
@@ -95,6 +108,7 @@ const HomePage = () => {
               //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
               return (
                 <div
+                  onClick={() => goToProductDetail(product)}
                   className="flex w-full sm:flex-col   md:p-4 border-solid border lg:hover:shadow-[0_2px_8px_0_rgba(0,0,0,0.2)] cursor-pointer"
                   key={product.id}
                 >
@@ -160,6 +174,7 @@ const HomePage = () => {
                       productCouter.display ? (
                         <>
                           <div
+                            onClick={(e) => stopParentClick(e)}
                             onMouseLeave={() =>
                               setTimeout(() => {
                                 reset();
@@ -190,7 +205,7 @@ const HomePage = () => {
                             <span className="text-red-500">
                               {cart.find((c) => c.id === product.id).quantity}
                             </span>
-                            <span onClick={() => deleteFromCart(product)}>
+                            <span onClick={(e) => deleteFromCart(e, product)}>
                               {cart.find((c) => c.id === product.id).quantity >
                               1 ? (
                                 <svg
@@ -235,7 +250,10 @@ const HomePage = () => {
                       )}
                       <button
                         id={product.id}
-                        onClick={() => addProducttHandler(product)}
+                        onClick={(e) => {
+                          stopParentClick(e);
+                          addProducttHandler(product);
+                        }}
                         onMouseOver={() => displayProductCount(product)}
                         className=" rounded-full w-6 h-6 flex items-center justify-center bg-red-500  text-white z-[1000]"
                       >

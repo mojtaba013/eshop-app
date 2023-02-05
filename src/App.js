@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Layout from "./Layout/Layout";
 import HomePage from "./component/HomePage";
@@ -13,25 +13,25 @@ import { Provider } from "react-redux";
 import { store } from "./Features/store";
 import Favorites from "./component/Favorites";
 import { Counter } from "./component/Counter";
+import ProductDetail from "./component/ProductDetail";
 
 function App() {
- 
   return (
-    <div className=""> 
+    <div className="">
       <BrowserRouter>
-       
-          <Layout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/counter" element={<Counter />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/test" element={<Test />} />
-            </Routes>
-          </Layout>
-        
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/productdetail" element={<ProductDetail />} />
+            <Route path="/counter" element={<Counter />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/favorites" element={<Favorites />} />
+            
+            <Route path="/test" element={<Test />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </div>
   );
