@@ -1,9 +1,14 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import checkInCart from "../common/CheckInCart";
+import { addProductToCart, removeProductFromCart } from "../Features/CartSlice";
 
 const ProductDetail = () => {
   const location = useLocation();
   const product = location.state;
   let priceFormat = new Intl.NumberFormat();
+  const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   return (
     <div className="flex items-center justify-center  ">
@@ -117,17 +122,49 @@ const ProductDetail = () => {
               <span className="text-sm">قیمت</span>
               <span>{priceFormat.format(product.price)} ریال</span>
             </div>
-            <button className="bg-red-500 w-full rounded-lg px-4 py-2 text-sm text-white">
-               اضافه به سبد خرید
-            </button>
+
+            {checkInCart(cart, product) ? (
+              <button
+                onClick={() => dispatch(removeProductFromCart(product))}
+                className="bg-white border transition-all ease-in-out duration-300 font-bold border-red-500 w-full rounded-lg px-4 py-2 text-sm text-red-500"
+              >
+                {" "}
+                حذف از سبد خرید{" "}
+              </button>
+            ) : (
+              <button
+                onClick={() => dispatch(addProductToCart(product))}
+                className="bg-red-500 border transition-all ease-in-out duration-300 border-red-500 w-full rounded-lg px-4 py-2 text-sm text-white"
+              >
+                {" "}
+                اضافه به سبد خرید{" "}
+              </button>
+            )}
           </div>
         </div>
       </div>{" "}
       {/* mobile Mode */}
       <div className="flex justify-between items-center bg-white z-10 fixed bottom-0 border-t-2 w-full p-4 md:hidden">
-        <button className="bg-red-500 rounded-lg px-4 py-2 text-sm text-white">
+        {/* <button className="bg-red-500 rounded-lg px-4 py-2 text-sm text-white">
           اضافه به سبد خرید
-        </button>
+        </button> */}
+        {checkInCart(cart, product) ? (
+          <button
+            onClick={() => dispatch(removeProductFromCart(product))}
+            className="bg-white border  border-red-500 transition-all ease-in-out duration-300 rounded-lg px-4 py-2 text-sm font-bold text-red-500"
+          >
+            {" "}
+            حذف از سبد خرید{" "}
+          </button>
+        ) : (
+          <button
+            onClick={() => dispatch(addProductToCart(product))}
+            className="bg-red-500 border border-red-500 transition-all ease-in-out duration-300 rounded-lg px-4 py-2 text-sm text-white "
+          >
+            {" "}
+            اضافه به سبد خرید{" "}
+          </button>
+        )}
         <span>{priceFormat.format(product.price)} ریال</span>
       </div>
     </div>

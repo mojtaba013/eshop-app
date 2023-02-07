@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useEffect } from "react";
-import { json } from "react-router-dom";
-import { productsData } from "../data";
+
 
 const initialState = {
   cart: JSON.parse(localStorage.getItem("cart")) || [],

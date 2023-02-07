@@ -6,7 +6,11 @@ import { useProductsActions } from "../Providers/ProductProvider";
 import { object } from "yup";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { displayAllProducts, filterProducts, sort } from "../Features/ProductSlice";
+import {
+  displayAllProducts,
+  filterProducts,
+  sort,
+} from "../Features/ProductSlice";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -15,6 +19,7 @@ const initialState = [
 ];
 
 const Filter = () => {
+  let priceFormat = new Intl.NumberFormat();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [size, setSize] = useState([]);
@@ -126,9 +131,8 @@ const Filter = () => {
     }
   }, [price]);
 
-  useEffect(() => {   
-    if(Object.keys(filters).length !== 0)
-    dispatch(filterProducts(filters));
+  useEffect(() => {
+    if (Object.keys(filters).length !== 0) dispatch(filterProducts(filters));
   }, []);
 
   const filters = Object.fromEntries([...searchParams]);
@@ -322,7 +326,7 @@ const Filter = () => {
         )}
       </div>
       {/* Desktop plan */}
-      <div className="  hidden lg:flex lg:flex-col mb-4  p-2  ">
+      <div className="    hidden lg:flex lg:flex-col mb-4  p-2  ">
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">
             <p className="">فیلترها</p>
@@ -462,7 +466,7 @@ const Filter = () => {
                   />
                   <div className="flex justify-between items-center">
                     <p>از 0</p>
-                    <p>تا {price} ریال</p>
+                    <p>تا {priceFormat.format(price)} ریال</p>
                   </div>
                 </div>
               </div>

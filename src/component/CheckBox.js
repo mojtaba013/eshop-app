@@ -1,5 +1,5 @@
 const CheckBox = ({ _onclick, filters, _value, id }) => {
-  let isChecked=false;
+  let isChecked=false;  
   if(filters)
   isChecked= Object.values(filters).some((i) =>
           i.split(",").some((x) => x === _value)
