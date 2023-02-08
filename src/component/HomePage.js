@@ -93,7 +93,7 @@ const HomePage = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="container   max-w-screen-xl m-auto w-full flex  justify-center items-start px-2 xl:px-0 gap-4">
-        <section className="sticky top-[86px]  border-solid border-2 rounded-sm  hidden lg:block lg:w-1/4">
+        <section className="lg:sticky lg:top-[86px]   border-solid border-2 rounded-sm  hidden lg:block lg:w-1/4">
           <Filter />
         </section>
         <div className="flex flex-col w-full  lg:w-3/4 mb-4">

@@ -147,7 +147,7 @@ const Filter = () => {
   return (
     <>
       {/* mobile plan */}
-      <div className="flex mb-4 lg:hidden">
+      <div className="flex mb-4  lg:hidden">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -165,7 +165,7 @@ const Filter = () => {
 
         <span onClick={openFilterPageHandler}>فیلترها</span>
         {isShow && (
-          <div className=" p-4  bg-white  fixed overflow-scroll inset-0 z-10  w-full  ">
+          <div className=" p-4  bg-white  fixed overflow-scroll z-[1004] inset-0   w-full  ">
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>

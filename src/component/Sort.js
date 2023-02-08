@@ -62,7 +62,7 @@ const Sort = () => {
         </svg>
         <span onClick={sortModalHandler}>{selectedItem}</span>
         {isOpen && (
-          <div className="flex flex-col lg:flex-row  z-10 inset-0 fixed bg-white p-4">
+          <div className="flex flex-col lg:flex-row  z-[1004] inset-0 fixed bg-white p-4">
             <div className="flex justify-between items-center mb-8  ">
               <span className="font-medium ">مرتب سازی بر اساس :</span>
               <svg

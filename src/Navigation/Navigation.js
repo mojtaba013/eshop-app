@@ -7,7 +7,7 @@ const Navigation = () => {
   const auth = localStorage.getItem("authstate") | false;
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [showMenu,setShowMenu]=useState(false)
+  const [showMenu, setShowMenu] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
   const { cart } = useSelector((state) => state.cart);
 
@@ -25,14 +25,53 @@ const Navigation = () => {
     _navigate("/signup");
   };
 
+  const showMenuHandler = () => {
+    setShowMenu((prev) => !prev);
+  };
+
   return (
     <div className="sticky top-0 bg-white z-[1002] border-b-2   mb-7 ">
       {/* mobile mode */}
       <div className=" flex flex-col  py-2 px-2  justify-between items-center lg:hidden">
-        <div className="flex items-center justify-between w-full ">
-          <p>menu</p>
+        <div className="flex items-center justify-between w-full mb-4 pt-1 border-b border-slate-200 pb-2">
+          <div onClick={showMenuHandler}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </div>
+          <div
+            onClick={showMenuHandler}
+            className={`${
+              showMenu
+                ? "fixed inset-0 z-[1001] cursor-pointer opacity-80 bg-slate-800"
+                : ""
+            }`}
+          ></div>
+          <div
+            className={` ${
+              showMenu
+                ? "fixed overflow-y-auto overflow-x-hidden top-0 right-0 left-5   h-full w-[calc(100vw_-_10vw)]   z-[9999] transition-all duration-500 ease-in-out  bg-white"
+                : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 "
+            }   `}
+          >
+            
+          </div>
+
           <NavLink to="/">
-            <p className="font-bold cursor-pointer text-red-500">فروشگاه</p>
+            <p className="font-bold text-sm cursor-pointer text-red-500">
+              فروشگاه
+            </p>
           </NavLink>
         </div>
         <div className="flex justify-between items-center w-full gap-x-1">
@@ -40,7 +79,7 @@ const Navigation = () => {
             <input
               type="text"
               placeholder="جستجو"
-              className="bg-gray-100 border-0 rounded-lg  w-3/4 outline-0"
+              className="bg-gray-100 border-0 rounded-lg h-8 text-sm  w-3/4 outline-0"
             />
           </div>
           <div className="flex ">
@@ -208,7 +247,10 @@ const Navigation = () => {
                 />
               </svg>
             </NavLink>
-            <div onClick={()=>setShowMenu(prev=>!prev)} className="cursor-pointer">
+            <div
+              onClick={() => setShowMenu((prev) => !prev)}
+              className="cursor-pointer"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -224,9 +266,13 @@ const Navigation = () => {
                 />
               </svg>
             </div>
-            {
-              showMenu?<div className="fixed z-10 top-14 right-10 bottom-10 left-10  bg-red-300 transition-all ease-in-out duration-700">yes</div>:""
-            }
+            {showMenu ? (
+              <div className="fixed z-10 top-14 right-10 bottom-10 left-10  bg-red-300 transition-all ease-in-out duration-700">
+                yes
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="w-full">
             <input
