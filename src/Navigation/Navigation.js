@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
+import Chevron from "../component/Chevron";
 
 const Navigation = () => {
   const auth = localStorage.getItem("authstate") | false;
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
+  const [chevron, setChevron] = useState([]);
   const { cart } = useSelector((state) => state.cart);
 
   const showCartmodal = () => {
@@ -27,6 +30,25 @@ const Navigation = () => {
 
   const showMenuHandler = () => {
     setShowMenu((prev) => !prev);
+  };
+
+  const chevronHandler = (e) => {
+    const id = e.currentTarget.id;
+    const updateState = [...chevron];
+    const index = chevron.findIndex((item) => item.id === id);
+    console.log(index);
+    if (index < 0) {
+      setChevron((prev) => [...prev, { id, isopen: true }]);
+    } else {
+      const selectedItem = { ...chevron[index] };
+      selectedItem.isopen = !selectedItem.isopen;
+      updateState[index] = selectedItem;
+      setChevron(updateState);
+    }
+  };
+
+  const searchHandler = () => {
+    setShowSearch((prev) => !prev);
   };
 
   return (
@@ -61,11 +83,86 @@ const Navigation = () => {
           <div
             className={` ${
               showMenu
-                ? "fixed overflow-y-auto overflow-x-hidden top-0 right-0 left-5   h-full w-[calc(100vw_-_10vw)]   z-[9999] transition-all duration-500 ease-in-out  bg-white"
-                : "fixed top-0 -right-full bg-white w-full  h-full transition-all duration-300 "
+                ? "fixed pt-4 overflow-y-auto overflow-x-hidden top-0 right-0 left-5   h-full w-[calc(100vw_-_10vw)]   z-[9999] transition-all duration-500 ease-in-out  bg-white"
+                : "fixed pt-4 top-0 -right-full bg-white w-full  h-full transition-all duration-300 "
             }   `}
           >
-            
+            <div className="px-2 mb-4">
+              <p className="border-b py-4 border-slate-300  font-bold">
+                دسته بندی کالاها
+              </p>
+            </div>
+
+            <ul className="flex flex-col gap-y-3 p-2 text-sm">
+              <li
+                id="mobile"
+                onClick={chevronHandler}
+                className="flex flex-col "
+              >
+                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                  {" "}
+                  <p>موبایل</p>
+                  <Chevron filterState={chevron} Section={"mobile"} />
+                </div>
+                {chevron.some((i) => i.id === "mobile") &&
+                chevron.find((i) => i.id === "mobile").isopen ? (
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                    <NavLink to="/">اپل</NavLink>
+                    <NavLink>سامسونگ</NavLink>
+                    <NavLink>شیائومی</NavLink>
+                    <NavLink>هواوی</NavLink>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </li>
+              <li
+                id="digitalProduct"
+                onClick={chevronHandler}
+                className="flex flex-col "
+              >
+                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                  {" "}
+                  <p>کالای دیجیتال</p>
+                  <Chevron filterState={chevron} Section={"digitalProduct"} />
+                </div>
+                {chevron.some((i) => i.id === "digitalProduct") &&
+                chevron.find((i) => i.id === "digitalProduct").isopen ? (
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                    <NavLink to="/">تلویزیون</NavLink>
+                    <NavLink>ساعت هوشمند</NavLink>
+                    <NavLink>دوربین</NavLink>
+                    <NavLink>لپ تاپ</NavLink>
+                    <NavLink>هدفون هدست و هندزفری</NavLink>
+                    <NavLink>هارد فلش و SSD</NavLink>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </li>
+              <li
+                id="behdasht"
+                onClick={chevronHandler}
+                className="flex flex-col "
+              >
+                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                  {" "}
+                  <p>موبایل</p>
+                  <Chevron filterState={chevron} Section={"behdasht"} />
+                </div>
+                {chevron.some((i) => i.id === "behdasht") &&
+                chevron.find((i) => i.id === "behdasht").isopen ? (
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                    <NavLink to="/">لوازم آرایشی</NavLink>
+                    <NavLink>مراقبت پوست و مو</NavLink>
+                    <NavLink>عطر و ادکلن</NavLink>
+                    <NavLink>لوازم بهداشتی</NavLink>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </li>
+            </ul>
           </div>
 
           <NavLink to="/">
@@ -74,14 +171,56 @@ const Navigation = () => {
             </p>
           </NavLink>
         </div>
+
         <div className="flex justify-between items-center w-full gap-x-1">
-          <div className="w-full">
-            <input
+          <div onClick={searchHandler} className="">
+            {/* <input
+              onClick={searchHandler}
               type="text"
               placeholder="جستجو"
               className="bg-gray-100 border-0 rounded-lg h-8 text-sm  w-3/4 outline-0"
-            />
+            /> */}
+            <span></span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
           </div>
+          {showSearch ? (
+            <div className=" fixed  bg-white z-[100] bottom-0 right-0 left-0 p-4  h-full translate-y-0  duration-500">
+              <div className="flex   items-center   justify-between border-b border-blue-400 py-2 gap-x-2 ">
+                <p onClick={searchHandler} className="">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5 text-slate-800"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                </p>
+                <input type="text" placeholder="جستجو" className="text-sm border-none w-full" />
+              </div>
+            </div>
+          ) : (
+            <div className="fixed bg-white z-[100] bottom-0 right-0 left-0 h-0   translate-y-full  duration-500 "></div>
+          )}
           <div className="flex ">
             <div
               onClick={showCartmodal}
