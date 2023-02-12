@@ -10,6 +10,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [backdrop, setBackdrop] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
   const [chevron, setChevron] = useState([]);
   const { cart } = useSelector((state) => state.cart);
@@ -49,7 +50,12 @@ const Navigation = () => {
 
   const searchHandler = () => {
     setShowSearch((prev) => !prev);
+    setBackdrop(true);
   };
+
+  useEffect(() => {
+    if (!showSearch) setTimeout(() => setBackdrop(false), 500);
+  }, [showSearch]);
 
   return (
     <div className="sticky top-0 bg-white z-[1002] border-b-2   mb-7 ">
@@ -196,8 +202,9 @@ const Navigation = () => {
               />
             </svg>
           </div>
+
           {showSearch ? (
-            <div className=" fixed  bg-white z-[100] bottom-0 right-0 left-0 p-4  h-full translate-y-0  duration-500">
+            <div className=" fixed bg-white  z-[100] bottom-0 right-0 left-0 p-4  h-full translate-y-0  duration-300">
               <div className="flex   items-center   justify-between border-b border-blue-400 py-2 gap-x-2 ">
                 <p onClick={searchHandler} className="">
                   <svg
@@ -215,11 +222,20 @@ const Navigation = () => {
                     />
                   </svg>
                 </p>
-                <input type="text" placeholder="جستجو" className="text-sm border-none w-full" />
+                <input
+                  type="text"
+                  placeholder="جستجو"
+                  className="text-sm border-none w-full"
+                />
               </div>
             </div>
           ) : (
             <div className="fixed bg-white z-[100] bottom-0 right-0 left-0 h-0   translate-y-full  duration-500 "></div>
+          )}
+          {backdrop ? (
+            <div className="fixed z-[99] bg-slate-600 opacity-50 bottom-0 right-0 left-0 h-full  "></div>
+          ) : (
+            ""
           )}
           <div className="flex ">
             <div
