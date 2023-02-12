@@ -22,6 +22,7 @@ const Filter = () => {
   let priceFormat = new Intl.NumberFormat();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
+  const [backdrop, setBackdrop] = useState(false);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
   const [price, setPrice] = useState(0);
@@ -144,11 +145,14 @@ const Filter = () => {
     setIsShow((current) => !current);
   };
 
+ 
+
   return (
     <>
       {/* mobile plan */}
       <div className="flex mb-4  lg:hidden">
-        <svg
+     <div className="flex" onClick={openFilterPageHandler}>
+     <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -163,9 +167,17 @@ const Filter = () => {
           />
         </svg>
 
-        <span onClick={openFilterPageHandler}>فیلترها</span>
-        {isShow && (
-          <div className=" p-4  bg-white  fixed overflow-scroll z-[1004] inset-0   w-full  ">
+        <span >فیلترها</span>
+     </div>
+     
+        {
+          <div
+            className={`fixed bg-white  z-[1004] bottom-0 right-0 left-0 p-4 ${
+              isShow
+                ? "h-full translate-y-0  duration-500"
+                : "h-0   translate-y-full  duration-500"
+            }  `}
+          >
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
@@ -323,7 +335,7 @@ const Filter = () => {
               </button>
             </div>
           </div>
-        )}
+        }
       </div>
       {/* Desktop plan */}
       <div className="    hidden lg:flex lg:flex-col mb-4  p-2  ">
