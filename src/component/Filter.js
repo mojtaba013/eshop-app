@@ -22,7 +22,6 @@ const Filter = () => {
   let priceFormat = new Intl.NumberFormat();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
-  const [backdrop, setBackdrop] = useState(false);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
   const [price, setPrice] = useState(0);
@@ -139,9 +138,10 @@ const Filter = () => {
   const filters = Object.fromEntries([...searchParams]);
 
   const filterHandler = () => {
+    console.log("clicked",filters);
     const sortBy = searchParams.get("sort") || "ارزانترین";
     dispatch(filterProducts(filters));
-    dispatch(sort({ sort: sortBy }));
+    //dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
   };
 

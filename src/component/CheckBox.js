@@ -6,7 +6,7 @@ const CheckBox = ({ _onclick, filters, _value, id }) => {
         )
         else isChecked=false
   return (
-    <div className="border-b mb-5 pb-1">
+    <div className="border-b mb-5 flex items-center gap-x-1 ">
       <input
         id={id}
         onChange={_onclick}
@@ -16,7 +16,7 @@ const CheckBox = ({ _onclick, filters, _value, id }) => {
         checked={isChecked}
         className="rounded checked border-gray-300 focus:ring-blue-500"
       />
-      {_value}
+      <p >{_value}</p>
     </div>
   );
 };

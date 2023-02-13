@@ -46,7 +46,8 @@ const Sort = () => {
     <>
       {/* mobile mode */}
       <div className="flex mr-6 lg:hidden">
-        <svg
+       <div className="flex" onClick={sortModalHandler}>
+       <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -60,9 +61,14 @@ const Sort = () => {
             d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
           />
         </svg>
-        <span onClick={sortModalHandler}>{selectedItem}</span>
-        {isOpen && (
-          <div className="flex flex-col lg:flex-row  z-[1004] inset-0 fixed bg-white p-4">
+        <span >{selectedItem}</span>
+       </div>
+        { (
+          <div className={`fixed bg-white  z-[1004] bottom-0 right-0 left-0 p-4 ${
+            isOpen
+              ? "h-full translate-y-0  duration-500"
+              : "h-0   translate-y-full  duration-500"
+          }  `}>
             <div className="flex justify-between items-center mb-8  ">
               <span className="font-medium ">مرتب سازی بر اساس :</span>
               <svg

@@ -1,8 +1,8 @@
 const Chevron = ({ filterState, Section }) => {
   const status =
-    filterState.length > 0 && filterState.some((i) => i.id === Section)
-      ? filterState.find((i) => i.id === Section).isopen
-      : false;
+    filterState.some((i) => i.id === Section) &&
+    filterState.find((i) => i.id === Section).isopen;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

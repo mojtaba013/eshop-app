@@ -3,9 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { productsData } from "../data";
 
 const initialState = {
-  x: productsData,
+  allData: productsData,
   myfavorite: JSON.parse(localStorage.getItem("favorites")),
- 
 };
 
 export const productSlice = createSlice({
@@ -14,7 +13,7 @@ export const productSlice = createSlice({
   reducers: {
     filterProducts: (state, action) => {
       const filterItems = [action.payload];
-      const filteredProducts = state.x.filter((product) => {
+      const filteredProducts = productsData.filter((product) => {
         return filterItems.some((item) => {
           return !Object.keys(item).some((key) => {
             if (key === "size" || key === "brand")
@@ -24,15 +23,14 @@ export const productSlice = createSlice({
           });
         });
       });
-      state.x = filteredProducts;
+      state.allData = filteredProducts;
     },
-
     displayAllProducts: (state) => {
-      state.x = initialState.x;
+      state.allData = productsData;
     },
     sort: (state, action) => {
       const sortBy = action.payload.sort;
-      const allProducts = state.x;
+      const allProducts = state.allData;
       if (sortBy === "ارزانترین") {
         allProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
       } else if (sortBy === "گرانترین") {
@@ -43,7 +41,7 @@ export const productSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { filterProducts, sort, displayAllProducts } =
+export const { filterProducts, sort,displayAllProducts } =
   productSlice.actions;
 
 export default productSlice.reducer;

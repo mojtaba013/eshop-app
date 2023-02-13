@@ -35,7 +35,7 @@ const Cart = ({ onCloseCartModal }) => {
           return (
             <div className=" px-4  " key={product.id}>
               <div className="flex items-center justify-between  border-solid border-b w-full pb-4">
-                <div className="flex jc items-center w-24 h-20">
+                <div className="flex justify-center items-center w-24 h-20">
                   <img
                     className="w-full object-cover "
                     src={require(`../assets/images/${product.image}`)}
