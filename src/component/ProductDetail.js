@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import checkInCart from "../common/CheckInCart";
 import { addProductToCart, removeProductFromCart } from "../Features/CartSlice";
 
@@ -11,10 +11,15 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex items-center justify-center  ">
+    <div className="flex items-center justify-center top-[calc(100vh_-_5vh)] ">
       <div className=" flex  flex-col md:flex-row w-full max-w-screen-xl md:p-4 md:px-8 xl:px-10 gap-x-6 gap-y-4 mb-[calc(100vh_-_85vh)]  lg:mb-0">
         <div className="flex h-auto flex-col  md:w-3/4 w-full border-b-2 md:border-2 border-gray-200 md:rounded-lg">
-          <p className="mb-2 p-4 font-bold">{product.name}</p>
+          <div className="flex items-center justify-between p-4">
+            <p className=" font-bold">{product.name}</p>
+            <NavLink to="/">
+              <p className="text-blue-400 text-sm">برگشت</p>
+            </NavLink>
+          </div>
           <div className="flex flex-col flex-grow-0 items-center justify-center  xm:flex-row ">
             <div className="flex justify-center items-center  w-[250px] h-auto ">
               <img

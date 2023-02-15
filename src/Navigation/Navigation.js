@@ -383,52 +383,14 @@ const Navigation = () => {
         </div>
       </div>
       {/* desktop mode */}
-      <div className=" hidden lg:flex lg:justify-between lg:items-center p-2 ">
+      <div className=" hidden lg:flex lg:justify-between lg:items-center px-2 pt-3 ">
         <div className="flex  items-center justify-between  gap-x-2">
           <div className="relative flex items-center justify-center gap-x-2">
             <NavLink to="/">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 stroke-red-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                />
-              </svg>
+              <span className="font-bold text-red-500 text-lg ">Shop</span>
             </NavLink>
-            <div
-              onClick={() => setShowMenu((prev) => !prev)}
-              className="cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
-            </div>
-            {showMenu ? (
-              <div className="fixed z-10 top-14 right-10 bottom-10 left-10  bg-red-300 transition-all ease-in-out duration-700">
-                yes
-              </div>
-            ) : (
-              ""
-            )}
           </div>
+          {/* search  */}
           <div className="w-full">
             <input
               type="text"
@@ -505,27 +467,26 @@ const Navigation = () => {
               </>
             }
 
-            <div className="flex justify-between  text-sm items-center  py-1 px-2 font-medium text-slate-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                view="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                />
-              </svg>
-              <div className="">
-                <NavLink to="/login">
-                  <span>ورود</span>
-                </NavLink>
+            <NavLink to="/login">
+              <div className="flex justify-between  text-sm items-center  py-1 px-2 font-medium text-slate-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  view="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                  />
+                </svg>
+
+                <span>ورود</span>
               </div>
-            </div>
+            </NavLink>
 
             {
               <>
@@ -583,6 +544,64 @@ const Navigation = () => {
             }
           </div>
         </div>
+      </div>
+      <div className="hidden lg:block p-2">
+        {/* backdrop */}
+        {
+         showMenu && <div onClick={showMenuHandler} className="fixed top-[106px] right-0 left-0 bottom-0 bg-slate-600 opacity-50 "></div>
+        }
+        <div
+          onClick={() => setShowMenu((prev) => !prev)}
+          className="flex items-center gap-x-1 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+          <ul className="flex items-center gap-x-6">
+            <li className="">دسته بندی کالاها</li>
+            <span className="text-slate-500">|</span>
+            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+              تخفیف ها و پیشنهادها
+            </li>
+            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+              سوپرمارکت
+            </li>
+            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+              شگفت انگیزها
+            </li>
+            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+              پرفروش ترین ها
+            </li>
+            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+              تماس با ما
+            </li>
+          </ul>
+        </div>
+        {showMenu && (
+          <div className="flex justify-between fixed z-10   top-[106px] right-8 bottom-20 left-8 rounded-b-lg   bg-white ">
+            {/* menu */}
+            <div className="w-1/5 ">
+              <ul>
+                <li>a</li>
+                <li>b</li>
+                <li>c</li>
+              </ul>
+            </div>
+            {/* subMenu */}
+            <div className="w-4/5  border-r-2 border-slate-200"></div>
+          </div>
+        )}
       </div>
     </div>
   );

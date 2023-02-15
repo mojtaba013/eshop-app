@@ -37,7 +37,7 @@ const Cart = ({ onCloseCartModal }) => {
               <div className="flex items-center justify-between  border-solid border-b w-full pb-4">
                 <div className="flex justify-center items-center w-24 h-20">
                   <img
-                    className="w-full object-cover "
+                    className="w-full h-auto object-cover "
                     src={require(`../assets/images/${product.image}`)}
                     alt=""
                   />
@@ -50,7 +50,7 @@ const Cart = ({ onCloseCartModal }) => {
                     <p className="font-medium">
                       {priceFormat.format(product.price)} ریال
                     </p>
-                    <div className="flex p-2 gap-x-8 justify-between  items-center border-solid border  rounded-sm">
+                    <div className="flex p-1 gap-x-6  justify-between  items-center border-solid border  rounded-sm">
                       <span onClick={() => incrementHandler(product)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

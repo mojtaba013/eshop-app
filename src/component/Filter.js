@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import CheckBox from "./CheckBox";
 import Chevron from "./Chevron";
 import "react-input-range/lib/css/index.css";
-import { useProductsActions } from "../Providers/ProductProvider";
-import { object } from "yup";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -53,7 +51,6 @@ const Filter = () => {
     } else {
       setPrice(0);
     }
-    //dispatch(filterProducts(""));
     dispatch(displayAllProducts());
     searchParams.delete("sort");
     setSearchParams(searchParams);
@@ -175,7 +172,7 @@ const Filter = () => {
             className={`fixed bg-white  z-[1004] bottom-0 right-0 left-0 p-4 ${
               isShow
                 ? "h-full translate-y-0  duration-500"
-                : "h-0   translate-y-full  duration-500"
+                : "h-0   translate-y-full  duration-700"
             }  `}
           >
             <div className="flex justify-between items-start mb-6 font-medium ">
