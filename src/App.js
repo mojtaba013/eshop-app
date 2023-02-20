@@ -15,6 +15,7 @@ import Favorites from "./component/Favorites";
 import { Counter } from "./component/Counter";
 import ProductDetail from "./component/ProductDetail";
 
+
 function App() {
   return (
     <div className="">
@@ -28,6 +29,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/favorites" element={<Favorites />} />
+           
             
             <Route path="/test" element={<Test />} />
           </Routes>

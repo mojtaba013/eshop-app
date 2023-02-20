@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, Route, useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import Chevron from "../component/Chevron";
+import DigitalProducts from "../pages/DigitalProducts";
+import Mobile from "../pages/Mobile";
+import SuperMarket from "../pages/SuperMarket";
 
 const Navigation = () => {
   const auth = localStorage.getItem("authstate") | false;
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [subMenu, setSubMenu] = useState({ id: "", value: "" });
   const [showSearch, setShowSearch] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
@@ -53,9 +57,33 @@ const Navigation = () => {
     setBackdrop(true);
   };
 
+  const subMenuHnadler = (e) => {
+    const id = e.currentTarget.id;
+    const value = e.target.innerText;
+    console.log(value);
+    setSubMenu({ id, value });
+  };
+
   useEffect(() => {
     if (!showSearch) setTimeout(() => setBackdrop(false), 500);
   }, [showSearch]);
+
+  useEffect(() => {
+    renderComponent(subMenu.id);
+  }, [subMenu]);
+
+  const renderComponent = (id) => {
+    switch (id) {
+      case "mobile":
+        return <Mobile />;
+      case "digitalProduct":
+        return <DigitalProducts />;
+      case "superMarket":
+        return <SuperMarket />;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="sticky top-0 bg-white z-[1002] border-b-2   mb-7 ">
@@ -547,14 +575,20 @@ const Navigation = () => {
       </div>
       <div className="hidden lg:block p-2">
         {/* backdrop */}
-        {
-         showMenu && <div onClick={showMenuHandler} className="fixed top-[106px] right-0 left-0 bottom-0 bg-slate-600 opacity-50 "></div>
-        }
+        {showMenu && (
+          <div
+            onClick={showMenuHandler}
+            className="fixed top-[106px] right-0 left-0 bottom-0 bg-slate-600 opacity-50 "
+          ></div>
+        )}
         <div
-          onClick={() => setShowMenu((prev) => !prev)}
+          
           className="flex items-center gap-x-1 cursor-pointer"
         >
-          <svg
+          
+          <ul className="flex items-center ">
+            <li onClick={() => setShowMenu((prev) => !prev)} className="flex items-center">
+            <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -568,22 +602,20 @@ const Navigation = () => {
               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
             />
           </svg>
-          <ul className="flex items-center gap-x-6">
-            <li className="">دسته بندی کالاها</li>
-            <span className="text-slate-500">|</span>
-            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
-              تخفیف ها و پیشنهادها
+          <span className="text-sm font-bold text-slate-800">دسته بندی کالاها</span>
             </li>
-            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+            <span className="text-slate-500 mr-5">|</span>
+
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
               سوپرمارکت
             </li>
-            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
               شگفت انگیزها
             </li>
-            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
               پرفروش ترین ها
             </li>
-            <li className="text-sm text-slate-500 hover:bg-slate-100 p-2 rounded-lg">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
               تماس با ما
             </li>
           </ul>
@@ -591,15 +623,36 @@ const Navigation = () => {
         {showMenu && (
           <div className="flex justify-between fixed z-10   top-[106px] right-8 bottom-20 left-8 rounded-b-lg   bg-white ">
             {/* menu */}
-            <div className="w-1/5 ">
-              <ul>
-                <li>a</li>
-                <li>b</li>
-                <li>c</li>
+            <div className="w-1/5 overflow-x-hidden overflow-y-auto">
+              <ul className="flex flex-col text-sm text-slate-500  ">
+                <li
+                  id="mobile"
+                  onMouseOver={subMenuHnadler}
+                  className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
+                >
+                  موبایل
+                </li>
+                <li
+                  id="digitalProduct"
+                  onMouseOver={subMenuHnadler}
+                  className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
+                >
+                  کالای دیجیتال
+                </li>
+                <li
+                  id="superMarket"
+                  onMouseOver={subMenuHnadler}
+                  className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
+                >
+                  کالاهای سوپرمارکتی
+                </li>
               </ul>
             </div>
             {/* subMenu */}
-            <div className="w-4/5  border-r-2 border-slate-200"></div>
+            <div className="w-4/5  border-r-2 border-slate-200 overflow-x-hidden overflow-y-auto p-5">
+              <div className="text-xs font-bold mb-5">همه محصولات {subMenu.value}</div>
+              {renderComponent(subMenu.id)}
+            </div>
           </div>
         )}
       </div>
