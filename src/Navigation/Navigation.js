@@ -581,28 +581,29 @@ const Navigation = () => {
             className="fixed top-[106px] right-0 left-0 bottom-0 bg-slate-600 opacity-50 "
           ></div>
         )}
-        <div
-          
-          className="flex items-center gap-x-1 cursor-pointer"
-        >
-          
+        <div className="flex items-center gap-x-1 cursor-pointer">
           <ul className="flex items-center ">
-            <li onClick={() => setShowMenu((prev) => !prev)} className="flex items-center">
-            <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-          <span className="text-sm font-bold text-slate-800">دسته بندی کالاها</span>
+            <li
+              onClick={() => setShowMenu((prev) => !prev)}
+              className="flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+              <span className="text-sm font-bold text-slate-800">
+                دسته بندی کالاها
+              </span>
             </li>
             <span className="text-slate-500 mr-5">|</span>
 
@@ -628,8 +629,9 @@ const Navigation = () => {
                 <li
                   id="mobile"
                   onMouseOver={subMenuHnadler}
-                  className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
+                  className="flex items-center gap-x-2 hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
                 >
+                  
                   موبایل
                 </li>
                 <li
@@ -638,6 +640,7 @@ const Navigation = () => {
                   className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
                 >
                   کالای دیجیتال
+                  
                 </li>
                 <li
                   id="superMarket"
@@ -649,8 +652,10 @@ const Navigation = () => {
               </ul>
             </div>
             {/* subMenu */}
-            <div className="w-4/5  border-r-2 border-slate-200 overflow-x-hidden overflow-y-auto p-5">
-              <div className="text-xs font-bold mb-5">همه محصولات {subMenu.value}</div>
+            <div className="w-4/5  border-r-2 border-slate-200 overflow-x-hidden overflow-y-auto px-5 pt-5">
+              <div className="text-xs font-bold mb-5">
+                همه محصولات {subMenu.value}
+              </div>
               {renderComponent(subMenu.id)}
             </div>
           </div>
