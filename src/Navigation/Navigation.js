@@ -415,7 +415,7 @@ const Navigation = () => {
         <div className="flex  items-center justify-between  gap-x-2">
           <div className="relative flex items-center justify-center gap-x-2">
             <NavLink to="/">
-              <span className="font-bold text-red-500 text-lg ">Shop</span>
+              <span className="font-bold text-green-500 text-xl ">Shop</span>
             </NavLink>
           </div>
           {/* search  */}
@@ -423,7 +423,7 @@ const Navigation = () => {
             <input
               type="text"
               placeholder="جستجو"
-              className="bg-gray-100 border-0 rounded-lg w-[400px]  outline-0"
+              className="bg-gray-100 border-0 rounded-lg w-[400px]  outline-0  focus:ring-0"
             />
           </div>
         </div>
@@ -624,8 +624,8 @@ const Navigation = () => {
         {showMenu && (
           <div className="flex justify-between fixed z-10   top-[106px] right-8 bottom-20 left-8 rounded-b-lg   bg-white ">
             {/* menu */}
-            <div className="w-1/5 overflow-x-hidden overflow-y-auto">
-              <ul className="flex flex-col text-sm text-slate-500  ">
+            <div className="w-2/12 overflow-x-hidden overflow-y-auto">
+              <ul className="flex flex-col text-sm text-slate-800 font-bold  ">
                 <li
                   id="mobile"
                   onMouseOver={subMenuHnadler}
@@ -652,7 +652,7 @@ const Navigation = () => {
               </ul>
             </div>
             {/* subMenu */}
-            <div className="w-4/5  border-r-2 border-slate-200 overflow-x-hidden overflow-y-auto px-5 pt-5">
+            <div className="w-10/12  border-r-2 border-slate-200 overflow-x-hidden overflow-y-auto px-5 pt-5">
               <div className="text-xs font-bold mb-5">
                 همه محصولات {subMenu.value}
               </div>

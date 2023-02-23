@@ -21,14 +21,14 @@ const ProductDetail = () => {
             </NavLink>
           </div>
           <div className="flex flex-col flex-grow-0 items-center justify-center  xm:flex-row ">
-            <div className="flex justify-center items-center  w-[250px] h-auto ">
+            <div className="flex justify-center items-center   h-auto ">
               <img
                 className="w-full h-auto object-cover "
                 src={require(`../assets/images/${product.image}`)}
                 alt=""
               />
             </div>
-            <div className=" w-full p-4 ">
+            <div className=" w-full p-4 lg:p-0 ">
               <div className="flex flex-col gap-y-2">
                 <div>
                   <h3 className="font-bold text-slate-800">ویژگی ها</h3>
