@@ -415,7 +415,7 @@ const Navigation = () => {
         <div className="flex  items-center justify-between  gap-x-2">
           <div className="relative flex items-center justify-center gap-x-2">
             <NavLink to="/">
-              <span className="font-bold text-green-500 text-xl ">Shop</span>
+              <span className="font-bold text-red-500 text-xl ">Shop</span>
             </NavLink>
           </div>
           {/* search  */}
