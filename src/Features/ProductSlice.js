@@ -15,14 +15,14 @@ export const productSlice = createSlice({
       const filterItems = [action.payload];
       const filteredProducts = productsData.filter((product) => {
         return filterItems.some((item) => {
-          return !Object.keys(item).some((key) => {
+          return Object.keys(item).every((key) => {
             if (key === "size" || key === "brand")
-              return !item[key].split(",").some((i) => i === product[key]);
+              return item[key].split(",").some((i) => i === product[key]);
             else if (key === "price") {
               //return !item[key].split(",").some((i) => i >= product[key]);
               const firstvalue = item[key].split("-").at(0);
               const secondvalue = item[key].split("-").at(1);
-              return !(
+              return (
                 product[key] >= firstvalue && product[key] <= secondvalue
               );
             }

@@ -33,17 +33,9 @@ const Filter = () => {
   const renderPrice = useRef(false);
   const renderPriceValue = useRef(false);
 
-  // const valueLabelFormat=(value)=>{
-  //   let priceFormat = new Intl.NumberFormat();
-  //   priceFormat.format(value);
-  // }
-const valueLabelFormat=(value)=>{
-  const priceFormat = new Intl.NumberFormat();
+  const valueLabelFormat = (value) => {
+    const priceFormat = new Intl.NumberFormat();
     return priceFormat.format(value);
-}
-
-  const handleChange = (event, newValue) => {
-    setPriceValue(newValue);
   };
 
   const chevronHandler = (e) => {
@@ -101,6 +93,10 @@ const valueLabelFormat=(value)=>{
   const priceHandler = (e) => {
     const price = e.target.value;
     setPrice(price);
+  };
+
+  const priceValueHandler = (event, newValue) => {
+    setPriceValue(newValue);
   };
 
   useEffect(() => {
@@ -164,6 +160,7 @@ const valueLabelFormat=(value)=>{
   const filterHandler = () => {
     const sortBy = searchParams.get("sort") || "ارزانترین";
     dispatch(filterProducts(filters));
+    dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
   };
 
@@ -496,11 +493,11 @@ const valueLabelFormat=(value)=>{
                     value={price}
                     onChange={priceHandler}
                   /> */}
-                  <Box >
+                  <Box>
                     <Slider
                       getAriaLabel={() => "Price range"}
                       value={priceValue}
-                      onChange={handleChange}
+                      onChange={priceValueHandler}
                       valueLabelDisplay="auto"
                       getAriaValueText={valueLabelFormat}
                       valueLabelFormat={valueLabelFormat}
