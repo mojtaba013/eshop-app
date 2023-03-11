@@ -12,7 +12,7 @@ const Chevron = ({ filterState, Section }) => {
       stroke="currentColor"
       className={`w-5 h-5 lg:w-6 lg:h-6 ${
         status ? "rotate-180" : "rotate-0"
-      }  transition-all duration-500 `}
+      }  transition-all duration-300 `}
     >
       at
       <path

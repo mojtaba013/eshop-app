@@ -9,6 +9,8 @@ import {
   filterProducts,
   sort,
 } from "../Features/ProductSlice";
+import Box from "@mui/material/Box";
+import Slider from "@mui/material/Slider";
 
 const initialState = [
   { id: "size", isopen: false },
@@ -17,17 +19,32 @@ const initialState = [
 ];
 
 const Filter = () => {
-  let priceFormat = new Intl.NumberFormat();
+  //let priceFormat = new Intl.NumberFormat();
   const [filterState, setFilterState] = useState(initialState);
   const [isShow, setIsShow] = useState(false);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
   const [price, setPrice] = useState(0);
+  const [priceValue, setPriceValue] = useState([2000000, 6000000]);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const renderSize = useRef(false);
   const renderBrand = useRef(false);
   const renderPrice = useRef(false);
+  const renderPriceValue = useRef(false);
+
+  // const valueLabelFormat=(value)=>{
+  //   let priceFormat = new Intl.NumberFormat();
+  //   priceFormat.format(value);
+  // }
+const valueLabelFormat=(value)=>{
+  const priceFormat = new Intl.NumberFormat();
+    return priceFormat.format(value);
+}
+
+  const handleChange = (event, newValue) => {
+    setPriceValue(newValue);
+  };
 
   const chevronHandler = (e) => {
     const _id = e.currentTarget.id;
@@ -118,6 +135,7 @@ const Filter = () => {
     if (renderPrice.current) {
       if (price > 0) {
         searchParams.set("price", price);
+        //searchParams.set("price", priceValue.join("-"));
         setSearchParams(searchParams);
       } else if (price <= 0) {
         searchParams.delete("price");
@@ -129,44 +147,49 @@ const Filter = () => {
   }, [price]);
 
   useEffect(() => {
+    if (renderPriceValue.current) {
+      searchParams.set("price", priceValue.join("-"));
+      setSearchParams(searchParams);
+    } else {
+      renderPriceValue.current = true;
+    }
+  }, [priceValue]);
+
+  useEffect(() => {
     if (Object.keys(filters).length !== 0) dispatch(filterProducts(filters));
   }, []);
 
   const filters = Object.fromEntries([...searchParams]);
 
   const filterHandler = () => {
-    console.log("clicked",filters);
     const sortBy = searchParams.get("sort") || "ارزانترین";
     dispatch(filterProducts(filters));
-    //dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
   };
-
- 
 
   return (
     <>
       {/* mobile plan */}
       <div className="flex mb-4  lg:hidden">
-     <div className="flex" onClick={openFilterPageHandler}>
-     <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-          />
-        </svg>
+        <div className="flex" onClick={openFilterPageHandler}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+            />
+          </svg>
 
-        <span >فیلترها</span>
-     </div>
-     
+          <span>فیلترها</span>
+        </div>
+
         {
           <div
             className={`fixed bg-white  z-[1004] bottom-0 right-0 left-0 p-4 ${
@@ -462,8 +485,8 @@ const Filter = () => {
           <div>
             {filterState.find((i) => i.id === "price").isopen && (
               <div className="flex flex-col duration-300 text-sm ">
-                <div className="flex flex-col">
-                  <input
+                <div className=" px-2">
+                  {/* <input
                     id="price"
                     className="w-full mt-6"
                     type="range"
@@ -472,11 +495,24 @@ const Filter = () => {
                     step="1000000"
                     value={price}
                     onChange={priceHandler}
-                  />
-                  <div className="flex justify-between items-center">
+                  /> */}
+                  <Box >
+                    <Slider
+                      getAriaLabel={() => "Price range"}
+                      value={priceValue}
+                      onChange={handleChange}
+                      valueLabelDisplay="auto"
+                      getAriaValueText={valueLabelFormat}
+                      valueLabelFormat={valueLabelFormat}
+                      min={0}
+                      step={1000000}
+                      max={10000000}
+                    />
+                  </Box>
+                  {/* <div className="flex justify-between items-center">
                     <p>از 0</p>
                     <p>تا {priceFormat.format(price)} ریال</p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             )}

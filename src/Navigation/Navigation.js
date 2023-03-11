@@ -14,6 +14,7 @@ const Navigation = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [subMenu, setSubMenu] = useState({ id: "", value: "" });
   const [showSearch, setShowSearch] = useState(false);
+  const [menuColor, setMenuColor] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
   const [exitModal, setExitmodal] = useState(false);
   const [chevron, setChevron] = useState([]);
@@ -41,14 +42,15 @@ const Navigation = () => {
     const id = e.currentTarget.id;
     const updateState = [...chevron];
     const index = chevron.findIndex((item) => item.id === id);
-    console.log(index);
     if (index < 0) {
       setChevron((prev) => [...prev, { id, isopen: true }]);
+      setMenuColor((prev) => !prev);
     } else {
       const selectedItem = { ...chevron[index] };
       selectedItem.isopen = !selectedItem.isopen;
       updateState[index] = selectedItem;
       setChevron(updateState);
+      setMenuColor((prev) => !prev);
     }
   };
 
@@ -60,7 +62,6 @@ const Navigation = () => {
   const subMenuHnadler = (e) => {
     const id = e.currentTarget.id;
     const value = e.target.innerText;
-    console.log(value);
     setSubMenu({ id, value });
   };
 
@@ -122,25 +123,52 @@ const Navigation = () => {
             }   `}
           >
             <div className="px-2 mb-4">
-              <p className="border-b py-4 border-slate-300  font-bold">
+              <p className="border-b py-4 border-slate-300  font-bold text-slate-800">
                 دسته بندی کالاها
               </p>
             </div>
 
-            <ul className="flex flex-col gap-y-3 p-2 text-sm">
+            <ul className="flex flex-col gap-y-3  text-sm text-slate-700">
               <li
                 id="mobile"
                 onClick={chevronHandler}
                 className="flex flex-col "
               >
-                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                <div className="flex  justify-between items-center mb-4 cursor-pointer px-4">
                   {" "}
-                  <p>موبایل</p>
+                  <p
+                    className={`${
+                      chevron.some((i) => i.id === "mobile") &&
+                      chevron.find((i) => i.id === "mobile").isopen
+                        ? "text-red-500 font-bold"
+                        : "font-bold"
+                    }`}
+                  >
+                    موبایل
+                  </p>
                   <Chevron filterState={chevron} Section={"mobile"} />
                 </div>
                 {chevron.some((i) => i.id === "mobile") &&
                 chevron.find((i) => i.id === "mobile").isopen ? (
-                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4 px-4">
+                    <div className="flex items-center text-gray-400 gap-x-1 text-xs">
+                      <p>همه موارد این دسته</p>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-3 h-3"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                      </svg>
+                    </div>
+
                     <NavLink to="/">اپل</NavLink>
                     <NavLink>سامسونگ</NavLink>
                     <NavLink>شیائومی</NavLink>
@@ -155,14 +183,40 @@ const Navigation = () => {
                 onClick={chevronHandler}
                 className="flex flex-col "
               >
-                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                <div className="flex  justify-between items-center mb-4 cursor-pointer px-4">
                   {" "}
-                  <p>کالای دیجیتال</p>
+                  <p
+                    className={`${
+                      chevron.some((i) => i.id === "digitalProduct") &&
+                      chevron.find((i) => i.id === "digitalProduct").isopen
+                        ? "text-red-500 font-bold"
+                        : "font-bold"
+                    }`}
+                  >
+                    کالای دیجیتال
+                  </p>
                   <Chevron filterState={chevron} Section={"digitalProduct"} />
                 </div>
                 {chevron.some((i) => i.id === "digitalProduct") &&
                 chevron.find((i) => i.id === "digitalProduct").isopen ? (
-                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4 px-4">
+                    <div className="flex items-center text-gray-400 gap-x-1 text-xs">
+                      <p>همه موارد این دسته</p>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-3 h-3"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                      </svg>
+                    </div>
                     <NavLink to="/">تلویزیون</NavLink>
                     <NavLink>ساعت هوشمند</NavLink>
                     <NavLink>دوربین</NavLink>
@@ -175,18 +229,44 @@ const Navigation = () => {
                 )}
               </li>
               <li
-                id="behdasht"
+                id="superMarket"
                 onClick={chevronHandler}
                 className="flex flex-col "
               >
-                <div className="flex  justify-between items-center mb-4 cursor-pointer">
+                <div className="flex  justify-between items-center mb-4 cursor-pointer px-4">
                   {" "}
-                  <p>موبایل</p>
-                  <Chevron filterState={chevron} Section={"behdasht"} />
+                  <p
+                    className={`${
+                      chevron.some((i) => i.id === "superMarket") &&
+                      chevron.find((i) => i.id === "superMarket").isopen
+                        ? "text-red-500 font-bold"
+                        : "font-bold"
+                    }`}
+                  >
+                    کالاهای سوپرمارکتی
+                  </p>
+                  <Chevron filterState={chevron} Section={"superMarket"} />
                 </div>
-                {chevron.some((i) => i.id === "behdasht") &&
-                chevron.find((i) => i.id === "behdasht").isopen ? (
-                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4">
+                {chevron.some((i) => i.id === "superMarket") &&
+                chevron.find((i) => i.id === "superMarket").isopen ? (
+                  <div className="flex flex-col bg-gray-100 gap-y-4 py-4 px-4">
+                    <div className="flex items-center text-gray-400 gap-x-1 text-xs">
+                      <p>همه موارد این دسته</p>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="currentColor"
+                        className="w-3 h-3"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                      </svg>
+                    </div>
                     <NavLink to="/">لوازم آرایشی</NavLink>
                     <NavLink>مراقبت پوست و مو</NavLink>
                     <NavLink>عطر و ادکلن</NavLink>
@@ -631,7 +711,6 @@ const Navigation = () => {
                   onMouseOver={subMenuHnadler}
                   className="flex items-center gap-x-2 hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
                 >
-                  
                   موبایل
                 </li>
                 <li
@@ -640,7 +719,6 @@ const Navigation = () => {
                   className=" hover:bg-slate-100 px-2 py-4 w-full cursor-pointer  hover:text-red-500"
                 >
                   کالای دیجیتال
-                  
                 </li>
                 <li
                   id="superMarket"

@@ -18,8 +18,14 @@ export const productSlice = createSlice({
           return !Object.keys(item).some((key) => {
             if (key === "size" || key === "brand")
               return !item[key].split(",").some((i) => i === product[key]);
-            else if (key === "price")
-              return !item[key].split(",").some((i) => i >= product[key]);
+            else if (key === "price") {
+              //return !item[key].split(",").some((i) => i >= product[key]);
+              const firstvalue = item[key].split("-").at(0);
+              const secondvalue = item[key].split("-").at(1);
+              return !(
+                product[key] >= firstvalue && product[key] <= secondvalue
+              );
+            }
           });
         });
       });
@@ -41,7 +47,7 @@ export const productSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { filterProducts, sort,displayAllProducts } =
+export const { filterProducts, sort, displayAllProducts } =
   productSlice.actions;
 
 export default productSlice.reducer;
