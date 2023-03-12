@@ -147,13 +147,12 @@ const Filter = () => {
   }, [priceValue]);
 
   useEffect(() => {
-    
-    if (searchParams.has( "price") ||searchParams.has( "brand")||searchParams.has( "size"))
-    {
-      console.log("yes");
+    if (
+      searchParams.has("price") ||
+      searchParams.has("brand") ||
+      searchParams.has("size")
+    )
       dispatch(filterProducts(filters));
-    }
-      
   }, []);
 
   const filters = Object.fromEntries([...searchParams]);
