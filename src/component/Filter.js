@@ -90,11 +90,6 @@ const Filter = () => {
     setBrand(newBrand);
   };
 
-  const priceHandler = (e) => {
-    const price = e.target.value;
-    setPrice(price);
-  };
-
   const priceValueHandler = (event, newValue) => {
     setPriceValue(newValue);
   };
@@ -152,13 +147,18 @@ const Filter = () => {
   }, [priceValue]);
 
   useEffect(() => {
-    if (Object.keys(filters).length !== 0) dispatch(filterProducts(filters));
+    
+    if (searchParams.has( "price") ||searchParams.has( "brand")||searchParams.has( "size"))
+    {
+      console.log("yes");
+      dispatch(filterProducts(filters));
+    }
+      
   }, []);
 
   const filters = Object.fromEntries([...searchParams]);
-
   const filterHandler = () => {
-    const sortBy = searchParams.get("sort") || "ارزانترین";
+    const sortBy = searchParams.get("sort") || "cheap";
     dispatch(filterProducts(filters));
     dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
@@ -324,20 +324,20 @@ const Filter = () => {
               <div>
                 {filterState.find((i) => i.id === "price").isopen && (
                   <div className="flex flex-col duration-300 text-sm ">
-                    <div className="flex flex-col">
-                      <input
-                        className="w-full mt-6"
-                        type="range"
-                        min="0"
-                        max="10000000"
-                        step="1000000"
-                        value={price}
-                        onChange={priceHandler}
-                      />
-                      <div className="flex justify-between items-center">
-                        <p>از 0</p>
-                        <p>تا {price} ریال</p>
-                      </div>
+                    <div className="px-2">
+                      <Box>
+                        <Slider
+                          getAriaLabel={() => "Price range"}
+                          value={priceValue}
+                          onChange={priceValueHandler}
+                          valueLabelDisplay="auto"
+                          getAriaValueText={valueLabelFormat}
+                          valueLabelFormat={valueLabelFormat}
+                          min={0}
+                          step={1000000}
+                          max={10000000}
+                        />
+                      </Box>
                     </div>
                   </div>
                 )}

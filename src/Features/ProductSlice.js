@@ -1,10 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 import { productsData } from "../data";
 
 const initialState = {
   allData: productsData,
-  myfavorite: JSON.parse(localStorage.getItem("favorites")),
 };
 
 export const productSlice = createSlice({
@@ -13,35 +12,36 @@ export const productSlice = createSlice({
   reducers: {
     filterProducts: (state, action) => {
       const filterItems = [action.payload];
+      console.log(filterItems, current(state));
       const filteredProducts = productsData.filter((product) => {
         return filterItems.some((item) => {
-          return Object.keys(item).every((key) => {
+          return !Object.keys(item).some((key) => {
             if (key === "size" || key === "brand")
-              return item[key].split(",").some((i) => i === product[key]);
+              return !item[key].split(",").some((i) => i === product[key]);
             else if (key === "price") {
               //return !item[key].split(",").some((i) => i >= product[key]);
-              const firstvalue = item[key].split("-").at(0);
-              const secondvalue = item[key].split("-").at(1);
-              return (
-                product[key] >= firstvalue && product[key] <= secondvalue
-              );
+              const minPrice = item[key].split("-").at(0);
+              const maxPrice = item[key].split("-").at(1);
+              return !(product[key] >= minPrice && product[key] <= maxPrice);
             }
           });
         });
       });
       state.allData = filteredProducts;
     },
-    displayAllProducts: (state) => {
-      state.allData = productsData;
-    },
+
     sort: (state, action) => {
       const sortBy = action.payload.sort;
-      const allProducts = state.allData;
-      if (sortBy === "ارزانترین") {
-        allProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-      } else if (sortBy === "گرانترین") {
-        allProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      //console.log( sortBy, current(state));
+      if (sortBy === "cheap") {
+        state.allData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      } else if (sortBy === "expensive") {
+        state.allData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
       }
+    },
+
+    displayAllProducts: (state) => {
+      return initialState;
     },
   },
 });
