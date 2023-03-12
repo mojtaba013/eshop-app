@@ -33,9 +33,9 @@ export const productSlice = createSlice({
     sort: (state, action) => {
       const sortBy = action.payload.sort;
       //console.log( sortBy, current(state));
-      if (sortBy === "cheap") {
+      if (sortBy === "ارزانترین") {
         state.allData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-      } else if (sortBy === "expensive") {
+      } else if (sortBy === "گرانترین") {
         state.allData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
       }
     },

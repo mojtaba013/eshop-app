@@ -150,12 +150,12 @@ const Sort = () => {
                 type="radio"
                 name="sort"
                 value="cheap"
-                id="cheap"
+                id="ارزانترین"
                 onClick={sortHandler}
               />
               <label
                 className={` ${
-                  selectedItem === "cheap" ? "text-red-500" : ""
+                  selectedItem === "ارزانترین" ? "text-red-500" : ""
                 }`}
               >
                 {" "}
@@ -168,12 +168,12 @@ const Sort = () => {
                 type="radio"
                 name="sort"
                 value="expensive"
-                id="expensive"
+                id="گرانترین"
                 onClick={sortHandler}
               />
               <label
                 className={` ${
-                  selectedItem === "expensive" ? "text-red-500" : ""
+                  selectedItem === "گرانترین" ? "text-red-500" : ""
                 }`}
               >
                 {" "}
