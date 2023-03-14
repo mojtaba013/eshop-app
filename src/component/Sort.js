@@ -7,17 +7,15 @@ const Sort = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
+  const selectedItem =
+    Object.fromEntries([...searchParams]).sort || "ارزانترین";
 
   const sortHandler = (e) => {
     searchParams.set("sort", e.target.id);
     setSearchParams(searchParams);
-    //console.log(Object.fromEntries([...searchParams]));
     dispatch(sort(Object.fromEntries([...searchParams])));
     setIsOpen((c) => !c);
   };
-
-  const selectedItem =
-    Object.fromEntries([...searchParams]).sort || "cheap";
 
   const sortModalHandler = () => {
     setIsOpen((current) => !current);
@@ -26,8 +24,7 @@ const Sort = () => {
   useEffect(() => {
     dispatch(sort(Object.fromEntries([...searchParams])));
   }, []);
-
-  // useEffect(() => {
+ 
   //   if (notInitialRender.current) {
   //     //const _sortItem = searchParams.get("sort");
   //     // console.log("_sortItem=", _sortItem, "selectedItem=", selectedItem);

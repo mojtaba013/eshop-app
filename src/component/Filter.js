@@ -24,14 +24,14 @@ const Filter = () => {
   const [isShow, setIsShow] = useState(false);
   const [size, setSize] = useState([]);
   const [brand, setBrand] = useState([]);
-  const [price, setPrice] = useState(0);
-  const [priceValue, setPriceValue] = useState([2000000, 6000000]);
+  //const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState([2000000, 6000000]);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const renderSize = useRef(false);
   const renderBrand = useRef(false);
-  const renderPrice = useRef(false);
   const renderPriceValue = useRef(false);
+  const filters = Object.fromEntries([...searchParams]);
 
   const valueLabelFormat = (value) => {
     const priceFormat = new Intl.NumberFormat();
@@ -53,16 +53,12 @@ const Filter = () => {
   };
 
   const removeFilters = () => {
-    setSize([]);
-    setBrand([]);
-    if (price === 0) {
-      searchParams.delete("price");
-    } else {
-      setPrice(0);
-    }
-    dispatch(displayAllProducts());
+    searchParams.delete("size") 
+    searchParams.delete("brand") 
+    searchParams.delete("price") 
     searchParams.delete("sort");
     setSearchParams(searchParams);
+    dispatch(displayAllProducts());
     setIsShow((current) => !current);
   };
 
@@ -91,7 +87,7 @@ const Filter = () => {
   };
 
   const priceValueHandler = (event, newValue) => {
-    setPriceValue(newValue);
+    setPrice(newValue);
   };
 
   useEffect(() => {
@@ -122,29 +118,29 @@ const Filter = () => {
     }
   }, [brand]);
 
-  useEffect(() => {
-    if (renderPrice.current) {
-      if (price > 0) {
-        searchParams.set("price", price);
-        //searchParams.set("price", priceValue.join("-"));
-        setSearchParams(searchParams);
-      } else if (price <= 0) {
-        searchParams.delete("price");
-        setSearchParams(searchParams);
-      }
-    } else {
-      renderPrice.current = true;
-    }
-  }, [price]);
+  // useEffect(() => {
+  //   if (renderPrice.current) {
+  //     if (price > 0) {
+  //       searchParams.set("price", price);
+  //       //searchParams.set("price", price.join("-"));
+  //       setSearchParams(searchParams);
+  //     } else if (price <= 0) {
+  //       searchParams.delete("price");
+  //       setSearchParams(searchParams);
+  //     }
+  //   } else {
+  //     renderPrice.current = true;
+  //   }
+  // }, [price]);
 
   useEffect(() => {
     if (renderPriceValue.current) {
-      searchParams.set("price", priceValue.join("-"));
+      searchParams.set("price", price.join("-"));
       setSearchParams(searchParams);
     } else {
       renderPriceValue.current = true;
     }
-  }, [priceValue]);
+  }, [price]);
 
   useEffect(() => {
     if (
@@ -154,10 +150,9 @@ const Filter = () => {
     )
       dispatch(filterProducts(filters));
   }, []);
-
-  const filters = Object.fromEntries([...searchParams]);
+  
   const filterHandler = () => {
-    const sortBy = searchParams.get("sort") || "cheap";
+    const sortBy = searchParams.get("sort") || "ارزانترین";
     dispatch(filterProducts(filters));
     dispatch(sort({ sort: sortBy }));
     setIsShow((current) => !current);
@@ -197,9 +192,9 @@ const Filter = () => {
             <div className="flex justify-between items-start mb-6 font-medium ">
               <div className="flex items-center gap-x-1">
                 <p className="">فیلترها</p>
-                {size.length + brand.length + (price > 0 ? 1 : 0) > 0 && (
+                {filters.length > 0 && (
                   <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                    {size.length + brand.length + (price > 0 ? 1 : 0)}
+                    {filters.length}
                   </span>
                 )}
               </div>
@@ -327,7 +322,7 @@ const Filter = () => {
                       <Box>
                         <Slider
                           getAriaLabel={() => "Price range"}
-                          value={priceValue}
+                          value={price}
                           onChange={priceValueHandler}
                           valueLabelDisplay="auto"
                           getAriaValueText={valueLabelFormat}
@@ -358,9 +353,9 @@ const Filter = () => {
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">
             <p className="">فیلترها</p>
-            {size.length + brand.length + (price > 0 ? 1 : 0) > 0 && (
+            {Object.keys(filters).length > 0 && (
               <span className="bg-red-600 w-5 h-5 rounded text-white flex items-center justify-center pt-[2px]">
-                {size.length + brand.length + (price > 0 ? 1 : 0)}
+                {Object.keys(filters).length}
               </span>
             )}
           </div>
@@ -495,7 +490,7 @@ const Filter = () => {
                   <Box>
                     <Slider
                       getAriaLabel={() => "Price range"}
-                      value={priceValue}
+                      value={price}
                       onChange={priceValueHandler}
                       valueLabelDisplay="auto"
                       getAriaValueText={valueLabelFormat}

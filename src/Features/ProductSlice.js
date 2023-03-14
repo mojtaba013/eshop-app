@@ -11,8 +11,7 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     filterProducts: (state, action) => {
-      const filterItems = [action.payload];
-      console.log(filterItems, current(state));
+      const filterItems = [action.payload];     
       const filteredProducts = productsData.filter((product) => {
         return filterItems.some((item) => {
           return !Object.keys(item).some((key) => {
