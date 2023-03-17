@@ -1,37 +1,42 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink, Route, useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import Chevron from "../component/Chevron";
 import DigitalProducts from "../pages/DigitalProducts";
 import Mobile from "../pages/Mobile";
 import SuperMarket from "../pages/SuperMarket";
+import {
+  getUserData,
+  logout,
+  removeAuth,
+  saveUserData,
+} from "../Features/AuthSlice";
 
 const Navigation = () => {
-  const auth = localStorage.getItem("authstate") | false;
   const _navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [subMenu, setSubMenu] = useState({ id: "", value: "" });
   const [showSearch, setShowSearch] = useState(false);
-  const [menuColor, setMenuColor] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
-  const [exitModal, setExitmodal] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
   const [chevron, setChevron] = useState([]);
   const { cart } = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const showCartmodal = () => {
     setIsOpen((c) => !c);
   };
 
-  const exitmodalHandler = () => {
-    setExitmodal((c) => !c);
+  const closeAccountModal = () => {
+    setCloseModal((c) => !c);
   };
 
   const exitAccountHandler = () => {
-    //setAuth(false);
-    setExitmodal((c) => !c);
-    _navigate("/signup");
+    setCloseModal((c) => !c);
+    dispatch(logout());
   };
 
   const showMenuHandler = () => {
@@ -44,13 +49,11 @@ const Navigation = () => {
     const index = chevron.findIndex((item) => item.id === id);
     if (index < 0) {
       setChevron((prev) => [...prev, { id, isopen: true }]);
-      setMenuColor((prev) => !prev);
     } else {
       const selectedItem = { ...chevron[index] };
       selectedItem.isopen = !selectedItem.isopen;
       updateState[index] = selectedItem;
       setChevron(updateState);
-      setMenuColor((prev) => !prev);
     }
   };
 
@@ -345,7 +348,7 @@ const Navigation = () => {
           ) : (
             ""
           )}
-          <div className="flex ">
+          <div className="flex justify-between gap-x-4">
             <div
               onClick={showCartmodal}
               className="relative flex justify-center items-center cursor-pointer "
@@ -411,45 +414,81 @@ const Navigation = () => {
               </>
             }
 
-            <div className="flex justify-between  text-sm items-center  py-1 px-2 font-medium text-slate-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                view="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-6 h-6"
+            {auth.isAuthenticated ? (
+              <div
+                onClick={closeAccountModal}
+                className="flex gap-x-1 items-center cursor-pointer text-slate-700"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                />
-              </svg>
-              <div className="">
-                <NavLink to="/login">
-                  <span>ورود</span>
-                </NavLink>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={3.5}
+                  stroke="currentColor"
+                  className="w-3 h-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
               </div>
-            </div>
+            ) : (
+              <div className="flex justify-between cursor-pointer text-sm items-center  rounded-md py-1 px-2 font-medium text-slate-700">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  view="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                  />
+                </svg>
+                <div className="flex ">
+                  <NavLink to="/login">
+                    <span>ورود</span>
+                  </NavLink>
+                </div>
+              </div>
+            )}
 
             {
               <>
                 <div
-                  onClick={exitmodalHandler}
+                  onClick={closeAccountModal}
                   className={
-                    exitModal
-                      ? "absolute inset-0 opacity-50 z-10  bg-gray-600"
+                    closeModal
+                      ? "fixed inset-0 opacity-50 z-10  bg-gray-600"
                       : "hidden"
                   }
                 ></div>
                 <div
                   className={`absolute w-72 h-48   z-20 top-10 left-5 rounded-md transform ${
-                    exitModal ? "scale-100" : "scale-0"
+                    closeModal ? "scale-100" : "scale-0"
                   } transition duration-500 bg-white`}
                 >
                   <div className="flex flex-col p-6 text-slate-500">
-                    <div className="flex justify-center items-center gap-x-2 border-b pb-2 mb-2">
+                    <div className="flex  items-center gap-x-2 border-b pb-2 mb-2">
                       <img
                         alt="account"
                         className="w-8 h-8 rounded-full"
@@ -457,7 +496,7 @@ const Navigation = () => {
                       />
                       <div>
                         {" "}
-                        <div>{auth.name}</div>
+                        <div>{auth.userName}</div>
                         <div>{auth.email}</div>
                       </div>
                     </div>
@@ -491,7 +530,7 @@ const Navigation = () => {
         </div>
       </div>
       {/* desktop mode */}
-      <div className=" hidden lg:flex lg:justify-between lg:items-center px-2 pt-3 ">
+      <div className=" hidden lg:flex lg:justify-between lg:items-center lg:px-4 px-2 pt-3 ">
         <div className="flex  items-center justify-between  gap-x-2">
           <div className="relative flex items-center justify-center gap-x-2">
             <NavLink to="/">
@@ -574,9 +613,42 @@ const Navigation = () => {
                 </div>
               </>
             }
-
-            <NavLink to="/login">
-              <div className="flex justify-between  text-sm items-center  py-1 px-2 font-medium text-slate-700">
+            {auth.isAuthenticated ? (
+              <div
+                onClick={closeAccountModal}
+                className="flex gap-x-1 items-center cursor-pointer text-slate-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={3.5}
+                  stroke="currentColor"
+                  className="w-3 h-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </div>
+            ) : (
+              <div className="flex justify-between cursor-pointer text-sm items-center  rounded-md py-1 px-2 font-medium text-slate-700">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -591,28 +663,30 @@ const Navigation = () => {
                     d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
                   />
                 </svg>
-
-                <span>ورود</span>
+                <div className="flex ">
+                  <NavLink to="/login">
+                    <span>ورود</span>
+                  </NavLink>
+                </div>
               </div>
-            </NavLink>
-
+            )}
             {
               <>
                 <div
-                  onClick={exitmodalHandler}
+                  onClick={closeAccountModal}
                   className={
-                    exitModal
-                      ? "absolute inset-0 opacity-50 z-10  bg-gray-600"
+                    closeModal
+                      ? "fixed inset-0 opacity-50 z-[10]  bg-gray-600"
                       : "hidden"
                   }
                 ></div>
                 <div
                   className={`absolute w-72 h-48   z-20 top-10 left-5 rounded-md transform ${
-                    exitModal ? "scale-100" : "scale-0"
+                    closeModal ? "scale-100" : "scale-0"
                   } transition duration-500 bg-white`}
                 >
                   <div className="flex flex-col p-6 text-slate-500">
-                    <div className="flex justify-center items-center gap-x-2 border-b pb-2 mb-2">
+                    <div className="flex  items-center gap-x-2 border-b pb-2 mb-2">
                       <img
                         alt="account"
                         className="w-8 h-8 rounded-full"
@@ -620,7 +694,7 @@ const Navigation = () => {
                       />
                       <div>
                         {" "}
-                        <div>{auth.name}</div>
+                        <div>{auth.userName}</div>
                         <div>{auth.email}</div>
                       </div>
                     </div>
@@ -653,7 +727,7 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-      <div className="hidden lg:block p-2">
+      <div className="hidden lg:block lg:px-4 p-2">
         {/* backdrop */}
         {showMenu && (
           <div
@@ -661,11 +735,11 @@ const Navigation = () => {
             className="fixed top-[106px] right-0 left-0 bottom-0 bg-slate-600 opacity-50 "
           ></div>
         )}
-        <div className="flex items-center gap-x-1 cursor-pointer">
+        <div className="flex items-center gap-x-1 ">
           <ul className="flex items-center ">
             <li
               onClick={() => setShowMenu((prev) => !prev)}
-              className="flex items-center"
+              className="flex items-center cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -681,22 +755,22 @@ const Navigation = () => {
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
-              <span className="text-sm font-bold text-slate-800">
+              <span className="text-sm font-bold text-slate-800 cursor-pointer">
                 دسته بندی کالاها
               </span>
             </li>
             <span className="text-slate-500 mr-5">|</span>
 
-            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center cursor-pointer">
               سوپرمارکت
             </li>
-            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center cursor-pointer">
               شگفت انگیزها
             </li>
-            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center cursor-pointer">
               پرفروش ترین ها
             </li>
-            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center">
+            <li className="text-sm text-slate-500 hover:bg-gray-100 p-2 rounded-md w-[125px] text-center cursor-pointer">
               تماس با ما
             </li>
           </ul>

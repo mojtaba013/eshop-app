@@ -28,7 +28,7 @@ const HomePage = () => {
     } else dispatch(addProductToCart(prd));
   };
 
-  const displayProductCount = (prd) => {
+  const displayCountProduct = (prd) => {
     if (checkInCart(cart, prd)) {
       setProductCounter({ id: prd.id, display: true });
     }
@@ -236,7 +236,7 @@ const HomePage = () => {
                           stopParentClick(e);
                           addProducttHandler(product);
                         }}
-                        onMouseOver={() => displayProductCount(product)}
+                        onMouseOver={() => displayCountProduct(product)}
                         className=" rounded-full w-6 h-6 flex items-center justify-center bg-red-500  text-white z-[1000]"
                       >
                         {checkInCart(cart, product) ? (

@@ -1,10 +1,11 @@
 import Input from "../common/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth, useAuthAction } from "../Providers/AuthProvider";
+import { useDispatch } from "react-redux";
+import { login } from "../Features/AuthSlice";
+import axios from "axios";
 
 const initialValues = {
   email: "",
@@ -18,29 +19,32 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const [error, setError] = useState("");
-  const setAuth = useAuthAction();
-  let navigate = useNavigate();
-  const [searchParam] = useSearchParams();
-  //const redirect = searchParam.get("redirect") || "/";
-  const auth = useAuth();
+  const [users, setUsers] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   if(auth) navigate(`${redirect}`);
-  // },[redirect,auth]);
-
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    setError(null);
     try {
-      //setAuth(data);
-      // localStorage.setItem('authState',JSON.stringify(data));
-      setError(null);
-      console.log(values.email, auth.email);
-      if (values.email === auth.email && values.password === auth.password)
-        navigate("/checkout");
-      else setError("نام کاربری یا رمز عبور اشتباه است.");
+      let user = users.find(
+        (items) =>
+          items.email === values.email && items.password === values.password
+      );
+      if (user) {
+        dispatch(login(user));
+        navigate("/");
+      } else setError("نام کاربری یا رمز عبور اشتباه است.");
     } catch (error) {
       setError(error);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/users/")
+      .then((response) => setUsers(response.data))
+      .catch((err) => setError("نام کاربری یا رمز عبور اشتباه است."));
+  }, []);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -76,7 +80,7 @@ const Login = () => {
             <Input name="password" type="text" formik={formik} />
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between">
-            <button
+            <button 
               type="submit"
               disabled={!formik.isValid}
               className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
@@ -85,7 +89,7 @@ const Login = () => {
             </button>
 
             <NavLink to={`/signup`}>
-              <p>حساب کاربری ندارید؟ ثبت نام</p>
+              <p className="text-sm">حساب کاربری ندارید؟ ثبت نام</p>
             </NavLink>
           </div>
           <div className="text-center">

@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "name": "مجتبی",
+      "lastName": "کجوری",
+      "email": "admin@admin.com",
+      "password": "123",
+      "passwordConfirm": "123",
+      "id": 1
+    },
+    {
+      "name": "atefeh",
+      "lastName": "mahdavi",
+      "email": "a@m.com",
+      "password": "456",
+      "passwordConfirm": "456",
+      "id": 2
+    },
+    {
+      "name": "keyhan",
+      "lastName": "kojouri",
+      "email": "keyhan@yahoo.com",
+      "password": "123",
+      "passwordConfirm": "123",
+      "id": 3
+    }
+  ]
+}
