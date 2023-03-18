@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../Features/AuthSlice";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialValues = {
   email: "",
@@ -33,7 +35,11 @@ const Login = () => {
       if (user) {
         dispatch(login(user));
         navigate("/");
-      } else setError("نام کاربری یا رمز عبور اشتباه است.");
+      } else {
+        formik.resetForm();
+        //setError("نام کاربری یا رمز عبور اشتباه است.");
+        toast.error("نام کاربری یا رمز عبور اشتباه است")
+      }
     } catch (error) {
       setError(error);
     }
@@ -80,7 +86,7 @@ const Login = () => {
             <Input name="password" type="text" formik={formik} />
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between">
-            <button 
+            <button
               type="submit"
               disabled={!formik.isValid}
               className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"

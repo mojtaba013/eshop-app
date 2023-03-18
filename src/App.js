@@ -14,13 +14,16 @@ import { store } from "./Features/store";
 import Favorites from "./component/Favorites";
 import { Counter } from "./component/Counter";
 import ProductDetail from "./component/ProductDetail";
-
+import { ToastContainer } from "react-toastify";
+import { css } from "@emotion/react";
 
 function App() {
   return (
     <div className="">
+      
       <BrowserRouter>
         <Layout>
+          <ToastContainer toastStyle={{ fontFamily: "iranyekan" }} />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/productdetail" element={<ProductDetail />} />
@@ -29,8 +32,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/favorites" element={<Favorites />} />
-           
-            
+
             <Route path="/test" element={<Test />} />
           </Routes>
         </Layout>

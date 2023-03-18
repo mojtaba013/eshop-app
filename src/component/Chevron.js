@@ -8,11 +8,11 @@ const Chevron = ({ filterState, Section }) => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth="1.5"
+      strokeWidth="3"
       stroke="currentColor"
-      className={`w-5 h-5 lg:w-6 lg:h-6 ${
+      className={`w-4 h-4 text-slate-800 ${
         status ? "rotate-180" : "rotate-0"
-      }  transition-all duration-300 `}
+      }  transition-transform duration-[400ms] `}
     >
       at
       <path

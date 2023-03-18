@@ -2,10 +2,11 @@ import Input from "../common/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login, userInfo } from "../Features/AuthSlice";
 import axios, {isCancel, AxiosError} from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -33,7 +34,6 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const onSubmit = (values) => {
     try {
       //dispatch(login());
@@ -46,7 +46,8 @@ const Signup = () => {
       .catch(function (error) {
         console.log(error);
       });
-      toast.success("با موفقیت ثبت شد.");
+      formik.resetForm()
+      toast.success(".با موفقیت ثبت شد");
     } catch (error) {
       console.log(error);
       toast.error(`${error.response.data.message}`);
@@ -72,7 +73,7 @@ const Signup = () => {
         </div>
         <form onSubmit={formik.handleSubmit} className="flex flex-col ">
           <div className=" flex flex-col md:flex-row justify-between items-start gap-x-4 mb-10 ">
-            <div className=" flex flex-col w-full md:flex-1 mb-10">
+            <div className=" flex flex-col w-full md:flex-1 ">
               <label className="text-slate-800 text-sm mb-1">نام</label>
               <Input name="name" type="text" formik={formik} />
             </div>
