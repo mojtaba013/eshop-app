@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../Features/AuthSlice";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = {
   email: "",
@@ -25,7 +25,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit =  (values) => {    
+  const onSubmit = (values) => {
     try {
       setError(null);
       let user = users.find(
@@ -38,18 +38,22 @@ const Login = () => {
       } else {
         formik.resetForm();
         //setError("نام کاربری یا رمز عبور اشتباه است.");
-        toast.error("نام کاربری یا رمز عبور اشتباه است")
+        toast.error("نام کاربری یا رمز عبور اشتباه است");
       }
     } catch (error) {
       setError(error);
     }
   };
 
-  useEffect(() => {
-    axios
+  const getUsers = async () => {
+    await axios
       .get("http://localhost:3001/users/")
       .then((response) => setUsers(response.data))
       .catch((err) => setError("متاسفانه خطایی رخ داده لطفا بعدا وارد شوید"));
+  };
+
+  useEffect(() => {
+    getUsers();
   }, []);
 
   const formik = useFormik({
