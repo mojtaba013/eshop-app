@@ -47,6 +47,14 @@
       "password": "123",
       "passwordConfirm": "123",
       "id": 6
+    },
+    {
+      "name": "جمشید",
+      "lastName": "کجوری",
+      "email": "j@k.com",
+      "password": "123",
+      "passwordConfirm": "123",
+      "id": 7
     }
   ]
 }

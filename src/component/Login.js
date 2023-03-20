@@ -49,7 +49,7 @@ const Login = () => {
     axios
       .get("http://localhost:3001/users/")
       .then((response) => setUsers(response.data))
-      .catch((err) => setError("نام کاربری یا رمز عبور اشتباه است."));
+      .catch((err) => setError("متاسفانه خطایی رخ داده لطفا بعدا وارد شوید"));
   }, []);
 
   const formik = useFormik({
@@ -85,7 +85,7 @@ const Login = () => {
             <label className="text-slate-800 text-sm mb-1">کلمه عبور</label>
             <Input name="password" type="text" formik={formik} />
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-2">
             <button
               type="submit"
               disabled={!formik.isValid}
