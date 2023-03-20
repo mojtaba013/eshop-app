@@ -49,7 +49,7 @@ const Login = () => {
     await axios
       .get("http://localhost:3001/users/")
       .then((response) => setUsers(response.data))
-      .catch((err) => setError("متاسفانه خطایی رخ داده لطفا بعدا وارد شوید"));
+      .catch((err) => toast.error("درحال حاضر برقراری ارتباط با سرور مقدور نمی باشد"));
   };
 
   useEffect(() => {
@@ -102,9 +102,9 @@ const Login = () => {
               <p className="text-sm">حساب کاربری ندارید؟ ثبت نام</p>
             </NavLink>
           </div>
-          <div className="text-center">
+          {/* <div className="text-center">
             <p style={{ color: "red" }}>{error}</p>
-          </div>
+          </div> */}
         </form>
       </section>
     </div>

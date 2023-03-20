@@ -20,7 +20,6 @@ import { css } from "@emotion/react";
 function App() {
   return (
     <div className="">
-      
       <BrowserRouter>
         <Layout>
           <ToastContainer toastStyle={{ fontFamily: "iranyekan" }} />
