@@ -25,9 +25,9 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = async (values) => {
-    setError(null);
+  const onSubmit =  (values) => {    
     try {
+      setError(null);
       let user = users.find(
         (items) =>
           items.email === values.email && items.password === values.password

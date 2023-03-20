@@ -1,7 +1,7 @@
 import Input from "../common/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login, userInfo } from "../Features/AuthSlice";
 import axios, {isCancel, AxiosError} from 'axios';
@@ -34,6 +34,7 @@ const validationSchema = Yup.object({
 });
 
 const Signup = () => {
+  const navigate=useNavigate()
   const onSubmit = (values) => {
     try {
       //dispatch(login());
@@ -48,6 +49,7 @@ const Signup = () => {
       });
       formik.resetForm()
       toast.success(".با موفقیت ثبت شد");
+      navigate('/')
     } catch (error) {
       console.log(error);
       toast.error(`${error.response.data.message}`);
