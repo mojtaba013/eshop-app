@@ -48,7 +48,8 @@ const Login = () => {
   const getUsers = async () => {
    const result= await axios
       .get("/.netlify/functions/mydata")
-      setUsers(result)
+      //setUsers(result)
+      console.log(result);
   };
 
   useEffect(() => {
