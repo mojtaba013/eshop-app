@@ -46,10 +46,12 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-   const result= await axios
+    const result = await axios
       .get("https://shop-mojtaba.netlify.app/.netlify/functions/mydata")
-      setUsers(result)
-      console.log(result);
+      .then((response) => setUsers(response.data))
+      .catch((err) => console.log(err));
+    //setUsers(result);
+    console.log(result);
   };
 
   useEffect(() => {
