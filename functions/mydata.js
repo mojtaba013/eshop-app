@@ -1,5 +1,5 @@
 
-const data={email:"admin@admin.com",password:"123"}
+const data=require('../db.json')
 exports.handler = async function (event, context) {
     return{
       
