@@ -46,10 +46,9 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-    await axios
-      .get("http://localhost:3001/users/")
-      .then((response) => setUsers(response.data))
-      .catch((err) => toast.error("درحال حاضر برقراری ارتباط با سرور مقدور نمی باشد"));
+   const result= await axios
+      .get("/.netlify/functions/mydata")
+      console.log(result);
   };
 
   useEffect(() => {
