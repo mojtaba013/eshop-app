@@ -2,7 +2,7 @@
 const data=require('../db.json')
 const headers={
   'content-type':'application/json',
-  'Access-Control-Allow-Orogin':'*'
+  'Access-Control-Allow-Origin':'*'
 }
 exports.handler = async function (event, context) {
     return{
