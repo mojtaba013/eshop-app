@@ -47,7 +47,7 @@ const Login = () => {
 
   const getUsers = async () => {
    const result= await axios
-      .get("/.netlify/functions/mydata")
+      .get("https://shop-mojtaba.netlify.app/.netlify/functions/mydata")
       setUsers(result)
       console.log(result);
   };
