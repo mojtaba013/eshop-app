@@ -1,15 +1,22 @@
+//const fetch = require("node-fetch");
+const data = require("../db.json");
 
-const data=require('../db.json')
 const headers={
-  'content-type':'application/json',
-  'access-control-allow-origin':'*'
+  "Access-Control-Allow-Origin": "*",
+           "Access-Control-Allow-Methods": "GET, POST, OPTION",
+           "Content-Type": "application/json"
 }
+
+
 exports.handler = async function (event, context) {
-    return{
-      
-      statusCode:200,
-      body:JSON.stringify(data),
-      headers:headers
-    }
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data),
+    headers:headers
   };
-  
+};
+
+
+
+
+

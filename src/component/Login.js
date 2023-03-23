@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//const fetch = require("node-fetch");
 const initialValues = {
   email: "",
   password: "",
@@ -20,6 +21,7 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+  //const fetch = require("node-fetch");
   const [error, setError] = useState("");
   const [users, setUsers] = useState("");
   const dispatch = useDispatch();
@@ -46,11 +48,23 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-    const res = await fetch("https://shop-mojtaba.netlify.app/.netlify/functions/mydata")
-      const result=await res.json();
-      
-    setUsers(result);
-    console.log(result);
+    // let headers = new Headers();
+    // headers.append("content-type", "application/json");
+    // headers.append("Accept", "application/json");
+    // headers.append("Origin", "http://localhost:3000");
+    const alldata = await axios.get(
+      "https://shop-mojtaba.netlify.app/.netlify/functions/mydata",
+      {
+        // method: 'GET',
+         //mode: 'no-cors',
+        // headers: {
+        // 'Content-Type': 'application/json',
+        // 'Access-Control-Allow-Origin':'http://localhost:3000/'
+        // },
+      }
+    );
+
+    console.log(alldata);
   };
 
   useEffect(() => {

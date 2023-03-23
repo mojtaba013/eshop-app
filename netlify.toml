@@ -1,9 +1,17 @@
 [build]
-command="npm run build && npm run export"
+command="npm run build && npm run start"
 publish="out"
 functions="dist-functions"
 
 [[redirects]]
-from="/*"
+from="/"
 to="/404"
-status=404
+  force = true
+  headers = {X-From = "Netlify"}
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+
+
