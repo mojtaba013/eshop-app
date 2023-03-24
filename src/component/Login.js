@@ -49,7 +49,7 @@ const Login = () => {
 
   const getUsers = async () => {
 
-    const alldata = await axios.get("/api", {
+    const alldata = await axios.get("/login", {
       // method: 'GET',
       //mode: 'no-cors',
       // headers: {
