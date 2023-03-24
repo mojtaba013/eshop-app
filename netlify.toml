@@ -4,10 +4,9 @@ publish="out"
 functions="dist-functions"
 
 [[redirects]]
-from="/"
-to="/404"
-  force = true
-  headers = {X-From = "Netlify"}
+from="/*"
+to="https://shop-mojtaba.netlify.app/.netlify/functions/mydata"
+ 
 [[headers]]
   for = "/*"
   [headers.values]
