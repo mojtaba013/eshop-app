@@ -57,10 +57,10 @@ const Login = () => {
       {
         // method: 'GET',
          //mode: 'no-cors',
-        headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'http://localhost:3000/'
-        },
+        // headers: {
+        // 'Content-Type': 'application/json',
+        // 'Access-Control-Allow-Origin':'http://localhost:3000/'
+        // },
       }
     );
 setUsers(alldata)
