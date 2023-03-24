@@ -48,22 +48,16 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-    // let headers = new Headers();
-    // headers.append("content-type", "application/json");
-    // headers.append("Accept", "application/json");
-    // headers.append("Origin", "http://localhost:3000");
-    const alldata = await axios.get(
-      "/api",
-      {
-        // method: 'GET',
-         //mode: 'no-cors',
-        // headers: {
-        // 'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin':'http://localhost:3000/'
-        // },
-      }
-    );
-setUsers(alldata)
+
+    const alldata = await axios.get("/api", {
+      // method: 'GET',
+      //mode: 'no-cors',
+      // headers: {
+      // 'Content-Type': 'application/json',
+      // 'Access-Control-Allow-Origin':'http://localhost:3000/'
+      // },
+    }).then(res=>setUsers(res.data));
+    //setUsers(alldata);
     console.log(alldata);
   };
 
