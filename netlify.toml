@@ -4,14 +4,14 @@ publish="out"
 functions="dist-functions"
 
 [[redirects]]
- from = "/api"
+ from = "/api/*"
 to="https://shop-mojtaba.netlify.app/:splat"
   status = 200
   force = true
 
 
 [[redirects]]
-  from = "/*"
+  from = "/api"
   to = "/sex.html"
   status = 200
 
