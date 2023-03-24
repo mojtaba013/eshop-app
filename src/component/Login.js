@@ -53,7 +53,7 @@ const Login = () => {
     // headers.append("Accept", "application/json");
     // headers.append("Origin", "http://localhost:3000");
     const alldata = await axios.get(
-      "/api",
+      "https://shop-mojtaba.netlify.app/.netlify/functions/mydata",
       {
         // method: 'GET',
          //mode: 'no-cors',
@@ -63,7 +63,7 @@ const Login = () => {
         },
       }
     );
-
+setUsers(alldata)
     console.log(alldata);
   };
 

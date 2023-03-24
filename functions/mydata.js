@@ -20,7 +20,7 @@ const proxy = require('http-proxy-middleware');
 
 module.exports = function (app) {
   console.log("inja");
-    app.use(proxy('/api', {
+    app.use(proxy('/mydata', {
         target: 'https://shop-mojtaba.netlify.app/.netlify/functions/mydata',
         logLevel: 'debug',
         changeOrigin: true
