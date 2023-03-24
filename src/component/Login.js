@@ -101,7 +101,7 @@ const Login = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between mb-2">
             <button
               type="submit"
-              disabled={!formik.isValid}
+              // disabled={!formik.isValid}
               className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
             >
               ورود
