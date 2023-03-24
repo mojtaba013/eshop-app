@@ -5,12 +5,9 @@ functions="dist-functions"
 
 [[redirects]]
 from="/*"
-to="https://shop-mojtaba.netlify.app/.netlify/functions/mydata"
+to="https://shop-mojtaba.netlify.app/"
   status = 200
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
+
 
 
 
