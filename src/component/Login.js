@@ -53,7 +53,7 @@ const Login = () => {
     // headers.append("Accept", "application/json");
     // headers.append("Origin", "http://localhost:3000");
     const alldata = await axios.get(
-      "/api",
+      "/apih",
       {
         // method: 'GET',
          //mode: 'no-cors',
