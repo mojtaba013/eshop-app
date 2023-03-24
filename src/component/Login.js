@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 //const fetch = require("node-fetch");
 const initialValues = {
   email: "",
@@ -48,15 +49,7 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-
-    const alldata = await axios.get("/api000", {
-      // method: 'GET',
-      //mode: 'no-cors',
-      // headers: {
-      // 'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Origin':'http://localhost:3000/'
-      // },
-    }).then(res=>setUsers(res.data));
+    const alldata = await axios.get("/api");
     //setUsers(alldata);
     console.log(alldata);
   };
