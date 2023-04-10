@@ -160,7 +160,7 @@ const Filter = () => {
 
   return (
     <>
-      {/* mobile plan */}
+      {/* mobile Mode */}
       <div className="flex mb-4  lg:hidden">
         <div className="flex" onClick={openFilterPageHandler}>
           <svg
@@ -348,7 +348,7 @@ const Filter = () => {
           </div>
         }
       </div>
-      {/* Desktop plan */}
+      {/* Desktop Mode */}
       <div className="    hidden lg:flex lg:flex-col mb-4  p-2  ">
         <div className="flex justify-between items-start mb-6 font-medium ">
           <div className="flex items-center gap-x-1">

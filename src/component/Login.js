@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 //const fetch = require("node-fetch");
 const initialValues = {
   email: "",
@@ -49,7 +48,10 @@ const Login = () => {
   };
 
   const getUsers = async () => {
-    const alldata = await axios.get("/api/");
+    const alldata = await axios.get(
+      "https://shop-mojtaba.netlify.app/.netlify/functions",
+      { headers: { "access-control-allow-origin": "*" } }
+    );
     //setUsers(alldata);
     console.log(alldata);
   };

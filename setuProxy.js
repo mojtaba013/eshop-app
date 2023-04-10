@@ -1,10 +1,12 @@
-const createProxyMiddleware = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const express = require("express");
+const app = express();
 
-module.exports = function(app) {
-    app.use(
-      '/api',
-      createProxyMiddleware({
-        target: 'https://shop-mojtaba.netlify.app/.netlify/functions/mydata',
-        changeOrigin: true,
-      })
-   );};
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "https://shop-mojtaba.netlify.app/.netlify/functions",
+    changeOrigin: true,
+  })
+);
+app.listen(3000);

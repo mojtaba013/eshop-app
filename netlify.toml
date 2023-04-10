@@ -15,4 +15,5 @@ to="https://shop-mojtaba.netlify.app/:splat"
   to = "/sex.html"
   status = 200
 
-
+[[headers]]
+Access-Control-Allow-Origin: "*"

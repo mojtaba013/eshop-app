@@ -89,8 +89,39 @@ const Navigation = () => {
     }
   };
 
+  function useScrollDirection() {
+    const [scrollDirection, setScrollDirection] = useState(null);
+
+    useEffect(() => {
+      let lastScrollY = window.pageYOffset;
+
+      const updateScrollDirection = () => {
+        const scrollY = window.pageYOffset;
+        const direction = scrollY > lastScrollY ? "down" : "up";
+        if (
+          direction !== scrollDirection &&
+          (scrollY - lastScrollY > 10 || scrollY - lastScrollY < -10)
+        ) {
+          setScrollDirection(direction);
+        }
+        lastScrollY = scrollY > 0 ? scrollY : 0;
+      };
+      window.addEventListener("scroll", updateScrollDirection); // add event listener
+      return () => {
+        window.removeEventListener("scroll", updateScrollDirection); // clean up
+      };
+    }, [scrollDirection]);
+
+    return scrollDirection;
+  }
+  const scrollDirection = useScrollDirection();
+
   return (
-    <div className="sticky top-0 bg-white z-[1002] border-b-2   mb-7 ">
+    <header
+      className={`sticky top-0 bg-white z-[1002] border-b-2    mb-7 ${
+        scrollDirection === "down" ? "pb-2" : "pb-0"
+      }`}
+    >
       {/* mobile mode */}
       <div className=" flex flex-col  py-2 px-2  justify-between items-center lg:hidden">
         <div className="flex items-center justify-between w-full mb-4 pt-1 border-b border-slate-200 pb-2">
@@ -536,7 +567,6 @@ const Navigation = () => {
                       </svg>
                       <p>خروج</p>
                     </div>
-                  
                   </div>
                 </div>
               </>
@@ -545,7 +575,7 @@ const Navigation = () => {
         </div>
       </div>
       {/* desktop mode */}
-      <div className=" hidden lg:flex lg:justify-between lg:items-center lg:px-4 px-2 pt-3 ">
+      <nav className=" hidden  lg:flex lg:justify-between lg:items-center lg:px-4 px-2 pt-3 ">
         <div className="flex  items-center justify-between  gap-x-2">
           <div className="relative flex items-center justify-center gap-x-2">
             <NavLink to="/">
@@ -757,8 +787,15 @@ const Navigation = () => {
             }
           </div>
         </div>
-      </div>
-      <div className="hidden lg:block lg:px-4 p-2">
+      </nav>
+
+      <div
+        className={`   ${
+          scrollDirection === "down"
+            ? "hidden transition-all duration-700"
+            : "lg:block lg:px-4 top-0 p-2  transition-all duration-700"
+        }`}
+      >
         {/* backdrop */}
         {showMenu && (
           <div
@@ -844,7 +881,7 @@ const Navigation = () => {
           </div>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 
