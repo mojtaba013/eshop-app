@@ -793,7 +793,7 @@ const Navigation = () => {
         className={`   ${
           scrollDirection === "down"
             ? "hidden transition-all duration-700"
-            : "lg:block lg:px-4 top-0 p-2  transition-all duration-700"
+            : "hidden lg:block lg:px-4 top-0 p-2  transition-all duration-700"
         }`}
       >
         {/* backdrop */}
