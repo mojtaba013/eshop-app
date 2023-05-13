@@ -512,7 +512,7 @@ const Filter = () => {
         <div>
           <button
             onClick={filterHandler}
-            className="bg-green-400 rounded-sm py-1 px-2 w-full text-white "
+            className="bg-red-400 rounded-sm py-1 px-2 w-full text-white "
           >
             مشاهده کالا
           </button>
