@@ -1,11 +1,15 @@
 import Input from "../common/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth, useAuthAction } from "../Providers/AuthProvider";
+import { useDispatch } from "react-redux";
+import { login } from "../Features/AuthSlice";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+//const fetch = require("node-fetch");
 const initialValues = {
   email: "",
   password: "",
@@ -17,30 +21,44 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+  //const fetch = require("node-fetch");
   const [error, setError] = useState("");
-  const setAuth = useAuthAction();
-  let navigate = useNavigate();
-  const [searchParam] = useSearchParams();
-  //const redirect = searchParam.get("redirect") || "/";
-  const auth = useAuth();
-
-  // useEffect(()=>{
-  //   if(auth) navigate(`${redirect}`);
-  // },[redirect,auth]);
+  const [users, setUsers] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = (values) => {
     try {
-      //setAuth(data);
-      // localStorage.setItem('authState',JSON.stringify(data));
       setError(null);
-      console.log(values.email, auth.email);
-      if (values.email === auth.email && values.password === auth.password)
-        navigate("/checkout");
-      else setError("نام کاربری یا رمز عبور اشتباه است.");
+      let user = users.find(
+        (items) =>
+          items.email === values.email && items.password === values.password
+      );
+      if (user) {
+        dispatch(login(user));
+        navigate("/");
+      } else {
+        formik.resetForm();
+        //setError("نام کاربری یا رمز عبور اشتباه است.");
+        toast.error("نام کاربری یا رمز عبور اشتباه است");
+      }
     } catch (error) {
       setError(error);
     }
   };
+
+  const getUsers = async () => {
+    const alldata = await axios.get(
+      "https://shop-mojtaba.netlify.app/.netlify/functions",
+      { headers: { "access-control-allow-origin": "*" } }
+    );
+    //setUsers(alldata);
+    console.log(alldata);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -75,22 +93,22 @@ const Login = () => {
             <label className="text-slate-800 text-sm mb-1">کلمه عبور</label>
             <Input name="password" type="text" formik={formik} />
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-2">
             <button
               type="submit"
-              disabled={!formik.isValid}
+              // disabled={!formik.isValid}
               className="bg-red-400 text-white rounded-lg py-2 mb-6 w-full sm:mb-0 sm:w-1/5"
             >
               ورود
             </button>
 
             <NavLink to={`/signup`}>
-              <p>حساب کاربری ندارید؟ ثبت نام</p>
+              <p className="text-sm">حساب کاربری ندارید؟ ثبت نام</p>
             </NavLink>
           </div>
-          <div className="text-center">
+          {/* <div className="text-center">
             <p style={{ color: "red" }}>{error}</p>
-          </div>
+          </div> */}
         </form>
       </section>
     </div>

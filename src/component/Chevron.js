@@ -1,16 +1,18 @@
 const Chevron = ({ filterState, Section }) => {
+  const status =
+    filterState.some((i) => i.id === Section) &&
+    filterState.find((i) => i.id === Section).isopen;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      strokeWidth="1.5"
+      strokeWidth="3"
       stroke="currentColor"
-      className={`w-6 h-6 ${
-        filterState.find((i) => i.id === Section).isopen
-          ? "rotate-180"
-          : "rotate-0"
-      }  transition-all duration-500 `}
+      className={`w-4 h-4 text-slate-800 ${
+        status ? "rotate-180" : "rotate-0"
+      }  transition-transform duration-[400ms] `}
     >
       at
       <path

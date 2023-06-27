@@ -1,19 +1,30 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useCart, useCartAction } from "../Providers/CartProvider";
+import {
+  addProductToCart,
+  removeProductFromCart,
+  saveToLocalStorage,
+} from "../Features/CartSlice";
 
 const Cart = ({ onCloseCartModal }) => {
-  const { cart, total } = useCart();
-  const dispatch = useCartAction();
-  let nf = new Intl.NumberFormat();
+  const { cart, total } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  let priceFormat = new Intl.NumberFormat();
+
+  useEffect(() => {
+    dispatch(saveToLocalStorage(cart));
+  }, [cart]);
+
   if (cart.length === 0)
     return <p className="text-center mt-4">سبد خرید شما خالی است</p>;
+
   const incrementHandler = (_product) => {
-    dispatch({ type: "ADD_TO_CART", payload: _product });
+    dispatch(addProductToCart(_product));
   };
 
   const deleteHandler = (_product) => {
-    dispatch({ type: "REMOVE", payload: _product });
+    dispatch(removeProductFromCart(_product));
   };
 
   return (
@@ -24,9 +35,9 @@ const Cart = ({ onCloseCartModal }) => {
           return (
             <div className=" px-4  " key={product.id}>
               <div className="flex items-center justify-between  border-solid border-b w-full pb-4">
-                <div className="flex jc items-center w-24 h-20">
+                <div className="flex justify-center items-center w-24 h-20">
                   <img
-                    className="w-full object-cover "
+                    className="w-full h-auto object-cover "
                     src={require(`../assets/images/${product.image}`)}
                     alt=""
                   />
@@ -37,9 +48,9 @@ const Cart = ({ onCloseCartModal }) => {
                   </p>
                   <div className="flex items-center justify-between">
                     <p className="font-medium">
-                      {nf.format(product.price)} ریال
+                      {priceFormat.format(product.price)} ریال
                     </p>
-                    <div className="flex p-2 gap-x-8 justify-between  items-center border-solid border  rounded-sm">
+                    <div className="flex p-1 gap-x-6  justify-between  items-center border-solid border  rounded-sm">
                       <span onClick={() => incrementHandler(product)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +76,7 @@ const Cart = ({ onCloseCartModal }) => {
                             viewBox="0 0 24 24"
                             strokeWidth="1.5"
                             stroke="rgb(239 68 68)"
-                            className="w-6 h-6"
+                            className="w-6 h-6 cursor-pointer"
                           >
                             <path
                               strokeLinecap="round"
@@ -102,7 +113,7 @@ const Cart = ({ onCloseCartModal }) => {
       <div className=" fixed  bottom-0 pb-2 flex flex-col px-4  bg-white     w-full  border-solid sm:w-[360px] md:w-[400px] lg:w-[500px]">
         <div className="flex justify-between items-center border-t-2 pb-4 pt-4">
           <span>جمع کل خرید</span>
-          <span>{nf.format(total)} ریال</span>
+          <span>{priceFormat.format(total)} ریال</span>
         </div>
         <NavLink to="/login">
           <button
